@@ -88,36 +88,33 @@ def load_cue(path: Path) -> CueSpec:
 
 
 def find_cue(cue: str, *, root: Path | None = None) -> Path | None:
-    """Find a cue by id/name, namespaced id, basename, or explicit YAML path."""
+    """Find a cue by explicit YAML path, canonical namespaced filename, or YAML id.
+
+    Canonical project cues should use namespaced filenames such as
+    ``sounds/active/player.blink.sfx.yaml`` with matching ``id: player.blink``.
+    """
     root = root or sounds_root()
     p = Path(cue)
     if p.suffix in {".yaml", ".yml"} and p.exists():
         return p.resolve()
+
     candidates: list[Path] = []
     for sub in SCORE_DIRS:
-        candidates.extend(
-            [
-                root / sub / f"{cue}.sfx.yaml",
-                root / sub / f"{cue}.yaml",
-            ]
-        )
-    # Also allow an unsorted sounds/<cue>.sfx.yaml layout.
+        candidates.extend([root / sub / f"{cue}.sfx.yaml", root / sub / f"{cue}.yaml"])
     candidates.extend([root / f"{cue}.sfx.yaml", root / f"{cue}.yaml"])
     for c in candidates:
         if c.exists():
             return c.resolve()
-    # Recursive fallback: this lets namespaced files live in actor folders later.
-    for c in iter_cue_files(root, group="active") + iter_cue_files(root, group="examples"):
-        if c.stem in {cue, f"{cue}.sfx"} or c.name in {cue, f"{cue}.sfx.yaml", f"{cue}.yaml"}:
-            return c.resolve()
-        try:
-            spec = load_cue(c)
-        except Exception:
-            continue
-        if spec.cue_id == cue:
-            return c.resolve()
-    return None
 
+    for group in SCORE_DIRS:
+        for c in iter_cue_files(root, group=group):
+            try:
+                spec = load_cue(c)
+            except Exception:
+                continue
+            if spec.cue_id == cue:
+                return c.resolve()
+    return None
 
 def iter_cue_files(root: Path | None = None, *, group: str = "active") -> list[Path]:
     """Return cue YAML files for a group.

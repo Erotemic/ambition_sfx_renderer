@@ -1,4 +1,11 @@
-"""Pedalboard effect-chain integration."""
+"""Pedalboard effect-chain integration.
+
+This adapter only builds actual Pedalboard plugins.  Core renderer effects such
+as ``soft_clip`` and ``tone_safety`` are intentionally handled in
+``ambition_sfx_renderer.effects``.  If they reach this module anyway, ignore
+them instead of raising: that keeps old YAML / old caller paths from crashing,
+while the normal ordered router still applies those effects correctly.
+"""
 from __future__ import annotations
 
 from typing import Any
@@ -20,17 +27,21 @@ def _import_pedalboard():
     return pb
 
 
+def _is_core_effect_name(effect: str) -> bool:
+    # Keep this duplicated instead of importing effects.CORE_EFFECTS to avoid a
+    # circular import when the core router imports this adapter for a chunk.
+    return effect in {
+        "normalize_peak", "normalize", "clip", "hard_clip", "soft_clip", "saturate",
+        "gain", "highpass", "highpass_filter", "hp", "lowpass", "lowpass_filter", "lp",
+        "band_reduce", "deharsh", "notch_reduce", "tone_safety", "dc_block", "fade_edges",
+    }
+
+
 def _build_plugin(spec: dict[str, Any], context: dict[str, Any]):
     pb = _import_pedalboard()
-    effect = str(spec.get("effect") or spec.get("type")).lower()
-    if effect in {"normalize_peak", "normalize"}:
+    effect = str(spec.get("effect") or spec.get("type") or "").lower().strip()
+    if _is_core_effect_name(effect):
         return None
-    if effect in {"highpass", "highpass_filter", "hp"}:
-        return pb.HighpassFilter(cutoff_frequency_hz=float(spec.get("cutoff_hz", spec.get("hz", 80))))
-    if effect in {"lowpass", "lowpass_filter", "lp"}:
-        return pb.LowpassFilter(cutoff_frequency_hz=float(spec.get("cutoff_hz", spec.get("hz", 12000))))
-    if effect in {"gain"}:
-        return pb.Gain(gain_db=float(spec.get("gain_db", 0.0)))
     if effect in {"compressor", "compress"}:
         kwargs = {
             "threshold_db": float(spec.get("threshold_db", -18.0)),
@@ -55,8 +66,6 @@ def _build_plugin(spec: dict[str, Any], context: dict[str, Any]):
             freeze_mode=float(spec.get("freeze_mode", 0.0)),
         )
     if effect in {"chorus"}:
-        kwargs = {}
-        # Pedalboard has had stable but not identical Chorus keyword sets; set only user-provided attrs after init.
         plugin = pb.Chorus()
         for key in ("rate_hz", "depth", "centre_delay_ms", "feedback", "mix"):
             if key in spec:
@@ -86,13 +95,17 @@ def _build_plugin(spec: dict[str, Any], context: dict[str, Any]):
         for key, value in dict(spec.get("parameters") or {}).items():
             setattr(plugin, key, value)
         return plugin
-    raise ValueError(f"unknown pedalboard effect: {effect!r}")
+    raise ValueError(
+        f"unknown pedalboard effect: {effect!r}. "
+        "Core effects such as soft_clip/tone_safety should be applied through "
+        "ambition_sfx_renderer.effects.apply_effects."
+    )
 
 
 def apply_pedalboard(audio: np.ndarray, sample_rate: int, effects: list[dict[str, Any]], context: dict[str, Any]) -> np.ndarray:
     pb = _import_pedalboard()
     plugins = []
-    for spec in effects:
+    for spec in effects or []:
         plugin = _build_plugin(spec, context)
         if plugin is not None:
             plugins.append(plugin)

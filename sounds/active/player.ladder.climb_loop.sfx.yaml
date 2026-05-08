@@ -1,0 +1,79 @@
+schema: ambition.sfxir.v1
+id: player.ladder.climb_loop
+duration_ms: 720
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 23411
+  buffer_size: 128
+  safety_profile: game_sfx_v2
+  final_peak_db: -12.0
+  safety_lowpass_hz: 4200
+  deharsh_amount: 0.18
+layers:
+- name: rung_01
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  duration_ms: 130
+  seed: 23412
+  gain_db: -18
+  envelope:
+    attack_ms: 3
+    release_ms: 90
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3300
+  start_ms: 0
+- name: rung_02
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  duration_ms: 130
+  seed: 23413
+  gain_db: -18
+  envelope:
+    attack_ms: 3
+    release_ms: 90
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3300
+  start_ms: 180
+- name: rung_03
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  duration_ms: 130
+  seed: 23414
+  gain_db: -18
+  envelope:
+    attack_ms: 3
+    release_ms: 90
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3300
+  start_ms: 360
+- name: rung_04
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  duration_ms: 130
+  seed: 23415
+  gain_db: -18
+  envelope:
+    attack_ms: 3
+    release_ms: 90
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3300
+  start_ms: 540
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: lowpass
+  cutoff_hz: 4200
+- effect: normalize_peak
+  target_db: -12.0
+  only_if_louder: true
+notes: Short climb-loop preview made from four non-tonal rung scuffs; prefer animation-timed
+  player.ladder.climb one-shots when possible.

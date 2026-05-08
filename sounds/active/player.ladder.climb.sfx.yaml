@@ -1,0 +1,55 @@
+schema: ambition.sfxir.v1
+id: player.ladder.climb
+duration_ms: 155
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 23401
+  buffer_size: 128
+  safety_profile: game_sfx_v2
+  final_peak_db: -11.0
+  safety_lowpass_hz: 4200
+  deharsh_amount: 0.18
+layers:
+- name: hand_scuff
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  duration_ms: 110
+  seed: 23402
+  gain_db: -17
+  envelope:
+    attack_ms: 3
+    release_ms: 78
+  effects:
+  - effect: highpass
+    cutoff_hz: 120
+  - effect: lowpass
+    cutoff_hz: 3100
+- name: rung_knock
+  kind: noise_burst
+  mode: thud
+  color: brown
+  duration_ms: 72
+  seed: 23403
+  gain_db: -15
+  envelope:
+    attack_ms: 1
+    release_ms: 60
+  effects:
+  - effect: lowpass
+    cutoff_hz: 980
+  start_ms: 38
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: lowpass
+  cutoff_hz: 4200
+- effect: deharsh
+  center_hz: 2400
+  amount: 0.18
+  q: 0.9
+- effect: normalize_peak
+  target_db: -11.0
+  only_if_louder: true
+notes: Single ladder climb/rung step. Non-tonal foley, no beep layer.

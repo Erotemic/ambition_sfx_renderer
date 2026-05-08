@@ -1,0 +1,53 @@
+schema: ambition.sfxir.v1
+id: player.ladder.grab
+duration_ms: 190
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 23421
+  buffer_size: 128
+  safety_profile: game_sfx_v2
+  final_peak_db: -10.5
+  safety_lowpass_hz: 4300
+layers:
+- name: grip_scrape
+  kind: noise_burst
+  mode: grains
+  color: brown
+  duration_ms: 150
+  seed: 23422
+  gain_db: -17
+  envelope:
+    attack_ms: 2
+    release_ms: 110
+  effects:
+  - effect: highpass
+    cutoff_hz: 90
+  - effect: lowpass
+    cutoff_hz: 3600
+  grain_count: 9
+  grain_decay_ms: 8
+  spread_ms: 85
+- name: grip_knock
+  kind: noise_burst
+  mode: thud
+  color: brown
+  duration_ms: 78
+  seed: 23423
+  gain_db: -15
+  envelope:
+    attack_ms: 1
+    release_ms: 62
+  effects:
+  - effect: lowpass
+    cutoff_hz: 900
+  start_ms: 18
+postprocess:
+- effect: highpass
+  cutoff_hz: 50
+- effect: lowpass
+  cutoff_hz: 4300
+- effect: normalize_peak
+  target_db: -10.5
+  only_if_louder: true
+notes: Ladder grab / hands catch wooden rung.

@@ -1,47 +1,110 @@
 schema: ambition.sfxir.v1
-id: player.footstep.stone.02
-duration_ms: 90
-
+id: player.footstep_stone_02
+duration_ms: 104
+notes: v0.3.1 stone step built from low thud and randomized gravel grains, avoiding pitched beeps.
 render:
   sample_rate: 48000
   channels: 2
-  seed: 1213
+  seed: 1323
   buffer_size: 128
-
+  safety_profile: game_sfx_v2
+  final_peak_db: -12.5
+  safety_highpass_hz: 42
+  safety_lowpass_hz: 2600
+  deharsh_hz: 2400.0
+  deharsh_amount: 0.1
+  safety_drive: 1.02
+  safety_clip_mix: 0.35
+  safety_fade_out_ms: 6.0
 layers:
-  - name: tonal_body
-    kind: dawdreamer_faust
-    dsp: patches/faust/soft_saw.dsp
-    gain_db: 0
-    parameters:
-      /AmbitionSoftSaw/freq:
-        start: 125
-        end: 78
-        curve: exp
-      /AmbitionSoftSaw/gain: -20
-    envelope:
-      attack_ms: 1
-      hold_ms: 10
-      release_ms: 60
-
-  - name: pyfxr_seed
-    kind: pyfxr
-    preset: select
-    seed: 1214
-    gain_db: -29
-
-postprocess:
+- name: stone_weight
+  kind: noise_burst
+  mode: thud
+  color: brown
+  seed: 132301
+  duration_ms: 79
+  gain_db: -12.0
+  pan: 0.06
+  envelope:
+    attack_ms: 0.2
+    hold_ms: 4
+    release_ms: 69
+  effects:
   - effect: highpass
-    cutoff_hz: 55
-  - effect: compressor
-    threshold_db: -18
-    ratio: 2.4
-    attack_ms: 3
-    release_ms: 70
+    cutoff_hz: 38
+    order: 2
   - effect: lowpass
-    cutoff_hz: 3400
-  - effect: limiter
-    threshold_db: -2.0
-    release_ms: 45
-  - effect: normalize_peak
-    target_db: -8.0
+    cutoff_hz: 720
+    order: 3
+  - effect: soft_clip
+    drive: 1.08
+    mix: 0.45
+- name: pebble_scatter
+  kind: noise_burst
+  mode: grains
+  color: pink
+  seed: 132302
+  start_ms: 8
+  duration_ms: 83
+  gain_db: -20.0
+  pan: -0.06
+  grain_count: 8
+  grain_decay_ms: 5.0
+  spread_ms: 66.4
+  envelope:
+    attack_ms: 0.5
+    hold_ms: 3
+    release_ms: 76
+  effects:
+  - effect: highpass
+    cutoff_hz: 230
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2600
+    order: 3
+  - effect: deharsh
+    center_hz: 2800
+    amount: 0.25
+    q: 0.8
+- name: sole_drag
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  seed: 132303
+  start_ms: 16
+  duration_ms: 60
+  gain_db: -25.0
+  pan: 0.024
+  grain_count: 5
+  envelope:
+    attack_ms: 1.0
+    hold_ms: 6
+    release_ms: 50
+  effects:
+  - effect: highpass
+    cutoff_hz: 160
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1800
+    order: 3
+  - effect: deharsh
+    center_hz: 2200
+    amount: 0.18
+    q: 0.9
+postprocess:
+- effect: highpass
+  cutoff_hz: 42
+  order: 2
+- effect: lowpass
+  cutoff_hz: 2600
+  order: 3
+- effect: deharsh
+  center_hz: 2400
+  amount: 0.1
+  q: 0.8
+- effect: soft_clip
+  drive: 1.04
+  mix: 0.35
+- effect: normalize_peak
+  target_db: -12.5
+  only_if_louder: false

@@ -1,0 +1,76 @@
+schema: ambition.sfxir.v1
+id: player.blink
+duration_ms: 100
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1031
+  buffer_size: 128
+
+layers:
+  - name: wet_lip_transient
+    kind: noise_burst
+    color: pink
+    gain_db: -7
+    start_ms: 0
+    duration_ms: 9
+    envelope:
+      attack_ms: 0
+      hold_ms: 2
+      release_ms: 5
+    filter:
+      kind: bandpass
+      hz: 1150
+      q: 0.75
+
+  - name: tiny_saliva_tick
+    kind: noise_burst
+    color: white
+    gain_db: -22
+    start_ms: 1
+    duration_ms: 5
+    envelope:
+      attack_ms: 0
+      hold_ms: 1
+      release_ms: 2
+    filter:
+      kind: bandpass
+      hz: 2600
+      q: 0.8
+
+  - name: mouth_cavity_ring
+    kind: dawdreamer_faust
+    dsp: patches/faust/tone.dsp
+    gain_db: -1
+    start_ms: 3
+    duration_ms: 54
+    parameters:
+      /AmbitionTone/freq:
+        start: 340
+        end: 805
+        curve: linear
+      /AmbitionTone/gain: -9
+    envelope:
+      attack_ms: 0
+      hold_ms: 0
+      release_ms: 34
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 90
+
+  - effect: lowpass
+    cutoff_hz: 3400
+
+  - effect: soft_clip
+    drive: 0.28
+
+  - effect: fade_edges
+    fade_in_ms: 0.1
+    fade_out_ms: 10
+
+  - effect: normalize_peak
+    target_db: -8.0
+
+notes: "mouth-pop blink: wet transient plus short 790 Hz resonant mouth-cavity ring, no woody low body, based on https://freesound.org/people/KaBlazik_Samples/sounds/553430/"

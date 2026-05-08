@@ -21,6 +21,7 @@ from ambition_sfx_renderer.errors import SfxRenderError
 from ambition_sfx_renderer.paths import output_root, sounds_root
 from ambition_sfx_renderer.render import DEFAULT_WAV_MAX_SECONDS, render_file
 from ambition_sfx_renderer.schema import find_cue, iter_cue_files, load_cue
+from ambition_sfx_renderer.waveform import draw_waveform
 
 
 def _render_one_worker(payload: dict[str, Any]) -> dict[str, Any]:
@@ -166,6 +167,12 @@ def cmd_list(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_draw(args: argparse.Namespace) -> int:
+    out = draw_waveform(args.audio, out=args.out, width=args.width, height=args.height, title=args.title)
+    print(out)
+    return 0
+
+
 def add_common_render_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--sounds-root", type=Path, default=sounds_root(), help="cue search root")
     p.add_argument("--outdir", type=Path, default=output_root(), help="output root")
@@ -225,6 +232,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_list.add_argument("--sounds-root", type=Path, default=sounds_root())
     p_list.add_argument("--group", default="active")
     p_list.set_defaults(func=cmd_list)
+
+    p_draw = sub.add_parser("draw", help="Draw a waveform SVG for a rendered audio file or output directory")
+    p_draw.add_argument("audio", type=Path, help="wav/ogg file or output/<cue>/ directory")
+    p_draw.add_argument("--out", type=Path, default=None, help="output SVG path")
+    p_draw.add_argument("--width", type=int, default=1400)
+    p_draw.add_argument("--height", type=int, default=420)
+    p_draw.add_argument("--title", default=None)
+    p_draw.set_defaults(func=cmd_draw)
     return ap
 
 

@@ -1,0 +1,70 @@
+schema: ambition.sfxir.v1
+id: player.collect.health
+duration_ms: 430
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 23101
+  buffer_size: 128
+  safety_profile: game_sfx_v2
+  final_peak_db: -8.0
+  safety_lowpass_hz: 6900
+  deharsh_amount: 0.22
+layers:
+- name: warm_heal_rise
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -4
+  parameters:
+    /AmbitionTone/freq:
+      start: 330
+      end: 620
+      curve: exp
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 18
+    hold_ms: 80
+    release_ms: 240
+  effects:
+  - effect: lowpass
+    cutoff_hz: 5600
+  - effect: deharsh
+    center_hz: 3200
+    amount: 0.2
+    q: 0.9
+- name: soft_pickup_seed
+  kind: pyfxr
+  preset: pickup
+  seed: 23102
+  gain_db: -38
+  duration_ms: 220
+  envelope:
+    attack_ms: 3
+    release_ms: 160
+  effects:
+  - effect: lowpass
+    cutoff_hz: 4800
+  - effect: soft_clip
+    drive: 1.03
+    mix: 0.35
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 6500
+- effect: deharsh
+  center_hz: 3200
+  amount: 0.24
+  q: 0.9
+- effect: reverb
+  room_size: 0.13
+  damping: 0.78
+  wet_level: 0.055
+  dry_level: 1.0
+- effect: limiter
+  threshold_db: -4.0
+  release_ms: 70
+- effect: normalize_peak
+  target_db: -8.0
+  only_if_louder: true
+notes: Warm health collect cue, deliberately lower and softer than a coin chime.

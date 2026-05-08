@@ -1,0 +1,107 @@
+schema: ambition.sfxir.v1
+id: world.treasure_chest.open
+duration_ms: 760
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 23301
+  buffer_size: 128
+  safety_profile: game_sfx_v2
+  final_peak_db: -7.0
+  safety_lowpass_hz: 5200
+  deharsh_amount: 0.24
+layers:
+- name: wooden_lid_creak
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  duration_ms: 560
+  seed: 23302
+  gain_db: -14
+  envelope:
+    attack_ms: 24
+    release_ms: 260
+  effects:
+  - effect: highpass
+    cutoff_hz: 65
+  - effect: lowpass
+    cutoff_hz: 3300
+- name: hinge_grit
+  kind: noise_burst
+  mode: grains
+  color: pink
+  duration_ms: 420
+  seed: 23303
+  gain_db: -22
+  envelope:
+    attack_ms: 8
+    release_ms: 240
+  effects:
+  - effect: highpass
+    cutoff_hz: 220
+  - effect: lowpass
+    cutoff_hz: 4700
+  start_ms: 92
+  grain_count: 13
+  grain_decay_ms: 9
+  spread_ms: 310
+- name: latch_pop
+  kind: noise_burst
+  mode: thud
+  color: brown
+  duration_ms: 95
+  seed: 23304
+  gain_db: -10
+  envelope:
+    attack_ms: 1
+    release_ms: 80
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1200
+  start_ms: 20
+- name: reward_glow
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -12
+  parameters:
+    /AmbitionTone/freq:
+      start: 260
+      end: 520
+      curve: exp
+    /AmbitionTone/gain: -24
+  envelope:
+    attack_ms: 18
+    hold_ms: 70
+    release_ms: 190
+  effects:
+  - effect: lowpass
+    cutoff_hz: 4200
+  - effect: deharsh
+    center_hz: 3200
+    amount: 0.2
+    q: 0.9
+  start_ms: 430
+postprocess:
+- effect: highpass
+  cutoff_hz: 38
+- effect: lowpass
+  cutoff_hz: 5200
+- effect: deharsh
+  center_hz: 2600
+  amount: 0.25
+  q: 0.9
+- effect: soft_clip
+  drive: 1.08
+  mix: 0.45
+- effect: reverb
+  room_size: 0.17
+  damping: 0.8
+  wet_level: 0.045
+  dry_level: 1.0
+- effect: limiter
+  threshold_db: -4.0
+  release_ms: 120
+- effect: normalize_peak
+  target_db: -7.0
+  only_if_louder: true
+notes: 'Treasure chest open: wooden creak, latch thud, small reward glow tail.'

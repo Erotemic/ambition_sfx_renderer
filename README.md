@@ -255,3 +255,48 @@ Several cues now have longer tails when that makes sense: `player.death`,
 `world.portal.enter`, `world.checkpoint.activate`, plus loop-ish beds like
 `player.fly.loop`, `player.glide.loop`, `projectile.fireball.travel_loop`,
 `hazard.wind.gust_loop`, and `world.platform.loop`.
+
+## v0.3 quality pass: reducing shrillness
+
+The default renderer now applies a final `game_sfx_v2` tone-safety pass unless a
+cue opts out with `render.safety_profile: none`. The pass is intentionally mild:
+sub/DC cleanup, broad de-harshing around the 2-5 kHz presence band, a cue-family
+lowpass, gentle soft clipping, edge fades, and a conservative peak ceiling.
+
+Useful per-cue controls:
+
+```yaml
+render:
+  safety_profile: game_sfx_v2
+  final_peak_db: -8.0
+  safety_lowpass_hz: 6500
+  deharsh_hz: 3200
+  deharsh_amount: 0.20
+```
+
+Render everything after applying an overlay:
+
+```bash
+cd /home/joncrall/code/ambition/tools/ambition_sfx_renderer
+uv run python -m ambition_sfx_renderer render-all --jobs auto --force
+```
+
+
+## Editing / auditioning cues
+
+Each rendered cue directory now contains two convenience files:
+
+- `source.sfx.yaml` — a symlink back to the real YAML recipe.
+- `regen.sh` — re-renders the cue and plays the freshest `.wav` / `.ogg` with `ffplay`.
+
+Typical loop:
+
+```bash
+cd /home/joncrall/code/ambition/tools/ambition_sfx_renderer
+uv run python -m ambition_sfx_renderer render player.precision_blink --force
+cd output/player.precision_blink
+$EDITOR source.sfx.yaml
+./regen.sh
+```
+
+`regen.sh --no-play` renders only. `regen.sh --play-only` auditions the existing output without rendering.

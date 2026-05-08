@@ -1,52 +1,110 @@
 schema: ambition.sfxir.v1
-id: player.footstep.metal.01
-duration_ms: 115
-notes: 'metal footstep variant A'
-
+id: player.footstep_metal_01
+duration_ms: 118
+notes: v0.3.1 metal step rebuilt as noisy clack/scrape without pitched oscillator body.
 render:
   sample_rate: 48000
   channels: 2
-  seed: 1809
+  seed: 1341
   buffer_size: 128
-
+  safety_profile: game_sfx_v2
+  final_peak_db: -13.0
+  safety_highpass_hz: 70
+  safety_lowpass_hz: 3400
+  deharsh_hz: 2400.0
+  deharsh_amount: 0.1
+  safety_drive: 1.02
+  safety_clip_mix: 0.35
+  safety_fade_out_ms: 6.0
 layers:
-  - name: tonal_body
-    kind: dawdreamer_faust
-    dsp: patches/faust/tone.dsp
-    gain_db: 0
-    parameters:
-      /AmbitionTone/freq:
-        start: 520
-        end: 380
-        curve: exp
-      /AmbitionTone/gain: -20
-    envelope:
-      attack_ms: 1
-      hold_ms: 12
-      release_ms: 92
-
-  - name: pyfxr_seed
-    kind: pyfxr
-    preset: select
-    seed: 1810
-    gain_db: -29
-
+- name: dull_heel_clack
+  kind: noise_burst
+  mode: thud
+  color: pink
+  seed: 134101
+  duration_ms: 82
+  gain_db: -12.5
+  pan: -0.05
+  envelope:
+    attack_ms: 0.2
+    hold_ms: 4
+    release_ms: 72
+  effects:
+  - effect: highpass
+    cutoff_hz: 38
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1050
+    order: 3
+  - effect: soft_clip
+    drive: 1.08
+    mix: 0.45
+- name: tiny_metal_chatter
+  kind: noise_burst
+  mode: grains
+  color: white
+  seed: 134102
+  start_ms: 3
+  duration_ms: 82
+  gain_db: -22.0
+  pan: 0.05
+  grain_count: 7
+  grain_decay_ms: 3.2
+  spread_ms: 65.60000000000001
+  envelope:
+    attack_ms: 0.5
+    hold_ms: 3
+    release_ms: 75
+  effects:
+  - effect: highpass
+    cutoff_hz: 500
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 3600
+    order: 3
+  - effect: deharsh
+    center_hz: 2800
+    amount: 0.25
+    q: 0.8
+- name: metal_scuff
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  seed: 134103
+  start_ms: 16
+  duration_ms: 82
+  gain_db: -23.5
+  pan: -0.025
+  grain_count: 6
+  envelope:
+    attack_ms: 1.0
+    hold_ms: 6
+    release_ms: 72
+  effects:
+  - effect: highpass
+    cutoff_hz: 350
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2800
+    order: 3
+  - effect: deharsh
+    center_hz: 2200
+    amount: 0.18
+    q: 0.9
 postprocess:
-  - effect: highpass
-    cutoff_hz: 70
-  - effect: compressor
-    threshold_db: -18
-    ratio: 2.4
-    attack_ms: 3
-    release_ms: 70
-  - effect: chorus
-    rate_hz: 2.1
-    depth: 0.05
-    mix: 0.08
-  - effect: highpass
-    cutoff_hz: 180
-  - effect: limiter
-    threshold_db: -2.0
-    release_ms: 55
-  - effect: normalize_peak
-    target_db: -9.0
+- effect: highpass
+  cutoff_hz: 70
+  order: 2
+- effect: lowpass
+  cutoff_hz: 3400
+  order: 3
+- effect: deharsh
+  center_hz: 2400
+  amount: 0.1
+  q: 0.8
+- effect: soft_clip
+  drive: 1.04
+  mix: 0.35
+- effect: normalize_peak
+  target_db: -13.0
+  only_if_louder: false

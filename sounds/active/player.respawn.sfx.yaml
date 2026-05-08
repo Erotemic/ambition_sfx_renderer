@@ -1,0 +1,85 @@
+schema: ambition.sfxir.v1
+id: player.respawn
+duration_ms: 520
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1101
+  buffer_size: 128
+  safety_profile: game_sfx_v2
+  final_peak_db: -8.0
+  safety_lowpass_hz: 7200.0
+  deharsh_hz: 3200.0
+  deharsh_amount: 0.25
+  safety_drive: 1.05
+  safety_clip_mix: 0.55
+layers:
+- name: tonal_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -2.0
+  parameters:
+    /AmbitionTone/freq:
+      start: 420
+      end: 740
+      curve: exp
+    /AmbitionTone/gain: -17.0
+  envelope:
+    attack_ms: 5.0
+    hold_ms: 93
+    release_ms: 314.6
+  effects:
+  - effect: lowpass
+    cutoff_hz: 7900.0
+- name: pyfxr_seed
+  kind: pyfxr
+  preset: powerup
+  seed: 1102
+  gain_db: -30.0
+  envelope:
+    attack_ms: 1.0
+    release_ms: 25.0
+  effects:
+  - effect: lowpass
+    cutoff_hz: 7200.0
+  - effect: deharsh
+    center_hz: 3100
+    amount: 0.31
+    q: 0.9
+  - effect: soft_clip
+    drive: 1.08
+    mix: 0.5
+postprocess:
+- effect: deharsh
+  center_hz: 3200
+  amount: 0.25
+  q: 0.9
+- effect: lowpass
+  cutoff_hz: 7200
+- effect: soft_clip
+  drive: 1.06
+  mix: 0.45
+- effect: highpass
+  cutoff_hz: 55
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.4
+  attack_ms: 3
+  release_ms: 70
+- effect: chorus
+  rate_hz: 1.1
+  depth: 0.08
+  mix: 0.14
+- effect: reverb
+  room_size: 0.1
+  damping: 0.7
+  wet_level: 0.05
+  dry_level: 1.0
+- effect: limiter
+  threshold_db: -2.0
+  release_ms: 45
+- effect: normalize_peak
+  target_db: -8.0
+  only_if_louder: true
+notes: 'long respawn swell; auto policy writes OGG v0.3 softened: reduced bright seed gain, added deharsh/lowpass,
+  and conservative final peak.'

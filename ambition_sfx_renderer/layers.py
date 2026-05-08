@@ -19,6 +19,10 @@ def render_layer_source(layer: dict[str, Any], context: dict[str, Any]) -> np.nd
         from ambition_sfx_renderer.backends.pyfxr_backend import render_pyfxr_layer
 
         return render_pyfxr_layer(layer, context)
+    if kind in {"noise", "noise_burst", "foley_noise", "grain_noise"}:
+        from ambition_sfx_renderer.backends.noise_backend import render_noise_layer
+
+        return render_noise_layer(layer, context)
     if kind in {"dawdreamer_faust", "faust"}:
         from ambition_sfx_renderer_gpl.dawdreamer_backend import render_faust_layer
 
