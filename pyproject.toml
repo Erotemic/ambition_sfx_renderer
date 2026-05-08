@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ambition-sfx-renderer"
+version = "0.1.0"
+description = "Data-driven offline SFX renderer for Ambition-style game cues"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{name = "Ambition contributors"}]
+license = {text = "Mixed FOSS; see README.md and LICENSES/"}
+dependencies = [
+  "numpy",
+  "scipy",
+  "PyYAML",
+  "soundfile",
+  "rich",
+  "pedalboard",
+  "dawdreamer",
+  "pyfxr",
+]
+
+[project.optional-dependencies]
+pyo = ["pyo"]
+dev = ["pytest", "ruff"]
+all = ["pyo", "pytest", "ruff"]
+
+[project.scripts]
+ambition-sfx-renderer = "ambition_sfx_renderer.cli:main"
+
+[tool.setuptools.packages.find]
+include = [
+  "ambition_sfx_renderer*",
+  "ambition_sfx_renderer_gpl*",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

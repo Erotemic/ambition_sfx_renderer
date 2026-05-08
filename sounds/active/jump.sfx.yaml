@@ -1,0 +1,45 @@
+schema: ambition.sfxir.v1
+id: jump
+duration_ms: 100
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1001
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/tone.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionTone/freq:
+        start: 430
+        end: 770
+        curve: exp
+      /AmbitionTone/gain: -12
+    envelope:
+      attack_ms: 2
+      hold_ms: 12
+      release_ms: 70
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: jump
+    seed: 1002
+    gain_db: -20
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 55
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 45
+  - effect: normalize_peak
+    target_db: -3.0

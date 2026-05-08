@@ -1,0 +1,4 @@
+The YAML sound recipes in this directory are licensed under Apache-2.0 unless a nearer file says otherwise.
+
+Running the renderer on these YAML files does not change their license.
+Generated output is licensed according to the project that distributes it and the licenses of any inputs used.
