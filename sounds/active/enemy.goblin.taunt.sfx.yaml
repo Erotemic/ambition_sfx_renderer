@@ -1,0 +1,51 @@
+schema: ambition.sfxir.v1
+id: enemy.goblin.taunt
+duration_ms: 420
+notes: 'long goblin taunt/signal; auto policy writes OGG'
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1827
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/tone.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionTone/freq:
+        start: 290
+        end: 410
+        curve: exp
+      /AmbitionTone/gain: -15
+    envelope:
+      attack_ms: 5
+      hold_ms: 160
+      release_ms: 255
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: powerup
+    seed: 1828
+    gain_db: -29
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 70
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: distortion
+    drive_db: 2
+  - effect: reverb
+    room_size: 0.10
+    wet_level: 0.045
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 55
+  - effect: normalize_peak
+    target_db: -7.0

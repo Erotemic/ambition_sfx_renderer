@@ -1,0 +1,47 @@
+schema: ambition.sfxir.v1
+id: enemy.goblin.death
+duration_ms: 520
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1413
+  buffer_size: 128
+layers:
+- name: tonal_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/soft_saw.dsp
+  gain_db: 0
+  parameters:
+    /AmbitionSoftSaw/freq:
+      start: 185
+      end: 52
+      curve: exp
+    /AmbitionSoftSaw/gain: -11
+  envelope:
+    attack_ms: 5
+    hold_ms: 93
+    release_ms: 286
+- name: pyfxr_seed
+  kind: pyfxr
+  preset: explosion
+  seed: 1414
+  gain_db: -22
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.4
+  attack_ms: 3
+  release_ms: 70
+- effect: lowpass
+  cutoff_hz: 4800
+- effect: reverb
+  room_size: 0.14
+  wet_level: 0.065
+- effect: limiter
+  threshold_db: -2.0
+  release_ms: 45
+- effect: normalize_peak
+  target_db: -3.0
+notes: long goblin death tail; auto policy writes OGG

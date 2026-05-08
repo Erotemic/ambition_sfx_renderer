@@ -1,0 +1,51 @@
+schema: ambition.sfxir.v1
+id: player.wall_slide
+duration_ms: 360
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1225
+  buffer_size: 128
+layers:
+- name: tonal_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/soft_saw.dsp
+  gain_db: 0
+  parameters:
+    /AmbitionSoftSaw/freq:
+      start: 210
+      end: 155
+      curve: exp
+    /AmbitionSoftSaw/gain: -18
+  envelope:
+    attack_ms: 5
+    hold_ms: 80
+    release_ms: 198
+- name: pyfxr_seed
+  kind: pyfxr
+  preset: hurt
+  seed: 1226
+  gain_db: -30
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.4
+  attack_ms: 3
+  release_ms: 70
+- effect: lowpass
+  cutoff_hz: 2800
+- effect: distortion
+  drive_db: 2
+- effect: limiter
+  threshold_db: -2.0
+  release_ms: 45
+- effect: reverb
+  room_size: 0.14
+  damping: 0.72
+  wet_level: 0.065
+  dry_level: 1.0
+- effect: normalize_peak
+  target_db: -7.0
+notes: longer wall-slide scrape loop-ish cue; auto policy writes OGG

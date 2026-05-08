@@ -1,47 +1,44 @@
 schema: ambition.sfxir.v1
-id: slash
-duration_ms: 95
-
+id: player.slash
+duration_ms: 125
 render:
   sample_rate: 48000
   channels: 2
   seed: 1051
   buffer_size: 128
-
 layers:
-  - name: tonal_body
-    kind: dawdreamer_faust
-    dsp: patches/faust/soft_saw.dsp
-    gain_db: 0
-    parameters:
-      /AmbitionSoftSaw/freq:
-        start: 720
-        end: 310
-        curve: exp
-      /AmbitionSoftSaw/gain: -13
-    envelope:
-      attack_ms: 1
-      hold_ms: 8
-      release_ms: 65
-
-  - name: pyfxr_seed
-    kind: pyfxr
-    preset: laser
-    seed: 1052
-    gain_db: -20
-
+- name: tonal_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/soft_saw.dsp
+  gain_db: 0
+  parameters:
+    /AmbitionSoftSaw/freq:
+      start: 720
+      end: 310
+      curve: exp
+    /AmbitionSoftSaw/gain: -13
+  envelope:
+    attack_ms: 1
+    hold_ms: 8
+    release_ms: 65
+- name: pyfxr_seed
+  kind: pyfxr
+  preset: laser
+  seed: 1052
+  gain_db: -20
 postprocess:
-  - effect: highpass
-    cutoff_hz: 55
-  - effect: compressor
-    threshold_db: -18
-    ratio: 2.4
-    attack_ms: 3
-    release_ms: 70
-  - effect: highpass
-    cutoff_hz: 140
-  - effect: limiter
-    threshold_db: -2.0
-    release_ms: 45
-  - effect: normalize_peak
-    target_db: -3.0
+- effect: highpass
+  cutoff_hz: 55
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.4
+  attack_ms: 3
+  release_ms: 70
+- effect: highpass
+  cutoff_hz: 140
+- effect: limiter
+  threshold_db: -2.0
+  release_ms: 45
+- effect: normalize_peak
+  target_db: -3.0
+notes: bright melee slash

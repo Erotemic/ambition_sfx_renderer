@@ -1,47 +1,44 @@
 schema: ambition.sfxir.v1
-id: hit
-duration_ms: 130
-
+id: player.hit
+duration_ms: 170
 render:
   sample_rate: 48000
   channels: 2
   seed: 1061
   buffer_size: 128
-
 layers:
-  - name: tonal_body
-    kind: dawdreamer_faust
-    dsp: patches/faust/soft_saw.dsp
-    gain_db: 0
-    parameters:
-      /AmbitionSoftSaw/freq:
-        start: 260
-        end: 72
-        curve: exp
-      /AmbitionSoftSaw/gain: -10
-    envelope:
-      attack_ms: 1
-      hold_ms: 15
-      release_ms: 95
-
-  - name: pyfxr_seed
-    kind: pyfxr
-    preset: hurt
-    seed: 1062
-    gain_db: -16
-
+- name: tonal_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/soft_saw.dsp
+  gain_db: 0
+  parameters:
+    /AmbitionSoftSaw/freq:
+      start: 260
+      end: 72
+      curve: exp
+    /AmbitionSoftSaw/gain: -10
+  envelope:
+    attack_ms: 1
+    hold_ms: 15
+    release_ms: 95
+- name: pyfxr_seed
+  kind: pyfxr
+  preset: hurt
+  seed: 1062
+  gain_db: -16
 postprocess:
-  - effect: highpass
-    cutoff_hz: 55
-  - effect: compressor
-    threshold_db: -18
-    ratio: 2.4
-    attack_ms: 3
-    release_ms: 70
-  - effect: distortion
-    drive_db: 4
-  - effect: limiter
-    threshold_db: -2.0
-    release_ms: 45
-  - effect: normalize_peak
-    target_db: -3.0
+- effect: highpass
+  cutoff_hz: 55
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.4
+  attack_ms: 3
+  release_ms: 70
+- effect: distortion
+  drive_db: 4
+- effect: limiter
+  threshold_db: -2.0
+  release_ms: 45
+- effect: normalize_peak
+  target_db: -3.0
+notes: player damage impact

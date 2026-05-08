@@ -1,0 +1,47 @@
+schema: ambition.sfxir.v1
+id: projectile.fireball.shoot
+duration_ms: 260
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1301
+  buffer_size: 128
+layers:
+- name: tonal_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/soft_saw.dsp
+  gain_db: 0
+  parameters:
+    /AmbitionSoftSaw/freq:
+      start: 520
+      end: 180
+      curve: exp
+    /AmbitionSoftSaw/gain: -10
+  envelope:
+    attack_ms: 1
+    hold_ms: 39
+    release_ms: 143
+- name: pyfxr_seed
+  kind: pyfxr
+  preset: laser
+  seed: 1302
+  gain_db: -18
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.4
+  attack_ms: 3
+  release_ms: 70
+- effect: distortion
+  drive_db: 3
+- effect: reverb
+  room_size: 0.08
+  wet_level: 0.04
+- effect: limiter
+  threshold_db: -2.0
+  release_ms: 45
+- effect: normalize_peak
+  target_db: -3.0
+notes: fireball launch with flame tail

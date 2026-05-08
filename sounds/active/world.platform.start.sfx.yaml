@@ -1,0 +1,48 @@
+schema: ambition.sfxir.v1
+id: world.platform.start
+duration_ms: 360
+notes: 'moving platform start; auto policy writes OGG'
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1855
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/soft_saw.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionSoftSaw/freq:
+        start: 115
+        end: 165
+        curve: exp
+      /AmbitionSoftSaw/gain: -19
+    envelope:
+      attack_ms: 15
+      hold_ms: 210
+      release_ms: 135
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: select
+    seed: 1856
+    gain_db: -34
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 70
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: lowpass
+    cutoff_hz: 3200
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 55
+  - effect: normalize_peak
+    target_db: -9.0

@@ -1,0 +1,48 @@
+schema: ambition.sfxir.v1
+id: world.switch.toggle
+duration_ms: 150
+notes: 'small switch toggle'
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1851
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/tone.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionTone/freq:
+        start: 330
+        end: 480
+        curve: exp
+      /AmbitionTone/gain: -17
+    envelope:
+      attack_ms: 1
+      hold_ms: 24
+      release_ms: 120
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: select
+    seed: 1852
+    gain_db: -24
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 70
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: highpass
+    cutoff_hz: 90
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 55
+  - effect: normalize_peak
+    target_db: -6.0

@@ -1,0 +1,54 @@
+schema: ambition.sfxir.v1
+id: hazard.wind.gust_loop
+duration_ms: 1100
+notes: 'long wind hazard bed; auto policy writes OGG'
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1841
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/soft_saw.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionSoftSaw/freq:
+        start: 180
+        end: 205
+        curve: exp
+      /AmbitionSoftSaw/gain: -25
+    envelope:
+      attack_ms: 160
+      hold_ms: 730
+      release_ms: 210
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: select
+    seed: 1842
+    gain_db: -40
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 70
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: chorus
+    rate_hz: 0.32
+    depth: 0.15
+    mix: 0.24
+  - effect: lowpass
+    cutoff_hz: 5000
+  - effect: highpass
+    cutoff_hz: 180
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 55
+  - effect: normalize_peak
+    target_db: -16.0

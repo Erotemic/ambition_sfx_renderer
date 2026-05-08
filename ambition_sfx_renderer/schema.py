@@ -88,7 +88,7 @@ def load_cue(path: Path) -> CueSpec:
 
 
 def find_cue(cue: str, *, root: Path | None = None) -> Path | None:
-    """Find a cue by id/name or explicit YAML path."""
+    """Find a cue by id/name, namespaced id, basename, or explicit YAML path."""
     root = root or sounds_root()
     p = Path(cue)
     if p.suffix in {".yaml", ".yml"} and p.exists():
@@ -106,13 +106,28 @@ def find_cue(cue: str, *, root: Path | None = None) -> Path | None:
     for c in candidates:
         if c.exists():
             return c.resolve()
+    # Recursive fallback: this lets namespaced files live in actor folders later.
+    for c in iter_cue_files(root, group="active") + iter_cue_files(root, group="examples"):
+        if c.stem in {cue, f"{cue}.sfx"} or c.name in {cue, f"{cue}.sfx.yaml", f"{cue}.yaml"}:
+            return c.resolve()
+        try:
+            spec = load_cue(c)
+        except Exception:
+            continue
+        if spec.cue_id == cue:
+            return c.resolve()
     return None
 
 
 def iter_cue_files(root: Path | None = None, *, group: str = "active") -> list[Path]:
+    """Return cue YAML files for a group.
+
+    Discovery is recursive so future actor folders such as
+    ``sounds/active/player/jump.sfx.yaml`` work without another CLI change.
+    """
     root = root or sounds_root()
     d = root / group
     if not d.exists():
         d = root
-    paths = {p.resolve() for p in [*d.glob("*.sfx.yaml"), *d.glob("*.yaml")] if p.is_file()}
+    paths = {p.resolve() for p in [*d.rglob("*.sfx.yaml"), *d.rglob("*.yaml")] if p.is_file()}
     return sorted(paths)

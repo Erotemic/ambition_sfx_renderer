@@ -1,0 +1,48 @@
+schema: ambition.sfxir.v1
+id: player.water.exit
+duration_ms: 360
+notes: 'water exit drip/splash; auto policy writes OGG'
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1815
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/tone.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionTone/freq:
+        start: 180
+        end: 250
+        curve: exp
+      /AmbitionTone/gain: -18
+    envelope:
+      attack_ms: 5
+      hold_ms: 110
+      release_ms: 245
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: select
+    seed: 1816
+    gain_db: -29
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 70
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: lowpass
+    cutoff_hz: 2800
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 55
+  - effect: normalize_peak
+    target_db: -7.0

@@ -1,0 +1,50 @@
+schema: ambition.sfxir.v1
+id: projectile.generic.impact
+duration_ms: 260
+notes: 'generic projectile impact'
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1833
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/soft_saw.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionSoftSaw/freq:
+        start: 260
+        end: 68
+        curve: exp
+      /AmbitionSoftSaw/gain: -11
+    envelope:
+      attack_ms: 1
+      hold_ms: 40
+      release_ms: 218
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: explosion
+    seed: 1834
+    gain_db: -21
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 70
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: distortion
+    drive_db: 3
+  - effect: lowpass
+    cutoff_hz: 5600
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 55
+  - effect: normalize_peak
+    target_db: -4.0

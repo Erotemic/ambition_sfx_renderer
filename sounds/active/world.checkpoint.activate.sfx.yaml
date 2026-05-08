@@ -1,0 +1,49 @@
+schema: ambition.sfxir.v1
+id: world.checkpoint.activate
+duration_ms: 820
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1605
+  buffer_size: 128
+layers:
+- name: tonal_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: 0
+  parameters:
+    /AmbitionTone/freq:
+      start: 320
+      end: 880
+      curve: exp
+    /AmbitionTone/gain: -14
+  envelope:
+    attack_ms: 8
+    hold_ms: 147
+    release_ms: 451
+- name: pyfxr_seed
+  kind: pyfxr
+  preset: powerup
+  seed: 1606
+  gain_db: -23
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.4
+  attack_ms: 3
+  release_ms: 70
+- effect: chorus
+  rate_hz: 1.0
+  depth: 0.12
+  mix: 0.18
+- effect: reverb
+  room_size: 0.13
+  wet_level: 0.06
+- effect: limiter
+  threshold_db: -2.0
+  release_ms: 45
+- effect: normalize_peak
+  target_db: -3.0
+notes: long checkpoint activation flourish; auto policy writes OGG

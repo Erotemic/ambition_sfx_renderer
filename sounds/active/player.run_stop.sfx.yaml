@@ -1,0 +1,48 @@
+schema: ambition.sfxir.v1
+id: player.run.stop
+duration_ms: 120
+notes: 'skid/stop contact'
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1803
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/soft_saw.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionSoftSaw/freq:
+        start: 140
+        end: 78
+        curve: exp
+      /AmbitionSoftSaw/gain: -17.5
+    envelope:
+      attack_ms: 1
+      hold_ms: 18
+      release_ms: 94
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: select
+    seed: 1804
+    gain_db: -28
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 70
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: lowpass
+    cutoff_hz: 3000
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 55
+  - effect: normalize_peak
+    target_db: -7.5

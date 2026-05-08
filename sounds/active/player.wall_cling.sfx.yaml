@@ -1,0 +1,47 @@
+schema: ambition.sfxir.v1
+id: player.wall_cling
+duration_ms: 85
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1227
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/soft_saw.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionSoftSaw/freq:
+        start: 170
+        end: 120
+        curve: exp
+      /AmbitionSoftSaw/gain: -18
+    envelope:
+      attack_ms: 1
+      hold_ms: 8
+      release_ms: 58
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: select
+    seed: 1228
+    gain_db: -29
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 55
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: lowpass
+    cutoff_hz: 3000
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 45
+  - effect: normalize_peak
+    target_db: -7.0

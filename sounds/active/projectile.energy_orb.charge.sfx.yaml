@@ -1,0 +1,53 @@
+schema: ambition.sfxir.v1
+id: projectile.energy_orb.charge
+duration_ms: 650
+notes: 'long energy charge bed; auto policy writes OGG'
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1835
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/tone.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionTone/freq:
+        start: 300
+        end: 1260
+        curve: exp
+      /AmbitionTone/gain: -16
+    envelope:
+      attack_ms: 40
+      hold_ms: 460
+      release_ms: 150
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: powerup
+    seed: 1836
+    gain_db: -30
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 70
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: chorus
+    rate_hz: 1.1
+    depth: 0.14
+    mix: 0.24
+  - effect: reverb
+    room_size: 0.11
+    wet_level: 0.055
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 55
+  - effect: normalize_peak
+    target_db: -8.0

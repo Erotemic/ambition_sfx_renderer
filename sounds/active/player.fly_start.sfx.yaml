@@ -1,0 +1,49 @@
+schema: ambition.sfxir.v1
+id: player.fly.start
+duration_ms: 340
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1255
+  buffer_size: 128
+layers:
+- name: tonal_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: 0
+  parameters:
+    /AmbitionTone/freq:
+      start: 360
+      end: 620
+      curve: exp
+    /AmbitionTone/gain: -14
+  envelope:
+    attack_ms: 5
+    hold_ms: 70
+    release_ms: 187
+- name: pyfxr_seed
+  kind: pyfxr
+  preset: powerup
+  seed: 1256
+  gain_db: -25
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.4
+  attack_ms: 3
+  release_ms: 70
+- effect: chorus
+  rate_hz: 1.3
+  depth: 0.12
+  mix: 0.16
+- effect: reverb
+  room_size: 0.07
+  wet_level: 0.035
+- effect: limiter
+  threshold_db: -2.0
+  release_ms: 45
+- effect: normalize_peak
+  target_db: -4.5
+notes: flight start swell; auto policy writes OGG

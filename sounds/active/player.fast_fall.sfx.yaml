@@ -1,0 +1,49 @@
+schema: ambition.sfxir.v1
+id: player.fast_fall
+duration_ms: 330
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1231
+  buffer_size: 128
+layers:
+- name: tonal_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/soft_saw.dsp
+  gain_db: 0
+  parameters:
+    /AmbitionSoftSaw/freq:
+      start: 520
+      end: 170
+      curve: exp
+    /AmbitionSoftSaw/gain: -16
+  envelope:
+    attack_ms: 5
+    hold_ms: 59
+    release_ms: 181
+- name: pyfxr_seed
+  kind: pyfxr
+  preset: laser
+  seed: 1232
+  gain_db: -28
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.4
+  attack_ms: 3
+  release_ms: 70
+- effect: highpass
+  cutoff_hz: 120
+- effect: limiter
+  threshold_db: -2.0
+  release_ms: 45
+- effect: reverb
+  room_size: 0.14
+  damping: 0.72
+  wet_level: 0.065
+  dry_level: 1.0
+- effect: normalize_peak
+  target_db: -5.0
+notes: longer downward wind burst; auto policy writes OGG

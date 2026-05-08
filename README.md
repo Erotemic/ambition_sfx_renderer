@@ -1,7 +1,7 @@
 # Ambition SFX Renderer
 
 Standalone, data-driven offline sound-effect renderer for short game cues such as
-jump, dash, blink, slash, hit, death, and respawn.
+player.jump, player.dash, projectile.fireball.impact, ui.menu.accept, and other namespaced game cues.
 
 This repository is meant to live as its own repo or as a git submodule at:
 
@@ -41,27 +41,42 @@ Using `uv`:
 
 ```bash
 cd tools/ambition_sfx_renderer
-uv venv
+uv python install 3.11
+uv venv --python 3.11
 uv pip install -e .
 ```
+
+The default development interpreter is Python 3.11 (`.python-version` and `setup.sh`).
+DawDreamer currently supports Python 3.8+ with published classifiers through 3.12,
+so avoiding whatever newest system Python you have installed is intentional.
+Override with `PYTHON_VERSION=3.12 ./setup.sh` if you want to try 3.12.
+
 
 Then render one cue:
 
 ```bash
-uv run python -m ambition_sfx_renderer render dash
+uv run python -m ambition_sfx_renderer render player.dash
 ```
 
-Render everything under `sounds/active/`:
+Render everything under `sounds/active/` in parallel. This is the main batch command:
 
 ```bash
-uv run python -m ambition_sfx_renderer render-all
+uv run python -m ambition_sfx_renderer render-all --jobs auto
 ```
+
+`render-all` skips cues whose manifest hash is current. Use `--force` after editing DSP patches, samples, Python backend code, or when you simply want to regenerate every file:
+
+```bash
+uv run python -m ambition_sfx_renderer render-all --jobs auto --force
+```
+
+Use `--jobs 1` to debug one cue at a time or `--fail-fast` to stop after the first failure.
 
 Or use the console script after installing:
 
 ```bash
-ambition-sfx-renderer render dash
-ambition-sfx-renderer render-all --force
+ambition-sfx-renderer render player.dash
+ambition-sfx-renderer render-all --jobs auto --force
 ambition-sfx-renderer audit output
 ```
 
@@ -85,7 +100,7 @@ peak/RMS, and generated file paths.
 
 ```yaml
 schema: ambition.sfxir.v1
-id: dash
+id: player.dash
 duration_ms: 170
 
 render:
@@ -181,3 +196,62 @@ This repository contains mixed-license FOSS tooling.
 
 Generated audio may also be subject to the licenses of any source samples,
 soundfonts, plugins, presets, or other source materials used during rendering.
+
+## Namespacing convention
+
+Cue ids are namespaced by the actor or system that emits them:
+
+```text
+player.jump
+player.wall_jump
+player.footstep.stone.01
+projectile.fireball.shoot
+projectile.fireball.impact
+enemy.goblin.hit
+hazard.spike.hit
+world.pickup.generic
+ui.menu.accept
+```
+
+The file name does not have to match the cue id exactly, but the cue id is the
+stable name that future runtime integration should use.
+
+
+## Current overlay notes
+
+Apply this overlay from the main Ambition checkout with:
+
+```bash
+cd /home/joncrall/code/ambition
+unzip -o ~/Downloads/ambition_sfx_renderer_overlay_duration_policy.zip
+```
+
+Render every active cue in parallel:
+
+```bash
+cd /home/joncrall/code/ambition/tools/ambition_sfx_renderer
+uv run python -m ambition_sfx_renderer render-all --jobs auto
+```
+
+The default output policy is now duration-aware:
+
+- cues with duration `<= 0.300s` write `.wav`;
+- cues with duration `> 0.300s` write `.ogg`;
+- use `--format-policy both` when you explicitly want both debug WAV and OGG;
+- use `--format-policy wav` or `--format-policy ogg` to force one format.
+
+Useful commands:
+
+```bash
+uv run python -m ambition_sfx_renderer list
+uv run python -m ambition_sfx_renderer render player.dash
+uv run python -m ambition_sfx_renderer render player.death --force
+uv run python -m ambition_sfx_renderer render-all --jobs auto --force
+uv run python -m ambition_sfx_renderer render-all --jobs auto --format-policy both
+```
+
+Several cues now have longer tails when that makes sense: `player.death`,
+`player.respawn`, `player.precision_blink`, `projectile.fireball.impact`,
+`world.portal.enter`, `world.checkpoint.activate`, plus loop-ish beds like
+`player.fly.loop`, `player.glide.loop`, `projectile.fireball.travel_loop`,
+`hazard.wind.gust_loop`, and `world.platform.loop`.

@@ -1,0 +1,53 @@
+schema: ambition.sfxir.v1
+id: projectile.fireball.travel_loop
+duration_ms: 1000
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1313
+  buffer_size: 128
+layers:
+- name: tonal_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/soft_saw.dsp
+  gain_db: 0
+  parameters:
+    /AmbitionSoftSaw/freq:
+      start: 210
+      end: 220
+      curve: exp
+    /AmbitionSoftSaw/gain: -20
+  envelope:
+    attack_ms: 30
+    hold_ms: 300
+    release_ms: 550
+- name: pyfxr_seed
+  kind: pyfxr
+  preset: laser
+  seed: 1314
+  gain_db: -34
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.4
+  attack_ms: 3
+  release_ms: 70
+- effect: chorus
+  rate_hz: 0.7
+  depth: 0.08
+  mix: 0.16
+- effect: lowpass
+  cutoff_hz: 7200
+- effect: limiter
+  threshold_db: -2.0
+  release_ms: 45
+- effect: reverb
+  room_size: 0.14
+  damping: 0.72
+  wet_level: 0.065
+  dry_level: 1.0
+- effect: normalize_peak
+  target_db: -10.0
+notes: long quiet projectile travel bed; auto policy writes OGG

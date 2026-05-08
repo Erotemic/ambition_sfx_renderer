@@ -1,0 +1,52 @@
+schema: ambition.sfxir.v1
+id: player.swim.stroke
+duration_ms: 155
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1241
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/tone.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionTone/freq:
+        start: 210
+        end: 145
+        curve: exp
+      /AmbitionTone/gain: -17
+    envelope:
+      attack_ms: 2
+      hold_ms: 35
+      release_ms: 95
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: select
+    seed: 1242
+    gain_db: -25
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 55
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: lowpass
+    cutoff_hz: 2200
+  - effect: reverb
+    room_size: 0.05
+    damping: 0.4
+    wet_level: 0.04
+    dry_level: 1.0
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 45
+  - effect: normalize_peak
+    target_db: -6.0
