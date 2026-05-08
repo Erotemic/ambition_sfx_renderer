@@ -1,0 +1,54 @@
+schema: ambition.sfxir.v1
+id: cutscene.dramatic_chord.defeat
+duration_ms: 1400
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 460855
+  buffer_size: 128
+layers:
+- name: defeat_chord_low
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -15
+  start_ms: 0
+  duration_ms: 1100
+  parameters:
+    /AmbitionTone/freq:
+      start: 180
+      end: 70
+      curve: exp
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 10
+    hold_ms: 80
+    release_ms: 950
+- name: defeat_air
+  kind: noise_burst
+  color: pink
+  gain_db: -31
+  start_ms: 200
+  duration_ms: 800
+  envelope:
+    attack_ms: 40
+    hold_ms: 1
+    release_ms: 700
+  filter:
+    kind: bandpass
+    hz: 900
+    q: 0.35
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 3200
+- effect: deharsh
+  amount: 0.4
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 30
+- effect: normalize_peak
+  target_db: -11
+notes: defeat chord

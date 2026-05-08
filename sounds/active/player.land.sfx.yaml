@@ -1,110 +1,49 @@
 schema: ambition.sfxir.v1
 id: player.land
-duration_ms: 170
-notes: v0.3.1 player landing rebuilt as non-tonal boot impact and ground scuff.
+duration_ms: 110
 render:
   sample_rate: 48000
   channels: 2
-  seed: 1205
+  seed: 558702
   buffer_size: 128
-  safety_profile: game_sfx_v2
-  final_peak_db: -11.0
-  safety_highpass_hz: 38
-  safety_lowpass_hz: 2400
-  deharsh_hz: 2400.0
-  deharsh_amount: 0.1
-  safety_drive: 1.02
-  safety_clip_mix: 0.35
-  safety_fade_out_ms: 6.0
 layers:
-- name: boot_weight
+- name: land_thump
   kind: noise_burst
-  mode: thud
   color: brown
-  seed: 120501
-  duration_ms: 132
-  gain_db: -9.6
-  pan: 0.0
+  gain_db: -9
+  start_ms: 0
+  duration_ms: 48
   envelope:
-    attack_ms: 0.2
+    attack_ms: 0
     hold_ms: 4
-    release_ms: 120
-  effects:
-  - effect: highpass
-    cutoff_hz: 38
-    order: 2
-  - effect: lowpass
-    cutoff_hz: 820
-    order: 3
-  - effect: soft_clip
-    drive: 1.08
-    mix: 0.45
-- name: sole_slide
+    release_ms: 34
+  filter:
+    kind: lowpass
+    cutoff_hz: 700
+- name: shoe_grit
   kind: noise_burst
-  mode: scrape
   color: pink
-  seed: 120502
-  start_ms: 16
-  duration_ms: 104
-  gain_db: -18.0
-  pan: 0.04
-  grain_count: 9
+  gain_db: -23
+  start_ms: 7
+  duration_ms: 34
   envelope:
-    attack_ms: 1.0
-    hold_ms: 6
-    release_ms: 94
-  effects:
-  - effect: highpass
-    cutoff_hz: 140
-    order: 2
-  - effect: lowpass
-    cutoff_hz: 1900
-    order: 3
-  - effect: deharsh
-    center_hz: 2200
-    amount: 0.18
-    q: 0.9
-- name: ground_grit
-  kind: noise_burst
-  mode: grains
-  color: pink
-  seed: 120503
-  start_ms: 28
-  duration_ms: 76
-  gain_db: -25.0
-  pan: -0.04
-  grain_count: 7
-  grain_decay_ms: 5.0
-  spread_ms: 60.800000000000004
-  envelope:
-    attack_ms: 0.5
-    hold_ms: 3
-    release_ms: 69
-  effects:
-  - effect: highpass
-    cutoff_hz: 220
-    order: 2
-  - effect: lowpass
-    cutoff_hz: 2400
-    order: 3
-  - effect: deharsh
-    center_hz: 2800
-    amount: 0.25
-    q: 0.8
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 1000
+    q: 0.7
 postprocess:
 - effect: highpass
-  cutoff_hz: 38
-  order: 2
+  cutoff_hz: 32
 - effect: lowpass
-  cutoff_hz: 2400
-  order: 3
-- effect: deharsh
-  center_hz: 2400
-  amount: 0.1
-  q: 0.8
+  cutoff_hz: 1800
 - effect: soft_clip
-  drive: 1.04
-  mix: 0.35
+  drive: 0.55
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
 - effect: normalize_peak
-  target_db: -11.0
-  only_if_louder: false
+  target_db: -10
+notes: player landing foley

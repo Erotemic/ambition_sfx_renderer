@@ -1,0 +1,54 @@
+schema: ambition.sfxir.v1
+id: enemy.mage.cast.charge
+duration_ms: 620
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 653991
+  buffer_size: 128
+layers:
+- name: charge_low
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -16
+  start_ms: 0
+  duration_ms: 560
+  parameters:
+    /AmbitionTone/freq:
+      start: 180
+      end: 520
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 40
+    hold_ms: 120
+    release_ms: 350
+- name: magic_air
+  kind: noise_burst
+  color: white
+  gain_db: -32
+  start_ms: 0
+  duration_ms: 540
+  envelope:
+    attack_ms: 80
+    hold_ms: 120
+    release_ms: 320
+  filter:
+    kind: bandpass
+    hz: 2400
+    q: 0.45
+postprocess:
+- effect: highpass
+  cutoff_hz: 65
+- effect: lowpass
+  cutoff_hz: 4200
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.25
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -12
+notes: mage charge

@@ -1,107 +1,68 @@
 schema: ambition.sfxir.v1
 id: world.treasure_chest.open
-duration_ms: 760
+duration_ms: 520
 render:
   sample_rate: 48000
   channels: 2
-  seed: 23301
+  seed: 622770
   buffer_size: 128
-  safety_profile: game_sfx_v2
-  final_peak_db: -7.0
-  safety_lowpass_hz: 5200
-  deharsh_amount: 0.24
 layers:
-- name: wooden_lid_creak
+- name: wood_creak
   kind: noise_burst
-  mode: scrape
   color: brown
-  duration_ms: 560
-  seed: 23302
-  gain_db: -14
-  envelope:
-    attack_ms: 24
-    release_ms: 260
-  effects:
-  - effect: highpass
-    cutoff_hz: 65
-  - effect: lowpass
-    cutoff_hz: 3300
-- name: hinge_grit
-  kind: noise_burst
-  mode: grains
-  color: pink
-  duration_ms: 420
-  seed: 23303
-  gain_db: -22
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 220
   envelope:
     attack_ms: 8
-    release_ms: 240
-  effects:
-  - effect: highpass
-    cutoff_hz: 220
-  - effect: lowpass
-    cutoff_hz: 4700
-  start_ms: 92
-  grain_count: 13
-  grain_decay_ms: 9
-  spread_ms: 310
-- name: latch_pop
+    hold_ms: 20
+    release_ms: 180
+  filter:
+    kind: bandpass
+    hz: 520
+    q: 0.4
+- name: latch_click
   kind: noise_burst
-  mode: thud
-  color: brown
-  duration_ms: 95
-  seed: 23304
-  gain_db: -10
+  color: pink
+  gain_db: -13
+  start_ms: 55
+  duration_ms: 24
   envelope:
-    attack_ms: 1
-    release_ms: 80
-  effects:
-  - effect: lowpass
-    cutoff_hz: 1200
-  start_ms: 20
-- name: reward_glow
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 1200
+    q: 0.9
+- name: reward_hint
   kind: dawdreamer_faust
   dsp: patches/faust/tone.dsp
-  gain_db: -12
+  gain_db: -19
+  start_ms: 220
+  duration_ms: 230
   parameters:
     /AmbitionTone/freq:
-      start: 260
-      end: 520
+      start: 420
+      end: 840
       curve: exp
-    /AmbitionTone/gain: -24
+    /AmbitionTone/gain: -17
   envelope:
-    attack_ms: 18
-    hold_ms: 70
-    release_ms: 190
-  effects:
-  - effect: lowpass
-    cutoff_hz: 4200
-  - effect: deharsh
-    center_hz: 3200
-    amount: 0.2
-    q: 0.9
-  start_ms: 430
+    attack_ms: 3
+    hold_ms: 28
+    release_ms: 150
 postprocess:
 - effect: highpass
-  cutoff_hz: 38
+  cutoff_hz: 35
 - effect: lowpass
-  cutoff_hz: 5200
+  cutoff_hz: 3000
 - effect: deharsh
-  center_hz: 2600
-  amount: 0.25
-  q: 0.9
+  amount: 0.3
 - effect: soft_clip
-  drive: 1.08
-  mix: 0.45
-- effect: reverb
-  room_size: 0.17
-  damping: 0.8
-  wet_level: 0.045
-  dry_level: 1.0
-- effect: limiter
-  threshold_db: -4.0
-  release_ms: 120
+  drive: 0.45
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
 - effect: normalize_peak
-  target_db: -7.0
-  only_if_louder: true
-notes: 'Treasure chest open: wooden creak, latch thud, small reward glow tail.'
+  target_db: -9
+notes: wood chest open with latch and small reward hint

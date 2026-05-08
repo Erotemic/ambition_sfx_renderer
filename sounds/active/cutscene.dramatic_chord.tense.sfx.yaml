@@ -1,0 +1,56 @@
+schema: ambition.sfxir.v1
+id: cutscene.dramatic_chord.tense
+duration_ms: 900
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 445763
+  buffer_size: 128
+layers:
+- name: tense_low
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -15
+  start_ms: 0
+  duration_ms: 760
+  parameters:
+    /AmbitionTone/freq:
+      start: 110
+      end: 100
+      curve: exp
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 20
+    hold_ms: 120
+    release_ms: 560
+- name: tense_high
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -22
+  start_ms: 0
+  duration_ms: 760
+  parameters:
+    /AmbitionTone/freq:
+      start: 330
+      end: 310
+      curve: exp
+    /AmbitionTone/gain: -22
+  envelope:
+    attack_ms: 20
+    hold_ms: 120
+    release_ms: 560
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 3200
+- effect: deharsh
+  amount: 0.4
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 30
+- effect: normalize_peak
+  target_db: -11
+notes: tense dramatic chord

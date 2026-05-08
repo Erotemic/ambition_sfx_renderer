@@ -1,78 +1,51 @@
 schema: ambition.sfxir.v1
 id: player.slash
-duration_ms: 125
+duration_ms: 90
 render:
   sample_rate: 48000
   channels: 2
-  seed: 1051
+  seed: 628178
   buffer_size: 128
-  safety_profile: game_sfx_v2
-  final_peak_db: -6.5
-  safety_lowpass_hz: 6500.0
-  deharsh_hz: 3200.0
-  deharsh_amount: 0.22
-  safety_drive: 1.05
-  safety_clip_mix: 0.55
 layers:
-- name: tonal_body
-  kind: dawdreamer_faust
-  dsp: patches/faust/soft_saw.dsp
-  gain_db: -2.0
-  parameters:
-    /AmbitionSoftSaw/freq:
-      start: 720
-      end: 310
-      curve: exp
-    /AmbitionSoftSaw/gain: -17.0
+- name: blade_swish
+  kind: noise_burst
+  color: white
+  gain_db: -11
+  start_ms: 0
+  duration_ms: 56
   envelope:
-    attack_ms: 2.0
-    hold_ms: 8
-    release_ms: 71.5
-  effects:
-  - effect: lowpass
-    cutoff_hz: 7200.0
-- name: pyfxr_seed
-  kind: pyfxr
-  preset: laser
-  seed: 1052
-  gain_db: -30.0
+    attack_ms: 0
+    hold_ms: 2
+    release_ms: 42
+  filter:
+    kind: bandpass
+    hz: 2100
+    q: 0.6
+- name: handle_body
+  kind: noise_burst
+  color: brown
+  gain_db: -23
+  start_ms: 4
+  duration_ms: 36
   envelope:
-    attack_ms: 1.0
-    release_ms: 25.0
-  effects:
-  - effect: lowpass
-    cutoff_hz: 6500.0
-  - effect: deharsh
-    center_hz: 3100
-    amount: 0.28
-    q: 0.9
-  - effect: soft_clip
-    drive: 1.08
-    mix: 0.5
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: lowpass
+    cutoff_hz: 800
 postprocess:
-- effect: deharsh
-  center_hz: 3200
-  amount: 0.22
-  q: 0.9
+- effect: highpass
+  cutoff_hz: 90
 - effect: lowpass
-  cutoff_hz: 6500
+  cutoff_hz: 3600
+- effect: deharsh
+  amount: 0.5
 - effect: soft_clip
-  drive: 1.06
-  mix: 0.45
-- effect: highpass
-  cutoff_hz: 55
-- effect: compressor
-  threshold_db: -18
-  ratio: 2.4
-  attack_ms: 3
-  release_ms: 70
-- effect: highpass
-  cutoff_hz: 140
-- effect: limiter
-  threshold_db: -2.0
-  release_ms: 45
+  drive: 0.45
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
 - effect: normalize_peak
-  target_db: -6.5
-  only_if_louder: true
-notes: 'bright melee slash v0.3 softened: reduced bright seed gain, added deharsh/lowpass, and conservative
-  final peak.'
+  target_db: -9.0
+notes: non-piercing slash swish

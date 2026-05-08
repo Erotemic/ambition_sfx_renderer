@@ -4,50 +4,51 @@ duration_ms: 1000
 render:
   sample_rate: 48000
   channels: 2
-  seed: 1313
+  seed: 354908
   buffer_size: 128
 layers:
-- name: tonal_body
-  kind: dawdreamer_faust
-  dsp: patches/faust/soft_saw.dsp
-  gain_db: 0
-  parameters:
-    /AmbitionSoftSaw/freq:
-      start: 210
-      end: 220
-      curve: exp
-    /AmbitionSoftSaw/gain: -20
+- name: flame_loop
+  kind: noise_burst
+  color: pink
+  gain_db: -26
+  start_ms: 0
+  duration_ms: 900
   envelope:
-    attack_ms: 30
+    attack_ms: 40
     hold_ms: 300
-    release_ms: 550
-- name: pyfxr_seed
-  kind: pyfxr
-  preset: laser
-  seed: 1314
-  gain_db: -34
+    release_ms: 520
+  filter:
+    kind: bandpass
+    hz: 1300
+    q: 0.28
+- name: ember_hum
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -28
+  start_ms: 0
+  duration_ms: 1000
+  parameters:
+    /AmbitionTone/freq:
+      start: 180
+      end: 180
+      curve: linear
+    /AmbitionTone/gain: -24
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 980
 postprocess:
 - effect: highpass
-  cutoff_hz: 55
-- effect: compressor
-  threshold_db: -18
-  ratio: 2.4
-  attack_ms: 3
-  release_ms: 70
-- effect: chorus
-  rate_hz: 0.7
-  depth: 0.08
-  mix: 0.16
+  cutoff_hz: 45
 - effect: lowpass
-  cutoff_hz: 7200
-- effect: limiter
-  threshold_db: -2.0
-  release_ms: 45
-- effect: reverb
-  room_size: 0.14
-  damping: 0.72
-  wet_level: 0.065
-  dry_level: 1.0
+  cutoff_hz: 3500
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.45
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 12
 - effect: normalize_peak
-  target_db: -10.0
-notes: long quiet projectile travel bed; auto policy writes OGG
+  target_db: -9
+notes: fireball travel loop draft

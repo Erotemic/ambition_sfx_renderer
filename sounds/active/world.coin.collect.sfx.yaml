@@ -1,73 +1,56 @@
 schema: ambition.sfxir.v1
 id: world.coin.collect
-duration_ms: 210
+duration_ms: 150
 render:
   sample_rate: 48000
   channels: 2
-  seed: 23221
+  seed: 16133
   buffer_size: 128
-  safety_profile: game_sfx_v2
-  final_peak_db: -9.0
-  safety_lowpass_hz: 7200
-  deharsh_amount: 0.2
 layers:
-- name: coin_body
+- name: chime_0
   kind: dawdreamer_faust
   dsp: patches/faust/tone.dsp
-  gain_db: -5
+  gain_db: -10
+  start_ms: 0
+  duration_ms: 150
   parameters:
     /AmbitionTone/freq:
-      start: 620
+      start: 520
       end: 980
       curve: exp
-    /AmbitionTone/gain: -22
+    /AmbitionTone/gain: -14
   envelope:
-    attack_ms: 3
-    hold_ms: 34
-    release_ms: 120
-  effects:
-  - effect: lowpass
-    cutoff_hz: 6800
-  - effect: deharsh
-    center_hz: 3200
-    amount: 0.2
-    q: 0.9
-- name: tiny_metal_tick
-  kind: noise_burst
-  mode: grains
-  color: pink
-  duration_ms: 65
-  seed: 23202
-  gain_db: -25
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 150
+- name: chime_1
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -18
+  start_ms: 22
+  duration_ms: 120
+  parameters:
+    /AmbitionTone/freq:
+      start: 980
+      end: 1320
+      curve: exp
+    /AmbitionTone/gain: -14
   envelope:
-    attack_ms: 2
-    release_ms: 44
-  effects:
-  - effect: highpass
-    cutoff_hz: 450
-  - effect: lowpass
-    cutoff_hz: 6500
-  grain_count: 5
-  grain_decay_ms: 4
-  spread_ms: 28
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 100
 postprocess:
 - effect: highpass
   cutoff_hz: 80
 - effect: lowpass
-  cutoff_hz: 7200
+  cutoff_hz: 4200
 - effect: deharsh
-  center_hz: 3300
-  amount: 0.22
-  q: 0.9
+  amount: 0.35
 - effect: soft_clip
-  drive: 1.04
-  mix: 0.35
-- effect: reverb
-  room_size: 0.06
-  damping: 0.74
-  wet_level: 0.018
-  dry_level: 1.0
+  drive: 0.25
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
 - effect: normalize_peak
-  target_db: -9.0
-  only_if_louder: true
-notes: World/item namespaced coin collect/pickup cue.
+  target_db: -9
+notes: alias-style world coin collect cue

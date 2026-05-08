@@ -1,52 +1,54 @@
 schema: ambition.sfxir.v1
 id: world.platform.loop
-duration_ms: 1000
-notes: 'long quiet platform movement bed; auto policy writes OGG'
-
+duration_ms: 1100
 render:
   sample_rate: 48000
   channels: 2
-  seed: 1857
+  seed: 188040
   buffer_size: 128
-
 layers:
-  - name: tonal_body
-    kind: dawdreamer_faust
-    dsp: patches/faust/soft_saw.dsp
-    gain_db: 0
-    parameters:
-      /AmbitionSoftSaw/freq:
-        start: 130
-        end: 135
-        curve: exp
-      /AmbitionSoftSaw/gain: -24
-    envelope:
-      attack_ms: 100
-      hold_ms: 760
-      release_ms: 140
-
-  - name: pyfxr_seed
-    kind: pyfxr
-    preset: select
-    seed: 1858
-    gain_db: -42
-
+- name: platform_motor
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -28
+  start_ms: 0
+  duration_ms: 1100
+  parameters:
+    /AmbitionTone/freq:
+      start: 90
+      end: 90
+      curve: linear
+    /AmbitionTone/gain: -24
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 1090
+- name: platform_mech
+  kind: noise_burst
+  color: pink
+  gain_db: -36
+  start_ms: 0
+  duration_ms: 1000
+  envelope:
+    attack_ms: 30
+    hold_ms: 400
+    release_ms: 560
+  filter:
+    kind: bandpass
+    hz: 700
+    q: 0.25
 postprocess:
-  - effect: highpass
-    cutoff_hz: 70
-  - effect: compressor
-    threshold_db: -18
-    ratio: 2.4
-    attack_ms: 3
-    release_ms: 70
-  - effect: lowpass
-    cutoff_hz: 2600
-  - effect: chorus
-    rate_hz: 0.5
-    depth: 0.04
-    mix: 0.12
-  - effect: limiter
-    threshold_db: -2.0
-    release_ms: 55
-  - effect: normalize_peak
-    target_db: -15.0
+- effect: highpass
+  cutoff_hz: 25
+- effect: lowpass
+  cutoff_hz: 2600
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.25
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 20
+- effect: normalize_peak
+  target_db: -20
+notes: moving platform loop

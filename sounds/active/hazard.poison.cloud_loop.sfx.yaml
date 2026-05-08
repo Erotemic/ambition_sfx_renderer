@@ -1,0 +1,38 @@
+schema: ambition.sfxir.v1
+id: hazard.poison.cloud_loop
+duration_ms: 1300
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 777798
+  buffer_size: 128
+layers:
+- name: poison_air
+  kind: noise_burst
+  color: pink
+  gain_db: -34
+  start_ms: 0
+  duration_ms: 1200
+  envelope:
+    attack_ms: 120
+    hold_ms: 350
+    release_ms: 720
+  filter:
+    kind: bandpass
+    hz: 800
+    q: 0.25
+postprocess:
+- effect: highpass
+  cutoff_hz: 50
+- effect: lowpass
+  cutoff_hz: 3600
+- effect: deharsh
+  amount: 0.45
+- effect: soft_clip
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -18
+notes: poison cloud loop draft

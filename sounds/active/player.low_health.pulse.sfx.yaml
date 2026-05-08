@@ -1,0 +1,56 @@
+schema: ambition.sfxir.v1
+id: player.low_health.pulse
+duration_ms: 360
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 277859
+  buffer_size: 128
+layers:
+- name: heart_low
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -18
+  start_ms: 0
+  duration_ms: 130
+  parameters:
+    /AmbitionTone/freq:
+      start: 130
+      end: 130
+      curve: linear
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 90
+- name: heart_low_2
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -22
+  start_ms: 160
+  duration_ms: 100
+  parameters:
+    /AmbitionTone/freq:
+      start: 130
+      end: 130
+      curve: linear
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 70
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 3200
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -10
+notes: low health pulse

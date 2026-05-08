@@ -1,110 +1,51 @@
 schema: ambition.sfxir.v1
 id: enemy.goblin.footstep
-duration_ms: 118
-notes: 'v0.3.1 rebuilt as non-tonal dirt/leather footstep: removed FAUST oscillator and pyfxr select beep.'
+duration_ms: 88
 render:
   sample_rate: 48000
   channels: 2
-  seed: 1821
+  seed: 389664
   buffer_size: 128
-  safety_profile: game_sfx_v2
-  final_peak_db: -13.0
-  safety_highpass_hz: 42
-  safety_lowpass_hz: 2100
-  deharsh_hz: 2400.0
-  deharsh_amount: 0.1
-  safety_drive: 1.02
-  safety_clip_mix: 0.35
-  safety_fade_out_ms: 6.0
 layers:
-- name: soft_dirt_weight
+- name: sole_thump
   kind: noise_burst
-  mode: thud
   color: brown
-  seed: 182101
-  duration_ms: 82
-  gain_db: -12.5
-  pan: -0.05
+  gain_db: -14
+  start_ms: 0
+  duration_ms: 28
   envelope:
-    attack_ms: 0.2
-    hold_ms: 4
-    release_ms: 72
-  effects:
-  - effect: highpass
-    cutoff_hz: 38
-    order: 2
-  - effect: lowpass
-    cutoff_hz: 620
-    order: 3
-  - effect: soft_clip
-    drive: 1.08
-    mix: 0.45
-- name: leather_scuff
+    attack_ms: 0
+    hold_ms: 2
+    release_ms: 18
+  filter:
+    kind: lowpass
+    cutoff_hz: 520
+- name: surface_texture
   kind: noise_burst
-  mode: scrape
-  color: pink
-  seed: 182102
-  start_ms: 9
-  duration_ms: 82
-  gain_db: -20.0
-  pan: 0.06
-  grain_count: 7
+  color: brown
+  gain_db: -22
+  start_ms: 5
+  duration_ms: 34
   envelope:
-    attack_ms: 1.0
-    hold_ms: 6
-    release_ms: 72
-  effects:
-  - effect: highpass
-    cutoff_hz: 150
-    order: 2
-  - effect: lowpass
-    cutoff_hz: 1550
-    order: 3
-  - effect: deharsh
-    center_hz: 2200
-    amount: 0.18
-    q: 0.9
-- name: loose_grit
-  kind: noise_burst
-  mode: grains
-  color: pink
-  seed: 182103
-  start_ms: 18
-  duration_ms: 62
-  gain_db: -26.0
-  pan: -0.02
-  grain_count: 5
-  grain_decay_ms: 4.0
-  spread_ms: 49.6
-  envelope:
-    attack_ms: 0.5
-    hold_ms: 3
-    release_ms: 55
-  effects:
-  - effect: highpass
-    cutoff_hz: 260
-    order: 2
-  - effect: lowpass
-    cutoff_hz: 2200
-    order: 3
-  - effect: deharsh
-    center_hz: 2800
-    amount: 0.25
-    q: 0.8
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 24
+  filter:
+    kind: bandpass
+    hz: 912.0
+    q: 0.55
 postprocess:
 - effect: highpass
-  cutoff_hz: 42
-  order: 2
+  cutoff_hz: 30
 - effect: lowpass
-  cutoff_hz: 2100
-  order: 3
+  cutoff_hz: 650
 - effect: deharsh
-  center_hz: 2400
-  amount: 0.1
-  q: 0.8
+  amount: 0.35
 - effect: soft_clip
-  drive: 1.04
-  mix: 0.35
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
 - effect: normalize_peak
-  target_db: -13.0
-  only_if_louder: false
+  target_db: -14
+notes: 'stone footstep variant 1: non-tonal foley thud/scuff'

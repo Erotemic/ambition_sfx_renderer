@@ -1,111 +1,49 @@
 schema: ambition.sfxir.v1
 id: enemy.goblin.land
-duration_ms: 165
-notes: v0.3.1 goblin landing rebuilt as low dirt impact plus scuff; removed tonal oscillator/pyfxr hurt
-  beep.
+duration_ms: 115
 render:
   sample_rate: 48000
   channels: 2
-  seed: 1825
+  seed: 107453
   buffer_size: 128
-  safety_profile: game_sfx_v2
-  final_peak_db: -11.5
-  safety_highpass_hz: 38
-  safety_lowpass_hz: 2100
-  deharsh_hz: 2400.0
-  deharsh_amount: 0.1
-  safety_drive: 1.02
-  safety_clip_mix: 0.35
-  safety_fade_out_ms: 6.0
 layers:
-- name: body_weight
+- name: goblin_land_thump
   kind: noise_burst
-  mode: thud
   color: brown
-  seed: 182501
-  duration_ms: 128
-  gain_db: -9.8
-  pan: 0.0
+  gain_db: -8
+  start_ms: 0
+  duration_ms: 50
   envelope:
-    attack_ms: 0.2
+    attack_ms: 0
     hold_ms: 4
-    release_ms: 115
-  effects:
-  - effect: highpass
-    cutoff_hz: 38
-    order: 2
-  - effect: lowpass
-    cutoff_hz: 760
-    order: 3
-  - effect: soft_clip
-    drive: 1.08
-    mix: 0.45
-- name: feet_slide
+    release_ms: 34
+  filter:
+    kind: lowpass
+    cutoff_hz: 620
+- name: grit
   kind: noise_burst
-  mode: scrape
   color: pink
-  seed: 182502
-  start_ms: 18
-  duration_ms: 105
-  gain_db: -18.5
-  pan: 0.05
-  grain_count: 9
+  gain_db: -24
+  start_ms: 8
+  duration_ms: 38
   envelope:
-    attack_ms: 1.0
-    hold_ms: 6
-    release_ms: 95
-  effects:
-  - effect: highpass
-    cutoff_hz: 120
-    order: 2
-  - effect: lowpass
-    cutoff_hz: 1700
-    order: 3
-  - effect: deharsh
-    center_hz: 2200
-    amount: 0.18
-    q: 0.9
-- name: dust_puff
-  kind: noise_burst
-  mode: grains
-  color: pink
-  seed: 182503
-  start_ms: 30
-  duration_ms: 80
-  gain_db: -25.5
-  pan: -0.05
-  grain_count: 6
-  grain_decay_ms: 5.5
-  spread_ms: 64.0
-  envelope:
-    attack_ms: 0.5
-    hold_ms: 3
-    release_ms: 73
-  effects:
-  - effect: highpass
-    cutoff_hz: 180
-    order: 2
-  - effect: lowpass
-    cutoff_hz: 1800
-    order: 3
-  - effect: deharsh
-    center_hz: 2800
-    amount: 0.25
-    q: 0.8
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 950
+    q: 0.6
 postprocess:
 - effect: highpass
-  cutoff_hz: 38
-  order: 2
+  cutoff_hz: 30
 - effect: lowpass
-  cutoff_hz: 2100
-  order: 3
-- effect: deharsh
-  center_hz: 2400
-  amount: 0.1
-  q: 0.8
+  cutoff_hz: 1600
 - effect: soft_clip
-  drive: 1.04
-  mix: 0.35
+  drive: 0.6
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
 - effect: normalize_peak
-  target_db: -11.5
-  only_if_louder: false
+  target_db: -10
+notes: goblin land foley, not tonal

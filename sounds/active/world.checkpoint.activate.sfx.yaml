@@ -1,49 +1,56 @@
 schema: ambition.sfxir.v1
 id: world.checkpoint.activate
-duration_ms: 820
+duration_ms: 470
 render:
   sample_rate: 48000
   channels: 2
-  seed: 1605
+  seed: 398315
   buffer_size: 128
 layers:
-- name: tonal_body
+- name: checkpoint_low
   kind: dawdreamer_faust
   dsp: patches/faust/tone.dsp
-  gain_db: 0
+  gain_db: -13
+  start_ms: 0
+  duration_ms: 300
   parameters:
     /AmbitionTone/freq:
-      start: 320
-      end: 880
+      start: 260
+      end: 520
       curve: exp
-    /AmbitionTone/gain: -14
+    /AmbitionTone/gain: -17
   envelope:
-    attack_ms: 8
-    hold_ms: 147
-    release_ms: 451
-- name: pyfxr_seed
-  kind: pyfxr
-  preset: powerup
-  seed: 1606
-  gain_db: -23
+    attack_ms: 4
+    hold_ms: 30
+    release_ms: 220
+- name: checkpoint_high
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -21
+  start_ms: 90
+  duration_ms: 300
+  parameters:
+    /AmbitionTone/freq:
+      start: 520
+      end: 900
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 3
+    hold_ms: 35
+    release_ms: 210
 postprocess:
 - effect: highpass
-  cutoff_hz: 55
-- effect: compressor
-  threshold_db: -18
-  ratio: 2.4
-  attack_ms: 3
-  release_ms: 70
-- effect: chorus
-  rate_hz: 1.0
-  depth: 0.12
-  mix: 0.18
-- effect: reverb
-  room_size: 0.13
-  wet_level: 0.06
-- effect: limiter
-  threshold_db: -2.0
-  release_ms: 45
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 2600
+- effect: deharsh
+  amount: 0.3
+- effect: soft_clip
+  drive: 0.45
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
 - effect: normalize_peak
-  target_db: -3.0
-notes: long checkpoint activation flourish; auto policy writes OGG
+  target_db: -9
+notes: checkpoint activation

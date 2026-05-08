@@ -1,47 +1,51 @@
 schema: ambition.sfxir.v1
 id: enemy.goblin.attack
-duration_ms: 120
-
+duration_ms: 170
 render:
   sample_rate: 48000
   channels: 2
-  seed: 1405
+  seed: 38874
   buffer_size: 128
-
 layers:
-  - name: tonal_body
-    kind: dawdreamer_faust
-    dsp: patches/faust/soft_saw.dsp
-    gain_db: 0
-    parameters:
-      /AmbitionSoftSaw/freq:
-        start: 520
-        end: 190
-        curve: exp
-      /AmbitionSoftSaw/gain: -13
-    envelope:
-      attack_ms: 1
-      hold_ms: 10
-      release_ms: 90
-
-  - name: pyfxr_seed
-    kind: pyfxr
-    preset: laser
-    seed: 1406
-    gain_db: -22
-
+- name: action_whoosh
+  kind: noise_burst
+  color: pink
+  gain_db: -13
+  start_ms: 0
+  duration_ms: 100
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 1300
+    q: 0.5
+- name: body
+  kind: noise_burst
+  color: brown
+  gain_db: -22
+  start_ms: 8
+  duration_ms: 54
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: lowpass
+    cutoff_hz: 700
 postprocess:
-  - effect: highpass
-    cutoff_hz: 55
-  - effect: compressor
-    threshold_db: -18
-    ratio: 2.4
-    attack_ms: 3
-    release_ms: 70
-  - effect: highpass
-    cutoff_hz: 120
-  - effect: limiter
-    threshold_db: -2.0
-    release_ms: 45
-  - effect: normalize_peak
-    target_db: -3.0
+- effect: highpass
+  cutoff_hz: 50
+- effect: lowpass
+  cutoff_hz: 2800
+- effect: deharsh
+  amount: 0.3
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -10
+notes: goblin attack

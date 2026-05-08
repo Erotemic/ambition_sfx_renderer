@@ -1,79 +1,62 @@
 schema: ambition.sfxir.v1
 id: player.ladder.climb_loop
-duration_ms: 720
+duration_ms: 900
 render:
   sample_rate: 48000
   channels: 2
-  seed: 23411
+  seed: 206303
   buffer_size: 128
-  safety_profile: game_sfx_v2
-  final_peak_db: -12.0
-  safety_lowpass_hz: 4200
-  deharsh_amount: 0.18
 layers:
-- name: rung_01
+- name: climb_1
   kind: noise_burst
-  mode: scrape
   color: brown
-  duration_ms: 130
-  seed: 23412
-  gain_db: -18
-  envelope:
-    attack_ms: 3
-    release_ms: 90
-  effects:
-  - effect: lowpass
-    cutoff_hz: 3300
+  gain_db: -16
   start_ms: 0
-- name: rung_02
-  kind: noise_burst
-  mode: scrape
-  color: brown
-  duration_ms: 130
-  seed: 23413
-  gain_db: -18
+  duration_ms: 54
   envelope:
-    attack_ms: 3
-    release_ms: 90
-  effects:
-  - effect: lowpass
-    cutoff_hz: 3300
-  start_ms: 180
-- name: rung_03
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: lowpass
+    cutoff_hz: 850
+- name: climb_2
   kind: noise_burst
-  mode: scrape
   color: brown
-  duration_ms: 130
-  seed: 23414
-  gain_db: -18
+  gain_db: -16
+  start_ms: 450
+  duration_ms: 54
   envelope:
-    attack_ms: 3
-    release_ms: 90
-  effects:
-  - effect: lowpass
-    cutoff_hz: 3300
-  start_ms: 360
-- name: rung_04
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: lowpass
+    cutoff_hz: 850
+- name: rung_ticks
   kind: noise_burst
-  mode: scrape
-  color: brown
-  duration_ms: 130
-  seed: 23415
-  gain_db: -18
+  color: pink
+  gain_db: -27
+  start_ms: 25
+  duration_ms: 500
   envelope:
-    attack_ms: 3
-    release_ms: 90
-  effects:
-  - effect: lowpass
-    cutoff_hz: 3300
-  start_ms: 540
+    attack_ms: 1
+    hold_ms: 30
+    release_ms: 460
+  filter:
+    kind: bandpass
+    hz: 1100
+    q: 0.45
 postprocess:
 - effect: highpass
-  cutoff_hz: 55
+  cutoff_hz: 35
 - effect: lowpass
-  cutoff_hz: 4200
+  cutoff_hz: 1800
+- effect: soft_clip
+  drive: 0.25
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 5
 - effect: normalize_peak
-  target_db: -12.0
-  only_if_louder: true
-notes: Short climb-loop preview made from four non-tonal rung scuffs; prefer animation-timed
-  player.ladder.climb one-shots when possible.
+  target_db: -18
+notes: quiet ladder climb loop draft

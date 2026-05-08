@@ -1,61 +1,98 @@
 schema: ambition.sfxir.v1
 id: player.precision_blink
-duration_ms: 105
-
+duration_ms: 190
 render:
   sample_rate: 48000
   channels: 2
-  seed: 1031
+  seed: 152267
   buffer_size: 128
-
 layers:
-  - name: wet_lip_front
-    kind: noise_burst
-    color: pink
-    gain_db: -8
-    start_ms: 0
-    duration_ms: 10
-    envelope:
-      attack_ms: 0
-      hold_ms: 2
-      release_ms: 6
-    filter:
-      kind: bandpass
-      hz: 1200
-      q: 0.8
-
-  - name: upward_mouth_ring
-    kind: dawdreamer_faust
-    dsp: patches/faust/tone.dsp
-    gain_db: -1
-    start_ms: 2
-    duration_ms: 78
-    parameters:
-      /AmbitionTone/freq:
-        start: 340
-        end: 805
-        curve: exp
-      /AmbitionTone/gain: -9
-    envelope:
-      attack_ms: 0
-      hold_ms: 8
-      release_ms: 58
-
+- name: tiny_anticipation_suck
+  kind: noise_burst
+  color: pink
+  gain_db: -27
+  start_ms: 0
+  duration_ms: 34
+  envelope:
+    attack_ms: 20
+    hold_ms: 2
+    release_ms: 8
+  filter:
+    kind: bandpass
+    hz: 900
+    q: 0.6
+- name: wet_lip_front
+  kind: noise_burst
+  color: pink
+  gain_db: -8
+  start_ms: 30
+  duration_ms: 10
+  envelope:
+    attack_ms: 0
+    hold_ms: 2
+    release_ms: 6
+  filter:
+    kind: bandpass
+    hz: 1200
+    q: 0.8
+- name: upward_mouth_ring
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -1
+  start_ms: 32
+  duration_ms: 82
+  parameters:
+    /AmbitionTone/freq:
+      start: 340
+      end: 805
+      curve: exp
+    /AmbitionTone/gain: -9
+  envelope:
+    attack_ms: 0
+    hold_ms: 8
+    release_ms: 60
+- name: precision_upper_ring
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -16
+  start_ms: 42
+  duration_ms: 96
+  parameters:
+    /AmbitionTone/freq:
+      start: 1020
+      end: 1540
+      curve: exp
+    /AmbitionTone/gain: -15
+  envelope:
+    attack_ms: 2
+    hold_ms: 10
+    release_ms: 62
+- name: airy_precision_tail
+  kind: noise_burst
+  color: white
+  gain_db: -33
+  start_ms: 48
+  duration_ms: 110
+  envelope:
+    attack_ms: 8
+    hold_ms: 8
+    release_ms: 82
+  filter:
+    kind: bandpass
+    hz: 2600
+    q: 0.55
 postprocess:
-  - effect: highpass
-    cutoff_hz: 55
-
-  - effect: lowpass
-    cutoff_hz: 3200
-
-  - effect: soft_clip
-    drive: 0.35
-
-  - effect: fade_edges
-    fade_in_ms: 0.1
-    fade_out_ms: 10
-
-  - effect: normalize_peak
-    target_db: -8.0
-
-notes: "mouth-pop blink: wet front transient plus upward 340-to-805 Hz mouth-cavity ring"
+- effect: highpass
+  cutoff_hz: 65
+- effect: lowpass
+  cutoff_hz: 4200
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 18
+- effect: normalize_peak
+  target_db: -8.0
+notes: 'special mouth-pop precision blink: same pop identity with anticipation, high ring, and airy tail'

@@ -1,49 +1,54 @@
 schema: ambition.sfxir.v1
 id: player.rebound
-duration_ms: 135
-
+duration_ms: 130
 render:
   sample_rate: 48000
   channels: 2
-  seed: 1251
+  seed: 383249
   buffer_size: 128
-
 layers:
-  - name: tonal_body
-    kind: dawdreamer_faust
-    dsp: patches/faust/tone.dsp
-    gain_db: 0
-    parameters:
-      /AmbitionTone/freq:
-        start: 380
-        end: 910
-        curve: exp
-      /AmbitionTone/gain: -12
-    envelope:
-      attack_ms: 1
-      hold_ms: 20
-      release_ms: 95
-
-  - name: pyfxr_seed
-    kind: pyfxr
-    preset: jump
-    seed: 1252
-    gain_db: -22
-
+- name: rebound_contact
+  kind: noise_burst
+  color: pink
+  gain_db: -14
+  start_ms: 0
+  duration_ms: 16
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 900
+    q: 0.7
+- name: rebound_up
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -12
+  start_ms: 4
+  duration_ms: 84
+  parameters:
+    /AmbitionTone/freq:
+      start: 320
+      end: 860
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 60
 postprocess:
-  - effect: highpass
-    cutoff_hz: 55
-  - effect: compressor
-    threshold_db: -18
-    ratio: 2.4
-    attack_ms: 3
-    release_ms: 70
-  - effect: chorus
-    rate_hz: 1.0
-    depth: 0.06
-    mix: 0.10
-  - effect: limiter
-    threshold_db: -2.0
-    release_ms: 45
-  - effect: normalize_peak
-    target_db: -3.0
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 3200
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -9
+notes: rebound bounce

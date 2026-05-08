@@ -1,0 +1,67 @@
+schema: ambition.sfxir.v1
+id: enemy.flyer.death
+duration_ms: 360
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 657841
+  buffer_size: 128
+layers:
+- name: death_body
+  kind: noise_burst
+  color: brown
+  gain_db: -10
+  start_ms: 0
+  duration_ms: 120
+  envelope:
+    attack_ms: 0
+    hold_ms: 10
+    release_ms: 86
+  filter:
+    kind: lowpass
+    cutoff_hz: 620
+- name: debris
+  kind: noise_burst
+  color: pink
+  gain_db: -24
+  start_ms: 80
+  duration_ms: 180
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 900
+    q: 0.45
+- name: death_drop
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -17
+  start_ms: 20
+  duration_ms: 260
+  parameters:
+    /AmbitionTone/freq:
+      start: 210
+      end: 90
+      curve: exp
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 220
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 2200
+- effect: deharsh
+  amount: 0.25
+- effect: soft_clip
+  drive: 0.55
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -10
+notes: flyer death

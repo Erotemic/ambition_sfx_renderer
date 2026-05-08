@@ -1,0 +1,51 @@
+schema: ambition.sfxir.v1
+id: hazard.saw.hit
+duration_ms: 140
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 601265
+  buffer_size: 128
+layers:
+- name: saw_hit
+  kind: noise_burst
+  color: pink
+  gain_db: -9
+  start_ms: 0
+  duration_ms: 48
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 1300
+    q: 0.55
+- name: body
+  kind: noise_burst
+  color: brown
+  gain_db: -18
+  start_ms: 4
+  duration_ms: 54
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: lowpass
+    cutoff_hz: 720
+postprocess:
+- effect: highpass
+  cutoff_hz: 50
+- effect: lowpass
+  cutoff_hz: 3600
+- effect: deharsh
+  amount: 0.45
+- effect: soft_clip
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -9
+notes: saw hit

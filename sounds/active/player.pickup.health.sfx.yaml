@@ -1,70 +1,56 @@
 schema: ambition.sfxir.v1
 id: player.pickup.health
-duration_ms: 430
+duration_ms: 260
 render:
   sample_rate: 48000
   channels: 2
-  seed: 23131
+  seed: 615060
   buffer_size: 128
-  safety_profile: game_sfx_v2
-  final_peak_db: -8.0
-  safety_lowpass_hz: 6900
-  deharsh_amount: 0.22
 layers:
-- name: warm_heal_rise
+- name: chime_0
   kind: dawdreamer_faust
   dsp: patches/faust/tone.dsp
-  gain_db: -4
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 260
   parameters:
     /AmbitionTone/freq:
-      start: 330
-      end: 620
+      start: 300
+      end: 560
       curve: exp
-    /AmbitionTone/gain: -20
+    /AmbitionTone/gain: -14
   envelope:
-    attack_ms: 18
-    hold_ms: 80
-    release_ms: 240
-  effects:
-  - effect: lowpass
-    cutoff_hz: 5600
-  - effect: deharsh
-    center_hz: 3200
-    amount: 0.2
-    q: 0.9
-- name: soft_pickup_seed
-  kind: pyfxr
-  preset: pickup
-  seed: 23102
-  gain_db: -38
-  duration_ms: 220
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 260
+- name: chime_1
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -18
+  start_ms: 22
+  duration_ms: 230
+  parameters:
+    /AmbitionTone/freq:
+      start: 520
+      end: 760
+      curve: exp
+    /AmbitionTone/gain: -14
   envelope:
-    attack_ms: 3
-    release_ms: 160
-  effects:
-  - effect: lowpass
-    cutoff_hz: 4800
-  - effect: soft_clip
-    drive: 1.03
-    mix: 0.35
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 210
 postprocess:
 - effect: highpass
-  cutoff_hz: 45
+  cutoff_hz: 80
 - effect: lowpass
-  cutoff_hz: 6500
+  cutoff_hz: 4200
 - effect: deharsh
-  center_hz: 3200
-  amount: 0.24
-  q: 0.9
-- effect: reverb
-  room_size: 0.13
-  damping: 0.78
-  wet_level: 0.055
-  dry_level: 1.0
-- effect: limiter
-  threshold_db: -4.0
-  release_ms: 70
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.25
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
 - effect: normalize_peak
-  target_db: -8.0
-  only_if_louder: true
-notes: Health collect/pickup cue alias with warm non-shrill tone.
+  target_db: -9
+notes: player health pickup

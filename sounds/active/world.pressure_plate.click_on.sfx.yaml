@@ -1,0 +1,51 @@
+schema: ambition.sfxir.v1
+id: world.pressure_plate.click_on
+duration_ms: 120
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 300004
+  buffer_size: 128
+layers:
+- name: plate_click
+  kind: noise_burst
+  color: pink
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 22
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 1400
+    q: 0.9
+- name: stone_settle
+  kind: noise_burst
+  color: brown
+  gain_db: -22
+  start_ms: 14
+  duration_ms: 60
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: lowpass
+    cutoff_hz: 550
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 2600
+- effect: deharsh
+  amount: 0.3
+- effect: soft_clip
+  drive: 0.45
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -9
+notes: pressure plate click on

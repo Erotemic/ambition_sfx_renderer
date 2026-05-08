@@ -1,0 +1,50 @@
+schema: ambition.sfxir.v1
+id: enemy.flyer.flap_loop
+duration_ms: 820
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 571672
+  buffer_size: 128
+layers:
+- name: flap_a
+  kind: noise_burst
+  color: pink
+  gain_db: -18
+  start_ms: 0
+  duration_ms: 90
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 850
+    q: 0.5
+- name: flap_b
+  kind: noise_burst
+  color: pink
+  gain_db: -18
+  start_ms: 410
+  duration_ms: 90
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 820
+    q: 0.5
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: lowpass
+  cutoff_hz: 1900
+- effect: soft_clip
+  drive: 0.25
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 5
+- effect: normalize_peak
+  target_db: -18
+notes: flyer flap loop draft
