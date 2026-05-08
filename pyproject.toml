@@ -7,7 +7,7 @@ name = "ambition-sfx-renderer"
 version = "0.1.0"
 description = "Data-driven offline SFX renderer for Ambition-style game cues"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.13"
 authors = [{name = "Ambition contributors"}]
 license = {text = "Mixed FOSS; see README.md and LICENSES/"}
 dependencies = [
