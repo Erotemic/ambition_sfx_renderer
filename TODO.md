@@ -12,6 +12,18 @@ When a sound here gets generated, also add a `pub const` entry under
 gameplay event) wire it in `crates/ambition_sandbox/src/app.rs::handle_feature_events`
 or wherever the event originates.
 
+## Recently wired (cross off here, leave a one-line marker)
+
+- ✅ `world.treasure_chest.open` — chest interaction
+- ✅ `world.health.collect` / `world.coin.pickup` / `world.pickup.generic` — pickup collection
+- ✅ `world.crate.break` — breakable destruction (3 sites: stand-on, attack, pogo)
+- ✅ `world.switch.toggle` — switch interaction
+- ✅ `world.door.open` — Door-typed loading-zone transition
+- ✅ `world.portal.enter` — EdgeExit loading-zone transition
+- ✅ `player.damage` — enemy / boss attack hits the player
+- ✅ `hazard.{lava,acid,electric,saw,spike}` — hazard contact (substring match on hazard.name)
+- ✅ `ui.pause.open` / `ui.pause.close` — pause-menu state edges
+
 ## Wanted but not yet generated
 
 ### Footstep variants
