@@ -1,0 +1,96 @@
+schema: ambition.sfxir.v1
+id: weapon.lasersword.fire
+duration_ms: 320
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 581902
+  buffer_size: 128
+layers:
+# Sharp electrical crack at the start — the gun-sword's ion ring
+# igniting a fresh laser blade and slinging it out the muzzle.
+- name: ignition_snap
+  kind: noise_burst
+  color: white
+  gain_db: -7
+  start_ms: 0
+  duration_ms: 22
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 14
+  filter:
+    kind: bandpass
+    hz: 3200
+    q: 1.2
+# Descending "pew" — the classic blaster sweep, high to mid. Reads
+# as a focused energy projectile launching forward.
+- name: pew_sweep
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -10
+  start_ms: 6
+  duration_ms: 180
+  parameters:
+    /AmbitionTone/freq:
+      start: 1900
+      end: 540
+      curve: exp
+    /AmbitionTone/gain: -14
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 130
+# Lightsaber-style hum tail — a steady low-mid tone that lingers
+# briefly after the pew, suggesting the blade has just been hurled
+# and is still resonant in the air.
+- name: saber_hum_tail
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -16
+  start_ms: 60
+  duration_ms: 240
+  parameters:
+    /AmbitionTone/freq:
+      start: 280
+      end: 240
+      curve: lin
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 28
+    hold_ms: 60
+    release_ms: 150
+# Sizzle band: bandpassed white noise crossfading under the pew so
+# the projectile sounds like ionized air following the blade.
+- name: plasma_sizzle
+  kind: noise_burst
+  color: white
+  gain_db: -22
+  start_ms: 12
+  duration_ms: 220
+  envelope:
+    attack_ms: 12
+    hold_ms: 30
+    release_ms: 170
+  filter:
+    kind: bandpass
+    hz: 4200
+    q: 0.6
+postprocess:
+- effect: highpass
+  cutoff_hz: 75
+- effect: lowpass
+  cutoff_hz: 6800
+- effect: deharsh
+  amount: 0.40
+- effect: soft_clip
+  drive: 0.50
+- effect: fade_edges
+  fade_in_ms: 0.5
+  fade_out_ms: 18
+- effect: normalize_peak
+  target_db: -8
+notes: |
+  Laser-sword gun-sword discharge. Snap → descending pew sweep with
+  a steady lightsaber-hum tail. Used by `PirateOnShark` when the
+  rider fires a lasersword projectile from the gun cluster.
