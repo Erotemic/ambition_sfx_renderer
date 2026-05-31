@@ -1,0 +1,77 @@
+schema: ambition.sfxir.v1
+id: world.explosion
+duration_ms: 620
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 117051
+  buffer_size: 128
+layers:
+- name: initial_crack
+  kind: noise_burst
+  color: white
+  gain_db: -10
+  start_ms: 0
+  duration_ms: 70
+  envelope:
+    attack_ms: 0
+    hold_ms: 8
+    release_ms: 62
+  filter:
+    kind: highpass
+    cutoff_hz: 900
+- name: fireball_body
+  kind: noise_burst
+  color: brown
+  gain_db: -7
+  start_ms: 8
+  duration_ms: 210
+  envelope:
+    attack_ms: 0
+    hold_ms: 28
+    release_ms: 170
+  filter:
+    kind: lowpass
+    cutoff_hz: 520
+- name: debris_rattle
+  kind: noise_burst
+  color: pink
+  gain_db: -18
+  start_ms: 115
+  duration_ms: 320
+  envelope:
+    attack_ms: 0
+    hold_ms: 16
+    release_ms: 230
+  filter:
+    kind: bandpass
+    center_hz: 1550
+    q: 1.2
+- name: smoke_tail
+  kind: noise_burst
+  color: brown
+  gain_db: -24
+  start_ms: 210
+  duration_ms: 360
+  envelope:
+    attack_ms: 0
+    hold_ms: 20
+    release_ms: 320
+  filter:
+    kind: lowpass
+    cutoff_hz: 880
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 4800
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.42
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 42
+- effect: normalize_peak
+  target_db: -9
+notes: Reusable point explosion SFX. Runtime id is ambition_sfx::ids::WORLD_EXPLOSION.
