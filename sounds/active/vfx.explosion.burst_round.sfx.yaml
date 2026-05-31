@@ -1,0 +1,51 @@
+schema: ambition.sfxir.v1
+id: vfx.explosion.burst_round
+duration_ms: 430
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 710102
+  buffer_size: 128
+  final_peak_db: -6.5
+layers:
+- name: round_core_thump
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -7
+  start_ms: 0
+  duration_ms: 160
+  envelope: {attack_ms: 0, hold_ms: 18, release_ms: 120}
+  filter: {kind: lowpass, cutoff_hz: 720}
+- name: expanding_body
+  kind: noise_burst
+  mode: burst
+  color: pink
+  gain_db: -15
+  start_ms: 34
+  duration_ms: 275
+  envelope: {attack_ms: 4, hold_ms: 28, release_ms: 210}
+  filter: {kind: bandpass, hz: 930, q: 0.55}
+- name: soft_edge_fizz
+  kind: noise_burst
+  mode: grains
+  color: white
+  grain_count: 18
+  grain_decay_ms: 10
+  spread_ms: 250
+  gain_db: -27
+  start_ms: 70
+  duration_ms: 280
+  pan: 0.10
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 240}
+  filter: {kind: lowpass, cutoff_hz: 4100}
+postprocess:
+- {effect: highpass, cutoff_hz: 30}
+- {effect: lowpass, cutoff_hz: 4600}
+- {effect: deharsh, center_hz: 2600, amount: 0.18, q: 0.8}
+- {effect: soft_clip, drive: 0.82, mix: 0.65}
+- {effect: fade_edges, in_ms: 0.1, out_ms: 30}
+- {effect: normalize_peak, target_db: -6.5}
+notes: >-
+  SFX companion for generic_explosions row burst_round: rounder, heavier,
+  softer-edged blast for circular sprite bursts.
