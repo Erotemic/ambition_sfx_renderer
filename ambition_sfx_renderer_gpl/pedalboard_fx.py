@@ -6,6 +6,7 @@ as ``soft_clip`` and ``tone_safety`` are intentionally handled in
 them instead of raising: that keeps old YAML / old caller paths from crashing,
 while the normal ordered router still applies those effects correctly.
 """
+
 from __future__ import annotations
 
 from typing import Any
@@ -31,9 +32,25 @@ def _is_core_effect_name(effect: str) -> bool:
     # Keep this duplicated instead of importing effects.CORE_EFFECTS to avoid a
     # circular import when the core router imports this adapter for a chunk.
     return effect in {
-        "normalize_peak", "normalize", "clip", "hard_clip", "soft_clip", "saturate",
-        "gain", "highpass", "highpass_filter", "hp", "lowpass", "lowpass_filter", "lp",
-        "band_reduce", "deharsh", "notch_reduce", "tone_safety", "dc_block", "fade_edges",
+        "normalize_peak",
+        "normalize",
+        "clip",
+        "hard_clip",
+        "soft_clip",
+        "saturate",
+        "gain",
+        "highpass",
+        "highpass_filter",
+        "hp",
+        "lowpass",
+        "lowpass_filter",
+        "lp",
+        "band_reduce",
+        "deharsh",
+        "notch_reduce",
+        "tone_safety",
+        "dc_block",
+        "fade_edges",
     }
 
 
@@ -102,7 +119,9 @@ def _build_plugin(spec: dict[str, Any], context: dict[str, Any]):
     )
 
 
-def apply_pedalboard(audio: np.ndarray, sample_rate: int, effects: list[dict[str, Any]], context: dict[str, Any]) -> np.ndarray:
+def apply_pedalboard(
+    audio: np.ndarray, sample_rate: int, effects: list[dict[str, Any]], context: dict[str, Any]
+) -> np.ndarray:
     pb = _import_pedalboard()
     plugins = []
     for spec in effects or []:

@@ -3,6 +3,7 @@
 Internal convention: NumPy arrays are always channel-first, i.e. `(channels,
 samples)`, float32, roughly in [-1, 1]. This matches DawDreamer and Pedalboard.
 """
+
 from __future__ import annotations
 
 import math
@@ -149,7 +150,9 @@ def apply_envelope(audio: np.ndarray, sample_rate: int, spec: dict[str, Any] | N
     return audio
 
 
-def apply_gain(audio: np.ndarray, gain_db: float | None = None, gain: float | None = None) -> np.ndarray:
+def apply_gain(
+    audio: np.ndarray, gain_db: float | None = None, gain: float | None = None
+) -> np.ndarray:
     audio = ensure_chans_first(audio).copy()
     if gain is not None:
         audio *= float(gain)

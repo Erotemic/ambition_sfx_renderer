@@ -7,6 +7,7 @@ an oscillator or a pyfxr UI beep.
 It intentionally uses only NumPy/SciPy and outputs a raw buffer; normal layer
 processing still applies gain, pan, envelope, and effects from the YAML.
 """
+
 from __future__ import annotations
 
 from typing import Any
@@ -98,7 +99,7 @@ def _grain_train(
     for pos in positions:
         amp = float(rng.uniform(0.35, 1.0)) * (1.0 if rng.random() > 0.5 else -1.0)
         end = min(n, int(pos) + decay)
-        out[int(pos):end] += amp * kernel[: end - int(pos)]
+        out[int(pos) : end] += amp * kernel[: end - int(pos)]
     peak = float(np.max(np.abs(out))) if out.size else 0.0
     if peak > 1e-9:
         out /= peak
@@ -123,7 +124,9 @@ def _scrape(n: int, sample_rate: int, rng: np.random.Generator, color: str) -> n
     t = np.linspace(0.0, 1.0, n, endpoint=False, dtype=np.float32)
     # A quick brush that rises immediately and dies without a clean periodic envelope.
     env = np.minimum(1.0, t / 0.12) * np.exp(-3.8 * t)
-    grains = _grain_train(n, sample_rate, rng, count=9, decay_ms=5.0, spread_ms=float(n) / sample_rate * 1000.0)
+    grains = _grain_train(
+        n, sample_rate, rng, count=9, decay_ms=5.0, spread_ms=float(n) / sample_rate * 1000.0
+    )
     out = base * env * 0.55 + grains * 0.55
     peak = float(np.max(np.abs(out))) if out.size else 0.0
     if peak > 1e-9:
@@ -134,7 +137,9 @@ def _scrape(n: int, sample_rate: int, rng: np.random.Generator, color: str) -> n
 def render_noise_layer(layer: dict[str, Any], context: dict[str, Any]) -> np.ndarray:
     sample_rate = int(context["sample_rate"])
     channels = int(context["channels"])
-    duration_ms = float(layer.get("duration_ms", float(context.get("duration_seconds", 0.1)) * 1000.0))
+    duration_ms = float(
+        layer.get("duration_ms", float(context.get("duration_seconds", 0.1)) * 1000.0)
+    )
     n = max(1, ms_to_samples(duration_ms, sample_rate))
     rng = _rng_for(layer, context)
     mode = str(layer.get("mode", layer.get("texture", "burst"))).lower()

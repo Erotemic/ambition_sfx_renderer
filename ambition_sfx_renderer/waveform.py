@@ -3,6 +3,7 @@
 The renderer keeps this dependency-light: it reads audio with soundfile via the
 project I/O layer and writes an SVG. No matplotlib/Pillow dependency is needed.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -82,32 +83,46 @@ def draw_waveform(
         return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
     lines: list[str] = []
-    lines.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">')
+    lines.append(
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">'
+    )
     lines.append('<rect width="100%" height="100%" fill="#111318"/>')
-    lines.append(f'<text x="{margin_l}" y="24" fill="#d7dce5" font-family="monospace" font-size="15">{esc(title)}  {duration:.3f}s  {sample_rate} Hz  peak={peak:.3f}</text>')
+    lines.append(
+        f'<text x="{margin_l}" y="24" fill="#d7dce5" font-family="monospace" font-size="15">{esc(title)}  {duration:.3f}s  {sample_rate} Hz  peak={peak:.3f}</text>'
+    )
     # Draw second markers first so waveform stays visible.
     if duration > 0:
         sec = 0
         while sec <= int(np.ceil(duration)):
             x = margin_l + min(1.0, sec / duration) * plot_w
-            lines.append(f'<line x1="{x:.2f}" y1="{margin_t}" x2="{x:.2f}" y2="{margin_t + plot_h}" stroke="#242a33" stroke-width="1"/>')
-            lines.append(f'<text x="{x + 3:.2f}" y="{height - 12}" fill="#697386" font-family="monospace" font-size="11">{sec}s</text>')
+            lines.append(
+                f'<line x1="{x:.2f}" y1="{margin_t}" x2="{x:.2f}" y2="{margin_t + plot_h}" stroke="#242a33" stroke-width="1"/>'
+            )
+            lines.append(
+                f'<text x="{x + 3:.2f}" y="{height - 12}" fill="#697386" font-family="monospace" font-size="11">{sec}s</text>'
+            )
             sec += 1
     for ch in range(channels):
         top = margin_t + ch * row_h
         mid = top + row_h * 0.5
         amp = row_h * 0.43
         label = "L" if ch == 0 else "R"
-        lines.append(f'<text x="18" y="{mid + 5:.1f}" fill="#9aa4b2" font-family="monospace" font-size="14">{label}</text>')
-        lines.append(f'<line x1="{margin_l}" y1="{mid:.2f}" x2="{margin_l + plot_w}" y2="{mid:.2f}" stroke="#2b313b" stroke-width="1"/>')
+        lines.append(
+            f'<text x="18" y="{mid + 5:.1f}" fill="#9aa4b2" font-family="monospace" font-size="14">{label}</text>'
+        )
+        lines.append(
+            f'<line x1="{margin_l}" y1="{mid:.2f}" x2="{margin_l + plot_w}" y2="{mid:.2f}" stroke="#2b313b" stroke-width="1"/>'
+        )
         mins, maxs = _bin_minmax(audio[ch] / peak, bins)
         step = plot_w / bins
         for idx, (lo, hi) in enumerate(zip(mins, maxs)):
             x = margin_l + idx * step
             y1 = mid - hi * amp
             y2 = mid - lo * amp
-            lines.append(f'<line x1="{x:.2f}" y1="{y1:.2f}" x2="{x:.2f}" y2="{y2:.2f}" stroke="#72d0ff" stroke-width="1"/>')
-    lines.append('</svg>')
+            lines.append(
+                f'<line x1="{x:.2f}" y1="{y1:.2f}" x2="{x:.2f}" y2="{y2:.2f}" stroke="#72d0ff" stroke-width="1"/>'
+            )
+    lines.append("</svg>")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(lines) + "\n", encoding="utf8")
     return out

@@ -1,4 +1,5 @@
 """Sample-file layer backend."""
+
 from __future__ import annotations
 
 from typing import Any
@@ -28,5 +29,7 @@ def render_sample_layer(layer: dict[str, Any], context: dict[str, Any]) -> np.nd
 
         audio = resample(audio, target_len, axis=1).astype(np.float32)
     if "duration_ms" in layer:
-        audio = fit_length(audio, int(round(float(layer["duration_ms"]) * 0.001 * context["sample_rate"])))
+        audio = fit_length(
+            audio, int(round(float(layer["duration_ms"]) * 0.001 * context["sample_rate"]))
+        )
     return audio.astype(np.float32)

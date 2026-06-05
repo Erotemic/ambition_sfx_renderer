@@ -1,4 +1,5 @@
 """DawDreamer backend for Faust and plugin-based offline rendering."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -34,7 +35,9 @@ def _load_dsp_string(layer: dict[str, Any], context: dict[str, Any]) -> tuple[st
     return path.read_text(encoding="utf8"), path
 
 
-def _set_parameters(proc: Any, params: dict[str, Any], duration_seconds: float, sample_rate: int) -> None:
+def _set_parameters(
+    proc: Any, params: dict[str, Any], duration_seconds: float, sample_rate: int
+) -> None:
     n = max(1, int(round(duration_seconds * sample_rate)))
     for address, value in params.items():
         address = str(address)
@@ -97,7 +100,9 @@ def render_plugin_layer(layer: dict[str, Any], context: dict[str, Any]) -> np.nd
     buffer_size = int(layer.get("buffer_size", context.get("buffer_size", 128)))
     plugin_path = resolve_path(layer["plugin"], base_dir=context["base_dir"])
     engine = daw.RenderEngine(sample_rate, buffer_size)
-    proc = engine.make_plugin_processor(str(layer.get("processor_name", "plugin")), str(plugin_path))
+    proc = engine.make_plugin_processor(
+        str(layer.get("processor_name", "plugin")), str(plugin_path)
+    )
     if layer.get("preset"):
         proc.load_preset(str(resolve_path(layer["preset"], base_dir=context["base_dir"])))
     if layer.get("state"):

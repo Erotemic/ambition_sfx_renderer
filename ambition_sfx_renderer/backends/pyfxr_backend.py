@@ -1,4 +1,5 @@
 """pyfxr backend for fast game-SFX seed layers."""
+
 from __future__ import annotations
 
 import random

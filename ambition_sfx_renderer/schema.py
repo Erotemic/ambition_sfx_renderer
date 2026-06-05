@@ -1,4 +1,5 @@
 """YAML schema normalization for SFXIR v1."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -115,6 +116,7 @@ def find_cue(cue: str, *, root: Path | None = None) -> Path | None:
             if spec.cue_id == cue:
                 return c.resolve()
     return None
+
 
 def iter_cue_files(root: Path | None = None, *, group: str = "active") -> list[Path]:
     """Return cue YAML files for a group.

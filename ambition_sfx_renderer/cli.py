@@ -7,6 +7,7 @@ Subcommands:
     audit [root]       Print loudness/peak stats for rendered audio files.
     list               List available cues.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -168,7 +169,9 @@ def cmd_list(args: argparse.Namespace) -> int:
 
 
 def cmd_draw(args: argparse.Namespace) -> int:
-    out = draw_waveform(args.audio, out=args.out, width=args.width, height=args.height, title=args.title)
+    out = draw_waveform(
+        args.audio, out=args.out, width=args.width, height=args.height, title=args.title
+    )
     print(out)
     return 0
 
@@ -191,9 +194,15 @@ def add_common_render_args(p: argparse.ArgumentParser) -> None:
         default=DEFAULT_WAV_MAX_SECONDS,
         help="duration boundary used by --format-policy auto; cues longer than this write OGG",
     )
-    p.add_argument("--no-wav", action="store_true", help="disable WAV output after applying format policy")
-    p.add_argument("--no-ogg", action="store_true", help="disable OGG output after applying format policy")
-    p.add_argument("--force", action="store_true", help="force render even when output manifest is current")
+    p.add_argument(
+        "--no-wav", action="store_true", help="disable WAV output after applying format policy"
+    )
+    p.add_argument(
+        "--no-ogg", action="store_true", help="disable OGG output after applying format policy"
+    )
+    p.add_argument(
+        "--force", action="store_true", help="force render even when output manifest is current"
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -233,7 +242,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_list.add_argument("--group", default="active")
     p_list.set_defaults(func=cmd_list)
 
-    p_draw = sub.add_parser("draw", help="Draw a waveform SVG for a rendered audio file or output directory")
+    p_draw = sub.add_parser(
+        "draw", help="Draw a waveform SVG for a rendered audio file or output directory"
+    )
     p_draw.add_argument("audio", type=Path, help="wav/ogg file or output/<cue>/ directory")
     p_draw.add_argument("--out", type=Path, default=None, help="output SVG path")
     p_draw.add_argument("--width", type=int, default=1400)

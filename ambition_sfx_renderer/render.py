@@ -1,4 +1,5 @@
 """Cue rendering orchestration."""
+
 from __future__ import annotations
 
 import hashlib
@@ -78,20 +79,24 @@ def default_tone_safety_effects(spec: CueSpec) -> list[dict[str, Any]]:
     else:
         lowpass = 7000.0
         deharsh_amount = 0.20
-    return [{
-        "effect": "tone_safety",
-        "profile": profile,
-        "highpass_hz": float(render_spec.get("safety_highpass_hz", 28.0)),
-        "lowpass_hz": float(render_spec.get("safety_lowpass_hz", lowpass)),
-        "deharsh_hz": float(render_spec.get("deharsh_hz", 3200.0)),
-        "deharsh_amount": float(render_spec.get("deharsh_amount", deharsh_amount)),
-        "deharsh_q": float(render_spec.get("deharsh_q", 0.9)),
-        "drive": float(render_spec.get("safety_drive", 1.06)),
-        "clip_mix": float(render_spec.get("safety_clip_mix", 0.55)),
-        "target_peak_db": float(render_spec.get("final_peak_db", default_final_peak_db(spec.cue_id, dur))),
-        "only_if_louder": bool(render_spec.get("only_if_louder", True)),
-        "fade_out_ms": float(render_spec.get("safety_fade_out_ms", 2.0)),
-    }]
+    return [
+        {
+            "effect": "tone_safety",
+            "profile": profile,
+            "highpass_hz": float(render_spec.get("safety_highpass_hz", 28.0)),
+            "lowpass_hz": float(render_spec.get("safety_lowpass_hz", lowpass)),
+            "deharsh_hz": float(render_spec.get("deharsh_hz", 3200.0)),
+            "deharsh_amount": float(render_spec.get("deharsh_amount", deharsh_amount)),
+            "deharsh_q": float(render_spec.get("deharsh_q", 0.9)),
+            "drive": float(render_spec.get("safety_drive", 1.06)),
+            "clip_mix": float(render_spec.get("safety_clip_mix", 0.55)),
+            "target_peak_db": float(
+                render_spec.get("final_peak_db", default_final_peak_db(spec.cue_id, dur))
+            ),
+            "only_if_louder": bool(render_spec.get("only_if_louder", True)),
+            "fade_out_ms": float(render_spec.get("safety_fade_out_ms", 2.0)),
+        }
+    ]
 
 
 def render_cue(spec: CueSpec) -> tuple[np.ndarray, dict[str, Any]]:
@@ -110,7 +115,11 @@ def render_cue(spec: CueSpec) -> tuple[np.ndarray, dict[str, Any]]:
         "base_dir": spec.path.parent,
         "yaml_path": spec.path,
         "buffer_size": int(raw.get("render", {}).get("buffer_size", 128)),
-        "final_peak_db": float(raw.get("render", {}).get("final_peak_db", default_final_peak_db(spec.cue_id, duration_seconds))),
+        "final_peak_db": float(
+            raw.get("render", {}).get(
+                "final_peak_db", default_final_peak_db(spec.cue_id, duration_seconds)
+            )
+        ),
     }
     layer_reports: list[dict[str, Any]] = []
     for layer in spec.layers:
@@ -335,7 +344,6 @@ def render_file(
     return report
 
 
-
 def _ensure_source_symlink(out_dir: Path, cue_path: Path) -> None:
     """Create a convenient symlink from output/<cue>/ back to the source YAML.
 
@@ -418,7 +426,7 @@ def _write_regen(
             shlex.quote(str(waveform_svg)),
         ]
     )
-    script = f'''#!/usr/bin/env bash
+    script = f"""#!/usr/bin/env bash
 set -euo pipefail
 
 # Re-render this cue from its source YAML, then optionally audition/draw it.
@@ -498,6 +506,6 @@ fi
 
 echo "ffplay $PLAY_FILE"
 ffplay -hide_banner -loglevel error -nodisp -autoexit "$PLAY_FILE"
-'''
+"""
     path.write_text(script, encoding="utf8")
     path.chmod(0o755)

@@ -13,6 +13,7 @@ such as ``soft_clip`` into the Pedalboard adapter when a lower-level caller used
 that adapter directly.  This module now walks the list in order and only sends
 contiguous non-core chunks to Pedalboard.
 """
+
 from __future__ import annotations
 
 from typing import Any
@@ -30,7 +31,9 @@ def _db_to_amp(db: float) -> float:
     return float(10.0 ** (float(db) / 20.0))
 
 
-def peak_normalize(audio: np.ndarray, target_db: float = -3.0, *, only_if_louder: bool = False) -> np.ndarray:
+def peak_normalize(
+    audio: np.ndarray, target_db: float = -3.0, *, only_if_louder: bool = False
+) -> np.ndarray:
     """Normalize to a target peak with a local compatibility implementation.
 
     Older installed trees export ``audio.peak_normalize(audio, target_db)`` but
@@ -61,10 +64,29 @@ def soft_clip(audio: np.ndarray, drive: float = 1.2, mix: float = 1.0) -> np.nda
     mix = float(np.clip(mix, 0.0, 1.0))
     return (x * (1.0 - mix) + wet * mix).astype(np.float32)
 
+
 CORE_EFFECTS = {
-    "normalize_peak", "normalize", "clip", "hard_clip", "soft_clip", "saturate",
-    "gain", "highpass", "highpass_filter", "hp", "lowpass", "lowpass_filter", "lp",
-    "bandpass", "bp", "band_reduce", "deharsh", "notch_reduce", "tone_safety", "dc_block", "fade_edges",
+    "normalize_peak",
+    "normalize",
+    "clip",
+    "hard_clip",
+    "soft_clip",
+    "saturate",
+    "gain",
+    "highpass",
+    "highpass_filter",
+    "hp",
+    "lowpass",
+    "lowpass_filter",
+    "lp",
+    "bandpass",
+    "bp",
+    "band_reduce",
+    "deharsh",
+    "notch_reduce",
+    "tone_safety",
+    "dc_block",
+    "fade_edges",
 }
 
 
@@ -81,7 +103,9 @@ def is_core_effect(spec: dict[str, Any] | str) -> bool:
     return name in CORE_EFFECTS
 
 
-def split_core_effects(effects: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def split_core_effects(
+    effects: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Classify effects without applying them.
 
     This helper is kept for compatibility with callers/tests, but the main
@@ -100,22 +124,30 @@ def split_core_effects(effects: list[dict[str, Any]]) -> tuple[list[dict[str, An
 def _sos_filter(audio: np.ndarray, sos: np.ndarray) -> np.ndarray:
     try:
         from scipy.signal import sosfiltfilt
+
         return sosfiltfilt(sos, audio, axis=1).astype(np.float32)
     except Exception:
         from scipy.signal import sosfilt
+
         return sosfilt(sos, audio, axis=1).astype(np.float32)
 
 
-def _butter(audio: np.ndarray, sample_rate: int, *, kind: str, cutoff_hz: float, order: int = 2) -> np.ndarray:
+def _butter(
+    audio: np.ndarray, sample_rate: int, *, kind: str, cutoff_hz: float, order: int = 2
+) -> np.ndarray:
     from scipy.signal import butter
+
     nyq = float(sample_rate) * 0.5
     cutoff = float(np.clip(cutoff_hz, 5.0, nyq * 0.98))
     sos = butter(int(order), cutoff / nyq, btype=kind, output="sos")
     return _sos_filter(ensure_chans_first(audio), sos)
 
 
-def _bandpass_filter(audio: np.ndarray, sample_rate: int, *, center_hz: float, q: float = 1.0, order: int = 2) -> np.ndarray:
+def _bandpass_filter(
+    audio: np.ndarray, sample_rate: int, *, center_hz: float, q: float = 1.0, order: int = 2
+) -> np.ndarray:
     from scipy.signal import butter
+
     audio = ensure_chans_first(audio)
     nyq = float(sample_rate) * 0.5
     center = float(np.clip(center_hz, 40.0, nyq * 0.90))
@@ -129,8 +161,11 @@ def _bandpass_filter(audio: np.ndarray, sample_rate: int, *, center_hz: float, q
     return _sos_filter(audio, sos).astype(np.float32)
 
 
-def _band_reduce(audio: np.ndarray, sample_rate: int, *, center_hz: float, amount: float, q: float = 1.1) -> np.ndarray:
+def _band_reduce(
+    audio: np.ndarray, sample_rate: int, *, center_hz: float, amount: float, q: float = 1.1
+) -> np.ndarray:
     from scipy.signal import butter
+
     audio = ensure_chans_first(audio)
     nyq = float(sample_rate) * 0.5
     center = float(np.clip(center_hz, 80.0, nyq * 0.90))
@@ -146,7 +181,9 @@ def _band_reduce(audio: np.ndarray, sample_rate: int, *, center_hz: float, amoun
     return (audio - band * amount).astype(np.float32)
 
 
-def _fade_edges(audio: np.ndarray, sample_rate: int, *, in_ms: float = 0.5, out_ms: float = 2.0) -> np.ndarray:
+def _fade_edges(
+    audio: np.ndarray, sample_rate: int, *, in_ms: float = 0.5, out_ms: float = 2.0
+) -> np.ndarray:
     audio = ensure_chans_first(audio).copy()
     n = audio.shape[1]
     ni = max(0, int(round(float(in_ms) * 0.001 * sample_rate)))
@@ -160,7 +197,9 @@ def _fade_edges(audio: np.ndarray, sample_rate: int, *, in_ms: float = 0.5, out_
     return audio.astype(np.float32)
 
 
-def _tone_safety(audio: np.ndarray, sample_rate: int, spec: dict[str, Any], context: dict[str, Any]) -> np.ndarray:
+def _tone_safety(
+    audio: np.ndarray, sample_rate: int, spec: dict[str, Any], context: dict[str, Any]
+) -> np.ndarray:
     out = ensure_chans_first(audio)
     if spec.get("enabled", True) is False:
         return out.astype(np.float32)
@@ -168,7 +207,11 @@ def _tone_safety(audio: np.ndarray, sample_rate: int, spec: dict[str, Any], cont
     if highpass_hz > 0:
         out = _butter(out, sample_rate, kind="highpass", cutoff_hz=highpass_hz, order=2)
     bands = spec.get("bands") or [
-        {"center_hz": spec.get("deharsh_hz", 3200.0), "amount": spec.get("deharsh_amount", 0.20), "q": spec.get("deharsh_q", 0.9)}
+        {
+            "center_hz": spec.get("deharsh_hz", 3200.0),
+            "amount": spec.get("deharsh_amount", 0.20),
+            "q": spec.get("deharsh_q", 0.9),
+        }
     ]
     for band in bands:
         out = _band_reduce(
@@ -182,19 +225,34 @@ def _tone_safety(audio: np.ndarray, sample_rate: int, spec: dict[str, Any], cont
     if lowpass_hz > 0:
         out = _butter(out, sample_rate, kind="lowpass", cutoff_hz=lowpass_hz, order=2)
     if spec.get("soft_clip", True):
-        out = soft_clip(out, drive=float(spec.get("drive", 1.08)), mix=float(spec.get("clip_mix", 0.55)))
+        out = soft_clip(
+            out, drive=float(spec.get("drive", 1.08)), mix=float(spec.get("clip_mix", 0.55))
+        )
     if spec.get("fade_edges", True):
-        out = _fade_edges(out, sample_rate, in_ms=float(spec.get("fade_in_ms", 0.2)), out_ms=float(spec.get("fade_out_ms", 1.5)))
+        out = _fade_edges(
+            out,
+            sample_rate,
+            in_ms=float(spec.get("fade_in_ms", 0.2)),
+            out_ms=float(spec.get("fade_out_ms", 1.5)),
+        )
     target_db = spec.get("target_peak_db", context.get("final_peak_db", -6.0))
     if target_db is not None:
-        out = peak_normalize(out, float(target_db), only_if_louder=bool(spec.get("only_if_louder", True)))
+        out = peak_normalize(
+            out, float(target_db), only_if_louder=bool(spec.get("only_if_louder", True))
+        )
     return out.astype(np.float32)
 
 
-def _apply_core_effect(out: np.ndarray, sample_rate: int, spec: dict[str, Any], context: dict[str, Any]) -> np.ndarray:
+def _apply_core_effect(
+    out: np.ndarray, sample_rate: int, spec: dict[str, Any], context: dict[str, Any]
+) -> np.ndarray:
     name = _effect_name(spec)
     if name in {"normalize_peak", "normalize"}:
-        return peak_normalize(out, float(spec.get("target_db", -3.0)), only_if_louder=bool(spec.get("only_if_louder", False)))
+        return peak_normalize(
+            out,
+            float(spec.get("target_db", -3.0)),
+            only_if_louder=bool(spec.get("only_if_louder", False)),
+        )
     if name in {"clip", "hard_clip"}:
         return hard_clip(out, float(spec.get("limit", 1.0)))
     if name in {"soft_clip", "saturate"}:
@@ -202,28 +260,62 @@ def _apply_core_effect(out: np.ndarray, sample_rate: int, spec: dict[str, Any], 
     if name == "gain":
         return apply_gain(out, gain_db=spec.get("gain_db"), gain=spec.get("gain"))
     if name in {"highpass", "highpass_filter", "hp", "dc_block"}:
-        return _butter(out, sample_rate, kind="highpass", cutoff_hz=float(spec.get("cutoff_hz", spec.get("hz", 30.0))), order=int(spec.get("order", 2)))
+        return _butter(
+            out,
+            sample_rate,
+            kind="highpass",
+            cutoff_hz=float(spec.get("cutoff_hz", spec.get("hz", 30.0))),
+            order=int(spec.get("order", 2)),
+        )
     if name in {"lowpass", "lowpass_filter", "lp"}:
-        return _butter(out, sample_rate, kind="lowpass", cutoff_hz=float(spec.get("cutoff_hz", spec.get("hz", 9000.0))), order=int(spec.get("order", 2)))
+        return _butter(
+            out,
+            sample_rate,
+            kind="lowpass",
+            cutoff_hz=float(spec.get("cutoff_hz", spec.get("hz", 9000.0))),
+            order=int(spec.get("order", 2)),
+        )
     if name in {"bandpass", "bp"}:
-        return _bandpass_filter(out, sample_rate, center_hz=float(spec.get("center_hz", spec.get("hz", 1200.0))), q=float(spec.get("q", 1.0)), order=int(spec.get("order", 2)))
+        return _bandpass_filter(
+            out,
+            sample_rate,
+            center_hz=float(spec.get("center_hz", spec.get("hz", 1200.0))),
+            q=float(spec.get("q", 1.0)),
+            order=int(spec.get("order", 2)),
+        )
     if name in {"band_reduce", "deharsh", "notch_reduce"}:
-        return _band_reduce(out, sample_rate, center_hz=float(spec.get("center_hz", spec.get("hz", 3200.0))), amount=float(spec.get("amount", 0.20)), q=float(spec.get("q", 1.0)))
+        return _band_reduce(
+            out,
+            sample_rate,
+            center_hz=float(spec.get("center_hz", spec.get("hz", 3200.0))),
+            amount=float(spec.get("amount", 0.20)),
+            q=float(spec.get("q", 1.0)),
+        )
     if name == "fade_edges":
-        return _fade_edges(out, sample_rate, in_ms=float(spec.get("in_ms", 0.5)), out_ms=float(spec.get("out_ms", 2.0)))
+        return _fade_edges(
+            out,
+            sample_rate,
+            in_ms=float(spec.get("in_ms", 0.5)),
+            out_ms=float(spec.get("out_ms", 2.0)),
+        )
     if name == "tone_safety":
         return _tone_safety(out, sample_rate, spec, context)
     raise ValueError(f"unknown core effect: {name}")
 
 
-def _apply_pedalboard_chunk(out: np.ndarray, sample_rate: int, chunk: list[dict[str, Any]], context: dict[str, Any]) -> np.ndarray:
+def _apply_pedalboard_chunk(
+    out: np.ndarray, sample_rate: int, chunk: list[dict[str, Any]], context: dict[str, Any]
+) -> np.ndarray:
     if not chunk:
         return ensure_chans_first(out)
     from ambition_sfx_renderer_gpl.pedalboard_fx import apply_pedalboard
+
     return apply_pedalboard(out, sample_rate, chunk, context)
 
 
-def apply_effects(audio: np.ndarray, sample_rate: int, effects: list[dict[str, Any]], context: dict[str, Any]) -> np.ndarray:
+def apply_effects(
+    audio: np.ndarray, sample_rate: int, effects: list[dict[str, Any]], context: dict[str, Any]
+) -> np.ndarray:
     """Apply mixed core/Pedalboard effects while preserving YAML order."""
     out = ensure_chans_first(audio)
     pedalboard_chunk: list[dict[str, Any]] = []
