@@ -1,0 +1,213 @@
+schema: ambition.sfxir.v1
+id: ui.menu.open
+duration_ms: 760
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 840401
+  buffer_size: 128
+layers:
+- name: menu_open_air_lift
+  kind: noise_burst
+  color: pink
+  mode: scrape
+  gain_db: -31
+  start_ms: 0
+  duration_ms: 520
+  pan: 0.0
+  envelope:
+    attack_ms: 6
+    hold_ms: 70
+    release_ms: 390
+  effects:
+  - effect: highpass
+    cutoff_hz: 420
+  - effect: bandpass
+    center_hz: 2600
+    q: 0.85
+  - effect: lowpass
+    cutoff_hz: 7200
+- name: open_gate_body_rise
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -25
+  start_ms: 0
+  duration_ms: 420
+  pan: -0.04
+  parameters:
+    /AmbitionTone/freq:
+      start: 329.62
+      end: 493.88
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 4
+    hold_ms: 56
+    release_ms: 320
+- name: chime_0_open_root_e
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -18
+  start_ms: 18
+  duration_ms: 170
+  pan: -0.16
+  parameters:
+    /AmbitionTone/freq: 659.25
+    /AmbitionTone/gain: -16
+  envelope:
+    attack_ms: 0.5
+    hold_ms: 12
+    release_ms: 150
+- name: sparkle_0_open_root_e
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -31
+  start_ms: 20
+  duration_ms: 140
+  pan: -0.12
+  parameters:
+    /AmbitionTone/freq: 1318.5
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 0.2
+    hold_ms: 6
+    release_ms: 120
+- name: chime_1_open_fifth_b
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -18
+  start_ms: 88
+  duration_ms: 180
+  pan: -0.07
+  parameters:
+    /AmbitionTone/freq: 987.77
+    /AmbitionTone/gain: -16
+  envelope:
+    attack_ms: 0.5
+    hold_ms: 12
+    release_ms: 158
+- name: sparkle_1_open_fifth_b
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -32
+  start_ms: 90
+  duration_ms: 145
+  pan: -0.04
+  parameters:
+    /AmbitionTone/freq: 1975.53
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 0.2
+    hold_ms: 5
+    release_ms: 125
+- name: chime_2_open_octave_e
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -18
+  start_ms: 166
+  duration_ms: 195
+  pan: 0.04
+  parameters:
+    /AmbitionTone/freq: 1318.5
+    /AmbitionTone/gain: -16
+  envelope:
+    attack_ms: 0.5
+    hold_ms: 14
+    release_ms: 170
+- name: sparkle_2_open_octave_e
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -33
+  start_ms: 168
+  duration_ms: 150
+  pan: 0.07
+  parameters:
+    /AmbitionTone/freq: 2637.02
+    /AmbitionTone/gain: -19
+  envelope:
+    attack_ms: 0.2
+    hold_ms: 4
+    release_ms: 130
+- name: chime_3_open_third_gs
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -20
+  start_ms: 248
+  duration_ms: 190
+  pan: 0.13
+  parameters:
+    /AmbitionTone/freq: 1661.22
+    /AmbitionTone/gain: -16
+  envelope:
+    attack_ms: 0.5
+    hold_ms: 12
+    release_ms: 164
+- name: chime_4_open_high_resolve_b
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -20
+  start_ms: 336
+  duration_ms: 300
+  pan: 0.19
+  parameters:
+    /AmbitionTone/freq: 1975.53
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0.6
+    hold_ms: 18
+    release_ms: 245
+- name: open_soft_final_glow_e
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -27
+  start_ms: 330
+  duration_ms: 360
+  pan: 0.02
+  parameters:
+    /AmbitionTone/freq: 659.25
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 8
+    hold_ms: 60
+    release_ms: 270
+postprocess:
+- effect: highpass
+  cutoff_hz: 110
+- effect: lowpass
+  cutoff_hz: 8200
+- effect: chorus
+  rate_hz: 0.9
+  depth: 0.07
+  centre_delay_ms: 7.0
+  feedback: 0.015
+  mix: 0.1
+- effect: delay
+  delay_ms: 96
+  feedback: 0.1
+  mix: 0.075
+- effect: reverb
+  room_size: 0.22
+  damping: 0.58
+  wet_level: 0.14
+  dry_level: 0.92
+  width: 0.9
+- effect: deharsh
+  center_hz: 3500
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.12
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.3
+  out_ms: 36
+- effect: normalize_peak
+  target_db: -9
+notes: 'Original pause/menu-open flourish synthesized from scratch, inspired by the magical upward OoT
+  pause-menu opening gesture without sampling it. Uses a bright E-based rising chime bloom, airy lift,
+  and short resolving shimmer.
+
+
+  Revision r20260604_03: fixed SFX YAML compatibility by replacing unsupported noise mode ''whoosh'' with
+  ''scrape'' and replacing animated bandpass center_hz mappings with scalar centers supported by the current
+  renderer.'

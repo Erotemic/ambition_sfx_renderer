@@ -1,0 +1,81 @@
+schema: ambition.sfxir.v1
+id: ui.menu.move_icon
+duration_ms: 115
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 840601
+  buffer_size: 128
+layers:
+- name: icon_move_tick_air
+  kind: noise_burst
+  color: pink
+  mode: grains
+  gain_db: -39
+  start_ms: 0
+  duration_ms: 75
+  pan: -0.08
+  envelope:
+    attack_ms: 0.1
+    hold_ms: 2
+    release_ms: 62
+  effects:
+  - effect: bandpass
+    center_hz: 2600
+    q: 1.2
+  - effect: highpass
+    cutoff_hz: 250
+  - effect: lowpass
+    cutoff_hz: 7600
+- name: icon_move_note
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -20
+  start_ms: 0
+  duration_ms: 88
+  pan: -0.04
+  parameters:
+    /AmbitionTone/freq: 830.61
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0.2
+    hold_ms: 6
+    release_ms: 76
+- name: icon_move_sparkle
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -31
+  start_ms: 2
+  duration_ms: 72
+  pan: 0.04
+  parameters:
+    /AmbitionTone/freq: 1661.22
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 0.1
+    hold_ms: 3
+    release_ms: 62
+postprocess:
+- effect: highpass
+  cutoff_hz: 95
+- effect: lowpass
+  cutoff_hz: 7800
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.12
+  mix: 0.16
+- effect: reverb
+  room_size: 0.15
+  damping: 0.62
+  wet_level: 0.07
+  dry_level: 0.96
+  width: 0.78
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -10
+notes: 'One-note jeweled icon-move tick: short G# chime with tiny glass transient.'

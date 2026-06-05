@@ -1,0 +1,109 @@
+schema: ambition.sfxir.v1
+id: ui.menu.equip
+duration_ms: 310
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 840605
+  buffer_size: 128
+layers:
+- name: equip_attach_air
+  kind: noise_burst
+  color: pink
+  mode: scrape
+  gain_db: -38
+  start_ms: 0
+  duration_ms: 165
+  pan: 0.05
+  envelope:
+    attack_ms: 1
+    hold_ms: 12
+    release_ms: 135
+  effects:
+  - effect: bandpass
+    center_hz: 2500
+    q: 1.1
+  - effect: highpass
+    cutoff_hz: 250
+  - effect: lowpass
+    cutoff_hz: 7600
+- name: equip_note_0_e
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -20
+  start_ms: 0
+  duration_ms: 130
+  pan: -0.12
+  parameters:
+    /AmbitionTone/freq: 659.25
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0.25
+    hold_ms: 6
+    release_ms: 112
+- name: equip_note_1_gs
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -20
+  start_ms: 62
+  duration_ms: 130
+  pan: 0.02
+  parameters:
+    /AmbitionTone/freq: 830.61
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0.25
+    hold_ms: 6
+    release_ms: 112
+- name: equip_note_2_b
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -19
+  start_ms: 130
+  duration_ms: 165
+  pan: 0.12
+  parameters:
+    /AmbitionTone/freq: 987.77
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0.3
+    hold_ms: 14
+    release_ms: 138
+- name: equip_final_body_e
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -27
+  start_ms: 132
+  duration_ms: 150
+  pan: 0.03
+  parameters:
+    /AmbitionTone/freq: 329.63
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 1.0
+    hold_ms: 16
+    release_ms: 118
+postprocess:
+- effect: highpass
+  cutoff_hz: 95
+- effect: lowpass
+  cutoff_hz: 7800
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.12
+  mix: 0.16
+- effect: reverb
+  room_size: 0.15
+  damping: 0.62
+  wet_level: 0.07
+  dry_level: 0.96
+  width: 0.78
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -10
+notes: 'Three-note equip cue: E-G#-B attach sparkle with a small low body.'

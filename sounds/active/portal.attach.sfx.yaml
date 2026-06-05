@@ -1,0 +1,52 @@
+schema: ambition.sfxir.v1
+id: portal.attach
+duration_ms: 420
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 771203
+  buffer_size: 128
+layers:
+- name: warp_whoosh
+  kind: noise_burst
+  color: pink
+  gain_db: -24
+  start_ms: 0
+  duration_ms: 360
+  envelope:
+    attack_ms: 40
+    hold_ms: 60
+    release_ms: 260
+  filter:
+    kind: bandpass
+    hz: 1700
+    q: 0.4
+- name: space_open
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -24
+  start_ms: 30
+  duration_ms: 320
+  parameters:
+    /AmbitionTone/freq:
+      start: 320
+      end: 700
+      curve: exp
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 30
+    hold_ms: 120
+    release_ms: 170
+postprocess:
+- effect: highpass
+  cutoff_hz: 80
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 3
+  fade_out_ms: 40
+- effect: normalize_peak
+  target_db: -19
+notes: portal attaches to a valid wall — bright warping whoosh settling into place

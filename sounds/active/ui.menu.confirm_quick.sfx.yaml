@@ -1,0 +1,81 @@
+schema: ambition.sfxir.v1
+id: ui.menu.confirm_quick
+duration_ms: 150
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 840602
+  buffer_size: 128
+layers:
+- name: confirm_one_note_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -18
+  start_ms: 0
+  duration_ms: 120
+  pan: 0.0
+  parameters:
+    /AmbitionTone/freq: 659.25
+    /AmbitionTone/gain: -16
+  envelope:
+    attack_ms: 0.2
+    hold_ms: 12
+    release_ms: 104
+- name: confirm_one_note_sparkle
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -28
+  start_ms: 1
+  duration_ms: 112
+  pan: 0.08
+  parameters:
+    /AmbitionTone/freq: 1318.51
+    /AmbitionTone/gain: -19
+  envelope:
+    attack_ms: 0.1
+    hold_ms: 5
+    release_ms: 96
+- name: confirm_bright_pin
+  kind: noise_burst
+  color: white
+  mode: grains
+  gain_db: -41
+  start_ms: 0
+  duration_ms: 60
+  pan: 0.05
+  envelope:
+    attack_ms: 0.1
+    hold_ms: 1
+    release_ms: 50
+  effects:
+  - effect: bandpass
+    center_hz: 3800
+    q: 1.3
+  - effect: highpass
+    cutoff_hz: 250
+  - effect: lowpass
+    cutoff_hz: 7600
+postprocess:
+- effect: highpass
+  cutoff_hz: 95
+- effect: lowpass
+  cutoff_hz: 7800
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.12
+  mix: 0.16
+- effect: reverb
+  room_size: 0.15
+  damping: 0.62
+  wet_level: 0.07
+  dry_level: 0.96
+  width: 0.78
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -10
+notes: Quick one-note confirm/accept chime, paired to the E-centered menu family.

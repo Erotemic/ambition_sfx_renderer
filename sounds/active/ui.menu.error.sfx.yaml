@@ -1,0 +1,75 @@
+schema: ambition.sfxir.v1
+id: ui.menu.error
+duration_ms: 190
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 840604
+  buffer_size: 128
+layers:
+- name: error_one_note_flat_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -20
+  start_ms: 0
+  duration_ms: 135
+  pan: 0.0
+  parameters:
+    /AmbitionTone/freq: 369.99
+    /AmbitionTone/gain: -16
+  envelope:
+    attack_ms: 0.4
+    hold_ms: 10
+    release_ms: 118
+- name: error_low_shadow
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -31
+  start_ms: 7
+  duration_ms: 135
+  pan: 0.0
+  parameters:
+    /AmbitionTone/freq: 185.0
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 1.2
+    hold_ms: 12
+    release_ms: 112
+- name: error_dry_buzz_edge
+  kind: noise_burst
+  color: brown
+  mode: grains
+  gain_db: -38
+  start_ms: 0
+  duration_ms: 115
+  pan: 0.0
+  envelope:
+    attack_ms: 0.1
+    hold_ms: 3
+    release_ms: 96
+  effects:
+  - effect: bandpass
+    center_hz: 760
+    q: 0.7
+  - effect: highpass
+    cutoff_hz: 250
+  - effect: lowpass
+    cutoff_hz: 7600
+postprocess:
+- effect: highpass
+  cutoff_hz: 95
+- effect: lowpass
+  cutoff_hz: 5200
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.12
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -11
+notes: 'One-note softened menu error/denied cue: dry, low, and non-musical enough to signal no. '
