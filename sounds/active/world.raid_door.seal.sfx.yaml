@@ -1,0 +1,71 @@
+schema: ambition.sfxir.v1
+id: world.raid_door.seal
+duration_ms: 700
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 624065
+  buffer_size: 128
+layers:
+- name: door_slam
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -8
+  start_ms: 0
+  duration_ms: 250
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 180
+  effects:
+  - effect: bandpass
+    center_hz: 120.0
+    q: 0.45
+- name: seal_lock
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -23
+  start_ms: 180
+  duration_ms: 380
+  parameters:
+    /AmbitionTone/freq:
+      start: 174.61411571650194
+      end: 130.8127826502993
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 300
+- name: lock_pins
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -25
+  start_ms: 210
+  duration_ms: 240
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 20
+  effects:
+  - effect: bandpass
+    center_hz: 1600.0
+    q: 0.75
+  grain_count: 14
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6800
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -7
+notes: raid door seal / lockdown close

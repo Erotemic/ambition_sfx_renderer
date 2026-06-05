@@ -1,0 +1,104 @@
+schema: ambition.sfxir.v1
+id: ability.fire.release
+duration_ms: 460
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 860102
+  buffer_size: 128
+layers:
+- name: fire_release_pop
+  kind: noise_burst
+  mode: burst
+  color: white
+  gain_db: -22
+  start_ms: 0
+  duration_ms: 90
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 2
+    release_ms: 70
+  effects:
+  - effect: bandpass
+    center_hz: 1450
+    q: 0.62
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 7600
+- name: fire_release_core
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -17
+  start_ms: 0
+  duration_ms: 280
+  pan: 0.0
+  parameters:
+    /AmbitionTone/freq:
+      start: 329.63
+      end: 246.94
+      curve: exp
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0.5
+    hold_ms: 24
+    release_ms: 230
+- name: flame_tail
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -31
+  start_ms: 28
+  duration_ms: 340
+  pan: 0.0
+  envelope:
+    attack_ms: 2
+    hold_ms: 22
+    release_ms: 290
+  effects:
+  - effect: bandpass
+    center_hz: 900
+    q: 0.55
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 5400
+- name: sparkle_afterglow
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -31
+  start_ms: 90
+  duration_ms: 230
+  pan: 0.14
+  parameters:
+    /AmbitionTone/freq: 987.77
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 0.5
+    hold_ms: 15
+    release_ms: 190
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: lowpass
+  cutoff_hz: 7400
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.22
+  q: 0.9
+- effect: soft_clip
+  drive: 0.35
+  mix: 0.18
+- effect: reverb
+  room_size: 0.14
+  damping: 0.65
+  wet_level: 0.06
+  dry_level: 0.96
+  width: 0.75
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 14
+- effect: normalize_peak
+  target_db: -8.5
+notes: 'Fire ability release: compact flame launch with warm tail.'

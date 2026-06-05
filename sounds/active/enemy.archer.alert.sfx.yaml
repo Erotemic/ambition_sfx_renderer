@@ -1,0 +1,61 @@
+schema: ambition.sfxir.v1
+id: enemy.archer.alert
+duration_ms: 360
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 880101
+  buffer_size: 128
+layers:
+- name: archer_alert_pluck
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -24
+  start_ms: 0
+  duration_ms: 180
+  pan: 0.0
+  parameters:
+    /AmbitionTone/freq: 440.0
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 0.5
+    hold_ms: 10
+    release_ms: 155
+- name: bowstring_touch
+  kind: noise_burst
+  mode: grains
+  color: brown
+  gain_db: -32
+  start_ms: 18
+  duration_ms: 160
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 125
+  effects:
+  - effect: bandpass
+    center_hz: 950
+    q: 0.7
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 4200
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: lowpass
+  cutoff_hz: 5200
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.22
+  q: 0.9
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.18
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 14
+- effect: normalize_peak
+  target_db: -11
+notes: 'Archer alert: dry pluck/string touch.'

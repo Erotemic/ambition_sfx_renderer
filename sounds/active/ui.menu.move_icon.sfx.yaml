@@ -9,8 +9,8 @@ render:
 layers:
 - name: icon_move_tick_air
   kind: noise_burst
-  color: pink
   mode: grains
+  color: pink
   gain_db: -39
   start_ms: 0
   duration_ms: 75
@@ -24,7 +24,7 @@ layers:
     center_hz: 2600
     q: 1.2
   - effect: highpass
-    cutoff_hz: 250
+    cutoff_hz: 80
   - effect: lowpass
     cutoff_hz: 7600
 - name: icon_move_note
@@ -57,25 +57,19 @@ layers:
     release_ms: 62
 postprocess:
 - effect: highpass
-  cutoff_hz: 95
+  cutoff_hz: 55
 - effect: lowpass
   cutoff_hz: 7800
 - effect: deharsh
   center_hz: 3400
-  amount: 0.18
+  amount: 0.22
   q: 0.9
 - effect: soft_clip
-  drive: 0.12
-  mix: 0.16
-- effect: reverb
-  room_size: 0.15
-  damping: 0.62
-  wet_level: 0.07
-  dry_level: 0.96
-  width: 0.78
+  drive: 0.18
+  mix: 0.18
 - effect: fade_edges
   in_ms: 0.2
-  out_ms: 12
+  out_ms: 14
 - effect: normalize_peak
   target_db: -10
-notes: 'One-note jeweled icon-move tick: short G# chime with tiny glass transient.'
+notes: One-note jeweled icon-move tick.

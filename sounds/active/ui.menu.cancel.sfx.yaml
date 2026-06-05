@@ -37,8 +37,8 @@ layers:
     release_ms: 94
 - name: cancel_soft_latch
   kind: noise_burst
-  color: pink
   mode: thud
+  color: pink
   gain_db: -40
   start_ms: 6
   duration_ms: 88
@@ -52,30 +52,24 @@ layers:
     center_hz: 900
     q: 0.8
   - effect: highpass
-    cutoff_hz: 250
+    cutoff_hz: 80
   - effect: lowpass
     cutoff_hz: 7600
 postprocess:
 - effect: highpass
-  cutoff_hz: 95
+  cutoff_hz: 55
 - effect: lowpass
   cutoff_hz: 7800
 - effect: deharsh
   center_hz: 3400
-  amount: 0.18
+  amount: 0.22
   q: 0.9
 - effect: soft_clip
-  drive: 0.12
-  mix: 0.16
-- effect: reverb
-  room_size: 0.15
-  damping: 0.62
-  wet_level: 0.07
-  dry_level: 0.96
-  width: 0.78
+  drive: 0.18
+  mix: 0.18
 - effect: fade_edges
   in_ms: 0.2
-  out_ms: 12
+  out_ms: 14
 - effect: normalize_peak
   target_db: -10
-notes: Simple one-note cancel/back latch, softer and lower than confirm.
+notes: Simple one-note cancel/back latch.

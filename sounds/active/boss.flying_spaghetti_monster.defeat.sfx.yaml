@@ -1,0 +1,125 @@
+schema: ambition.sfxir.v1
+id: boss.flying_spaghetti_monster.defeat
+duration_ms: 1850
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 870107
+  buffer_size: 128
+layers:
+- name: defeat_chorale_fall
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -24
+  start_ms: 0
+  duration_ms: 1350
+  pan: -0.05
+  parameters:
+    /AmbitionTone/freq:
+      start: 329.63
+      end: 220.0
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 20
+    hold_ms: 180
+    release_ms: 1100
+- name: defeat_noodle_sigh
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -27
+  start_ms: 300
+  duration_ms: 1040
+  pan: 0.08
+  parameters:
+    /AmbitionTone/freq:
+      start: 246.94
+      end: 164.81
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 30
+    hold_ms: 100
+    release_ms: 870
+- name: sauce_collapse
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  gain_db: -33
+  start_ms: 350
+  duration_ms: 820
+  pan: 0.0
+  envelope:
+    attack_ms: 25
+    hold_ms: 80
+    release_ms: 690
+  effects:
+  - effect: bandpass
+    center_hz: 650
+    q: 0.6
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 4200
+- name: final_meatball_drop
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -18
+  start_ms: 1120
+  duration_ms: 360
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 12
+    release_ms: 310
+  effects:
+  - effect: bandpass
+    center_hz: 125
+    q: 0.5
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 2400
+- name: tiny_holy_afterglow
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -31
+  start_ms: 1360
+  duration_ms: 300
+  pan: 0.16
+  parameters:
+    /AmbitionTone/freq: 659.25
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 10
+    hold_ms: 40
+    release_ms: 240
+postprocess:
+- effect: highpass
+  cutoff_hz: 25
+- effect: lowpass
+  cutoff_hz: 6200
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.22
+  q: 0.9
+- effect: soft_clip
+  drive: 0.32
+  mix: 0.18
+- effect: delay
+  delay_ms: 58
+  feedback: 0.07
+  mix: 0.05
+- effect: reverb
+  room_size: 0.14
+  damping: 0.65
+  wet_level: 0.06
+  dry_level: 0.96
+  width: 0.75
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 14
+- effect: normalize_peak
+  target_db: -8.5
+notes: 'FSM defeat: falling holy/noodle sigh, sauce collapse, and final meatball drop.'

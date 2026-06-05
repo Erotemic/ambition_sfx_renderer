@@ -1,0 +1,71 @@
+schema: ambition.sfxir.v1
+id: boss.mockingbird.mimic_call
+duration_ms: 900
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 868522
+  buffer_size: 128
+layers:
+- name: mimic_a
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -24
+  start_ms: 0
+  duration_ms: 360
+  parameters:
+    /AmbitionTone/freq:
+      start: 440.0
+      end: 659.2551138257398
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 20
+    hold_ms: 0
+    release_ms: 250
+- name: mimic_b
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -27
+  start_ms: 250
+  duration_ms: 460
+  parameters:
+    /AmbitionTone/freq:
+      start: 523.2511306011972
+      end: 440.0
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 30
+    hold_ms: 0
+    release_ms: 350
+- name: feather_air
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -34
+  start_ms: 80
+  duration_ms: 620
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 520
+  effects:
+  - effect: bandpass
+    center_hz: 2100.0
+    q: 0.35
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6800
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -11
+notes: Mockingbird mimic-call / stolen voice

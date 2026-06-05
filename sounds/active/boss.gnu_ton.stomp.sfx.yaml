@@ -1,0 +1,81 @@
+schema: ambition.sfxir.v1
+id: boss.gnu_ton.stomp
+duration_ms: 560
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 872102
+  buffer_size: 128
+layers:
+- name: hoof_impact_low
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -13
+  start_ms: 0
+  duration_ms: 330
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 16
+    release_ms: 280
+  effects:
+  - effect: bandpass
+    center_hz: 100
+    q: 0.55
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 2300
+- name: dirt_spray
+  kind: noise_burst
+  mode: grains
+  color: brown
+  gain_db: -30
+  start_ms: 12
+  duration_ms: 330
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 8
+    release_ms: 285
+  effects:
+  - effect: bandpass
+    center_hz: 800
+    q: 0.7
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 4200
+- name: ground_resonance
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -28
+  start_ms: 10
+  duration_ms: 390
+  pan: 0.0
+  parameters:
+    /AmbitionTone/freq: 146.83
+    /AmbitionTone/gain: -19
+  envelope:
+    attack_ms: 1
+    hold_ms: 40
+    release_ms: 330
+postprocess:
+- effect: highpass
+  cutoff_hz: 20
+- effect: lowpass
+  cutoff_hz: 4300
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.22
+  q: 0.9
+- effect: soft_clip
+  drive: 0.62
+  mix: 0.18
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 14
+- effect: normalize_peak
+  target_db: -7
+notes: 'Gnu Ton stomp: hoof thud, dirt spray, ground resonance.'

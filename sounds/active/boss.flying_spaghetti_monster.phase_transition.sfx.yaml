@@ -1,0 +1,111 @@
+schema: ambition.sfxir.v1
+id: boss.flying_spaghetti_monster.phase_transition
+duration_ms: 1250
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 870105
+  buffer_size: 128
+layers:
+- name: pastafarian_chorale_low
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -24
+  start_ms: 0
+  duration_ms: 1050
+  pan: -0.08
+  parameters:
+    /AmbitionTone/freq:
+      start: 220.0
+      end: 329.63
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 35
+    hold_ms: 240
+    release_ms: 760
+- name: sacred_sauce_answer
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -27
+  start_ms: 260
+  duration_ms: 760
+  pan: 0.08
+  parameters:
+    /AmbitionTone/freq:
+      start: 329.63
+      end: 493.88
+      curve: exp
+    /AmbitionTone/gain: -19
+  envelope:
+    attack_ms: 28
+    hold_ms: 120
+    release_ms: 590
+- name: boiling_phase_air
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -34
+  start_ms: 100
+  duration_ms: 900
+  pan: 0.0
+  envelope:
+    attack_ms: 50
+    hold_ms: 100
+    release_ms: 720
+  effects:
+  - effect: bandpass
+    center_hz: 1450
+    q: 0.7
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 7000
+- name: phase_thump
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -20
+  start_ms: 840
+  duration_ms: 230
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 12
+    release_ms: 190
+  effects:
+  - effect: bandpass
+    center_hz: 165
+    q: 0.5
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 2600
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 7200
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.22
+  q: 0.9
+- effect: soft_clip
+  drive: 0.42
+  mix: 0.18
+- effect: delay
+  delay_ms: 58
+  feedback: 0.07
+  mix: 0.05
+- effect: reverb
+  room_size: 0.14
+  damping: 0.65
+  wet_level: 0.06
+  dry_level: 0.96
+  width: 0.75
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 14
+- effect: normalize_peak
+  target_db: -8.5
+notes: 'FSM phase transition: sacred sauce swell into heavy thump.'

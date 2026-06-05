@@ -1,0 +1,55 @@
+schema: ambition.sfxir.v1
+id: world.gate.ripple
+duration_ms: 720
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 612263
+  buffer_size: 128
+layers:
+- name: gate_ripple_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -25
+  start_ms: 0
+  duration_ms: 640
+  parameters:
+    /AmbitionTone/freq:
+      start: 146.8323839587038
+      end: 220.0
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 30
+    hold_ms: 0
+    release_ms: 500
+- name: gate_static
+  kind: noise_burst
+  mode: scrape
+  color: white
+  gain_db: -36
+  start_ms: 60
+  duration_ms: 560
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 460
+  effects:
+  - effect: bandpass
+    center_hz: 2600.0
+    q: 0.4
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6800
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -12
+notes: unstable gate ripple object sound

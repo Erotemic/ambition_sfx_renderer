@@ -1,0 +1,71 @@
+schema: ambition.sfxir.v1
+id: boss.mockingbird.defeat
+duration_ms: 1350
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 596912
+  buffer_size: 128
+layers:
+- name: wing_crash
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  gain_db: -15
+  start_ms: 0
+  duration_ms: 600
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 480
+  effects:
+  - effect: bandpass
+    center_hz: 520.0
+    q: 0.35
+- name: mimic_unravel
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -23
+  start_ms: 220
+  duration_ms: 850
+  parameters:
+    /AmbitionTone/freq:
+      start: 659.2551138257398
+      end: 220.0
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 20
+    hold_ms: 0
+    release_ms: 700
+- name: feathers
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -31
+  start_ms: 500
+  duration_ms: 650
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 20
+  effects:
+  - effect: bandpass
+    center_hz: 1600.0
+    q: 0.45
+  grain_count: 35
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6800
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -8
+notes: Mockingbird defeat, voice unraveling
