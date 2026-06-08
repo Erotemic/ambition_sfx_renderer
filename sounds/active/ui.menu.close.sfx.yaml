@@ -1,55 +1,66 @@
 schema: ambition.sfxir.v1
 id: ui.menu.close
-duration_ms: 620
+duration_ms: 560
 render:
   sample_rate: 48000
   channels: 2
-  seed: 850103
+  seed: 850104
   buffer_size: 128
 layers:
-- name: open_air_lift
+- name: close_air_fold
   kind: noise_burst
   mode: scrape
-  color: pink
-  gain_db: -38
+  color: brown
+  gain_db: -40
   start_ms: 0
-  duration_ms: 500
+  duration_ms: 430
   pan: 0.0
   envelope:
-    attack_ms: 4
-    hold_ms: 28
-    release_ms: 430
+    attack_ms: 1
+    hold_ms: 22
+    release_ms: 370
   effects:
   - effect: bandpass
-    center_hz: 2100
-    q: 0.9
+    center_hz: 1450
+    q: 0.85
   - effect: highpass
     cutoff_hz: 80
   - effect: lowpass
-    cutoff_hz: 9200
-- name: open_low_body
+    cutoff_hz: 7600
+- name: close_bell_1
   kind: dawdreamer_faust
   dsp: patches/faust/tone.dsp
-  gain_db: -28
+  gain_db: -24
   start_ms: 0
-  duration_ms: 410
-  pan: -0.06
+  duration_ms: 190
+  pan: 0.1
   parameters:
-    /AmbitionTone/freq:
-      start: 164.81
-      end: 246.94
-      curve: exp
-    /AmbitionTone/gain: -18
+    /AmbitionTone/freq: 987.77
+    /AmbitionTone/gain: -17
   envelope:
-    attack_ms: 2
-    hold_ms: 45
-    release_ms: 340
-- name: open_bell_1
+    attack_ms: 0.3
+    hold_ms: 8
+    release_ms: 170
+- name: close_bell_2
   kind: dawdreamer_faust
   dsp: patches/faust/tone.dsp
-  gain_db: -22
-  start_ms: 42
-  duration_ms: 220
+  gain_db: -24
+  start_ms: 74
+  duration_ms: 190
+  pan: -0.02
+  parameters:
+    /AmbitionTone/freq: 830.61
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0.3
+    hold_ms: 8
+    release_ms: 170
+- name: close_bell_resolve
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -23
+  start_ms: 160
+  duration_ms: 235
   pan: -0.12
   parameters:
     /AmbitionTone/freq: 659.25
@@ -57,54 +68,26 @@ layers:
   envelope:
     attack_ms: 0.4
     hold_ms: 14
-    release_ms: 190
-- name: open_bell_2
+    release_ms: 205
+- name: close_low_latch
   kind: dawdreamer_faust
   dsp: patches/faust/tone.dsp
-  gain_db: -23
-  start_ms: 128
-  duration_ms: 250
-  pan: 0.04
+  gain_db: -25
+  start_ms: 310
+  duration_ms: 180
+  pan: 0.0
   parameters:
-    /AmbitionTone/freq: 830.61
-    /AmbitionTone/gain: -17
+    /AmbitionTone/freq: 164.81
+    /AmbitionTone/gain: -18
   envelope:
-    attack_ms: 0.4
-    hold_ms: 16
-    release_ms: 210
-- name: open_bell_resolve
-  kind: dawdreamer_faust
-  dsp: patches/faust/tone.dsp
-  gain_db: -24
-  start_ms: 238
-  duration_ms: 300
-  pan: 0.14
-  parameters:
-    /AmbitionTone/freq: 987.77
-    /AmbitionTone/gain: -17
-  envelope:
-    attack_ms: 0.5
+    attack_ms: 1.0
     hold_ms: 22
-    release_ms: 250
-- name: open_top_sparkle
-  kind: dawdreamer_faust
-  dsp: patches/faust/tone.dsp
-  gain_db: -31
-  start_ms: 355
-  duration_ms: 170
-  pan: 0.08
-  parameters:
-    /AmbitionTone/freq: 1318.51
-    /AmbitionTone/gain: -19
-  envelope:
-    attack_ms: 0.2
-    hold_ms: 8
     release_ms: 145
 postprocess:
 - effect: highpass
   cutoff_hz: 55
 - effect: lowpass
-  cutoff_hz: 9400
+  cutoff_hz: 7600
 - effect: deharsh
   center_hz: 3400
   amount: 0.22
@@ -112,10 +95,6 @@ postprocess:
 - effect: soft_clip
   drive: 0.18
   mix: 0.18
-- effect: delay
-  delay_ms: 58
-  feedback: 0.07
-  mix: 0.05
 - effect: reverb
   room_size: 0.14
   damping: 0.65
@@ -126,5 +105,5 @@ postprocess:
   in_ms: 0.2
   out_ms: 14
 - effect: normalize_peak
-  target_db: -10
-notes: 'Menu open: upward magical chime bloom synthesized from scratch.'
+  target_db: -11
+notes: 'Menu close: downward folding chime with low latch.'
