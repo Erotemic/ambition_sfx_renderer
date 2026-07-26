@@ -1,0 +1,52 @@
+schema: ambition.sfxir.v1
+id: player.robot.slash.impact.metal.gong
+duration_ms: 540
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 918251
+  buffer_size: 128
+  safety_lowpass_hz: 4300
+layers:
+- name: low_heavy_gong
+  kind: noise_burst
+  mode: metal_gong
+  color: brown
+  gain_db: -3.2
+  duration_ms: 510
+  envelope:
+    attack_ms: 0
+    hold_ms: 35
+    release_ms: 440
+- name: blade_strike_definition
+  kind: noise_burst
+  mode: grains
+  color: pink
+  grain_count: 4
+  grain_decay_ms: 8.0
+  spread_ms: 8
+  gain_db: -13
+  duration_ms: 42
+  pan: -0.08
+  filter:
+    kind: bandpass
+    hz: 820
+    q: 0.68
+postprocess:
+- effect: highpass
+  cutoff_hz: 38
+- effect: lowpass
+  cutoff_hz: 3900
+- effect: compressor
+  threshold_db: -19
+  ratio: 3.0
+  attack_ms: 0.8
+  release_ms: 120
+- effect: soft_clip
+  drive: 0.32
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 42
+- effect: normalize_peak
+  target_db: -5.2
+notes: low broad gong for heavy slash contact against large or strongly struck metal

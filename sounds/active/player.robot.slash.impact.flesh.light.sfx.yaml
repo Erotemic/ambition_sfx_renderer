@@ -1,0 +1,42 @@
+schema: ambition.sfxir.v1
+# Squishy click/filter technique reference: James Patrick / Slam Academy
+# https://www.youtube.com/watch?v=RFzSPUJ_A3Q
+# Adapted as one layer of game Foley; the final cue and implementation are original.
+id: player.robot.slash.impact.flesh.light
+duration_ms: 285
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 551119
+  buffer_size: 128
+  safety_lowpass_hz: 4900
+  safety_drive: 1.0
+  safety_clip_mix: 0.08
+  final_peak_db: -6.2
+layers:
+- name: light_wet_nick_with_juice_slurp
+  kind: noise_burst
+  mode: flesh_light
+  color: pink
+  gain_db: 0.0
+  duration_ms: 280
+  envelope:
+    attack_ms: 2.5
+    hold_ms: 0
+    release_ms: 20
+postprocess:
+- effect: highpass
+  cutoff_hz: 74
+- effect: lowpass
+  cutoff_hz: 4650
+- effect: compressor
+  threshold_db: -13
+  ratio: 1.12
+  attack_ms: 24
+  release_ms: 125
+- effect: fade_edges
+  in_ms: 1.5
+  out_ms: 18
+- effect: normalize_peak
+  target_db: -5.8
+notes: light-touch player-robot flesh nick with reduced entry mass and splatter, followed by a dominant close-mic liquid suction tail, juice bubbles, soft wet seals, and sticky pull-free; the attributed click-filter technique remains supporting articulation
