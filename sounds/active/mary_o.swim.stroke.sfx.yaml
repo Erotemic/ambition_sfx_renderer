@@ -1,0 +1,81 @@
+schema: ambition.sfxir.v1
+id: mary_o.swim.stroke
+duration_ms: 270
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 77588816
+  buffer_size: 128
+  final_peak_db: -12.5
+layers:
+- name: water_push
+  kind: noise_burst
+  mode: burst
+  color: pink
+  gain_db: -29
+  start_ms: 0
+  duration_ms: 240
+  pan: 0.0
+  envelope:
+    attack_ms: 5
+    hold_ms: 35
+    release_ms: 190
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1700
+- name: surface_droplets
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -39
+  start_ms: 40
+  duration_ms: 190
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 8
+    release_ms: 145
+  grain_count: 8
+  grain_decay_ms: 5
+  spread_ms: 130
+- name: water_body
+  kind: synth_tone
+  waveform: sine
+  frequency_hz:
+    start: 170
+    end: 110
+    curve: smooth
+  gain_db: -41
+  start_ms: 0
+  duration_ms: 210
+  pan: 0.0
+  stereo_spread_cents: 2
+  envelope:
+    attack_ms: 8
+    hold_ms: 30
+    release_ms: 160
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 3500
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.025
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -12.5
+notes: Use once per Mary-O swim-stroke animation beat. It is a compact water displacement with scattered droplets
+  and should remain comfortable when repeated rhythmically.

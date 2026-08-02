@@ -20,6 +20,10 @@ def render_layer_source(layer: dict[str, Any], context: dict[str, Any]) -> np.nd
         from ambition_sfx_renderer.backends.pyfxr_backend import render_pyfxr_layer
 
         return render_pyfxr_layer(layer, context)
+    if kind in {"synth_tone", "procedural_tone", "oscillator"}:
+        from ambition_sfx_renderer.backends.synth_backend import render_synth_layer
+
+        return render_synth_layer(layer, context)
     if kind in {"noise", "noise_burst", "foley_noise", "grain_noise"}:
         from ambition_sfx_renderer.backends.noise_backend import render_noise_layer
 

@@ -1,0 +1,87 @@
+schema: ambition.sfxir.v1
+id: mary_o.spark.expire
+duration_ms: 320
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 49519016
+  buffer_size: 128
+  final_peak_db: -12.0
+layers:
+- name: fading_star
+  kind: synth_tone
+  waveform: bell
+  frequency_hz:
+    start: 930
+    end: 420
+    curve: exp
+  gain_db: -28
+  start_ms: 0
+  duration_ms: 260
+  pan: -0.1
+  stereo_spread_cents: 13
+  envelope:
+    attack_ms: 2
+    hold_ms: 15
+    release_ms: 225
+  vibrato:
+    rate_hz: 7.0
+    depth_cents: 18
+    delay_ms: 45
+- name: last_glint
+  kind: synth_tone
+  waveform: sine
+  frequency_hz: 1396.91
+  gain_db: -32
+  start_ms: 35
+  duration_ms: 190
+  pan: 0.26
+  stereo_spread_cents: 9
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 165
+- name: dissolve_air
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -38
+  start_ms: 20
+  duration_ms: 250
+  pan: 0.0
+  envelope:
+    attack_ms: 12
+    hold_ms: 18
+    release_ms: 210
+  start_hz: 4300
+  end_hz: 700
+  q: 0.6
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 6900
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: delay
+  delay_ms: 70
+  feedback: 0.08
+  mix: 0.045
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.06
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -12.0
+notes: Use when a Spark Blossom projectile times out without striking a target. This is a quiet downward magical
+  dissolution and should not be mistaken for an impact or enemy hit.

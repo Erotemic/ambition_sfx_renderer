@@ -1,0 +1,138 @@
+schema: ambition.sfxir.v1
+id: mary_o.transform.big_to_fire
+duration_ms: 940
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 26080202
+  buffer_size: 128
+  final_peak_db: -8.5
+layers:
+  - name: radiant_core
+    kind: synth_tone
+    waveform: soft_saw
+    frequency_hz: {start: 196.0, end: 392.0, curve: smooth}
+    gain_db: -29
+    duration_ms: 860
+    stereo_spread_cents: 9
+    harmonics:
+      - {ratio: 1.0, gain_db: 0}
+      - {ratio: 1.5, gain_db: -11}
+      - {ratio: 2.0, gain_db: -18}
+    envelope: {attack_ms: 30, hold_ms: 120, release_ms: 650}
+  - name: wing_air_left
+    kind: noise_burst
+    mode: air_sweep
+    color: pink
+    start_hz: 850
+    end_hz: 6800
+    q: 0.72
+    gain_db: -36
+    pan: -0.65
+    start_ms: 55
+    duration_ms: 620
+    envelope: {attack_ms: 35, hold_ms: 110, release_ms: 430}
+  - name: wing_air_right
+    kind: noise_burst
+    mode: air_sweep
+    color: pink
+    start_hz: 1050
+    end_hz: 7200
+    q: 0.78
+    gain_db: -36
+    pan: 0.65
+    start_ms: 105
+    duration_ms: 600
+    envelope: {attack_ms: 30, hold_ms: 100, release_ms: 430}
+  - name: star_e
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 659.25
+    gain_db: -22
+    pan: -0.35
+    start_ms: 90
+    duration_ms: 440
+    stereo_spread_cents: 9
+    envelope: {attack_ms: 1, hold_ms: 20, release_ms: 370}
+  - name: star_g
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 783.99
+    gain_db: -22
+    pan: 0.32
+    start_ms: 175
+    duration_ms: 420
+    stereo_spread_cents: 10
+    envelope: {attack_ms: 1, hold_ms: 18, release_ms: 355}
+  - name: star_b
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 987.77
+    gain_db: -23
+    pan: -0.18
+    start_ms: 260
+    duration_ms: 400
+    stereo_spread_cents: 11
+    envelope: {attack_ms: 1, hold_ms: 16, release_ms: 340}
+  - name: flash_d
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 1174.66
+    gain_db: -20
+    pan: 0.16
+    start_ms: 350
+    duration_ms: 430
+    stereo_spread_cents: 14
+    vibrato: {rate_hz: 6.6, depth_cents: 13, delay_ms: 35}
+    envelope: {attack_ms: 1, hold_ms: 25, release_ms: 350}
+  - name: fire_snap
+    kind: noise_burst
+    mode: grains
+    color: white
+    grain_count: 14
+    grain_decay_ms: 5
+    spread_ms: 210
+    gain_db: -34
+    start_ms: 390
+    duration_ms: 260
+    envelope: {attack_ms: 1, hold_ms: 25, release_ms: 190}
+    effects:
+      - {effect: bandpass, center_hz: 3100, q: 0.65}
+  - name: final_crown_c
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 1046.50
+    gain_db: -23
+    pan: -0.25
+    start_ms: 590
+    duration_ms: 320
+    envelope: {attack_ms: 1, hold_ms: 20, release_ms: 270}
+  - name: final_crown_e
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 1318.51
+    gain_db: -25
+    pan: 0.0
+    start_ms: 610
+    duration_ms: 300
+    envelope: {attack_ms: 1, hold_ms: 18, release_ms: 250}
+  - name: final_crown_g
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 1567.98
+    gain_db: -27
+    pan: 0.25
+    start_ms: 630
+    duration_ms: 280
+    envelope: {attack_ms: 1, hold_ms: 16, release_ms: 230}
+postprocess:
+  - {effect: highpass, cutoff_hz: 55}
+  - {effect: lowpass, cutoff_hz: 9000}
+  - {effect: deharsh, center_hz: 3500, amount: 0.23, q: 0.88}
+  - {effect: chorus, rate_hz: 1.4, depth: 0.07, mix: 0.12}
+  - {effect: delay, delay_ms: 68, feedback: 0.11, mix: 0.075}
+  - {effect: reverb, room_size: 0.18, damping: 0.62, wet_level: 0.10, dry_level: 0.95, width: 0.9}
+  - {effect: soft_clip, drive: 0.20, mix: 0.20}
+  - {effect: fade_edges, in_ms: 0.2, out_ms: 22}
+  - {effect: normalize_peak, target_db: -8.5}
+notes: 'Elaborate big-to-fire magical-girl transformation with paired wing lifts, sequential stars, fire snap, and a resolved radiant triad.'

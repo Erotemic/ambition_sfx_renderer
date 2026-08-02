@@ -1,0 +1,107 @@
+schema: ambition.sfxir.v1
+id: mary_o.revert.fire_to_big
+duration_ms: 760
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 26080204
+  buffer_size: 128
+  final_peak_db: -8.5
+layers:
+  - name: halo_unwind
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: {start: 1567.98, end: 659.25, curve: exp}
+    gain_db: -25
+    duration_ms: 650
+    stereo_spread_cents: 16
+    vibrato: {rate_hz: 7.4, depth_cents: 19, delay_ms: 0}
+    envelope: {attack_ms: 1, hold_ms: 35, release_ms: 560}
+  - name: wing_fold_left
+    kind: noise_burst
+    mode: air_sweep
+    color: pink
+    start_hz: 6800
+    end_hz: 880
+    q: 0.78
+    gain_db: -35
+    pan: -0.62
+    start_ms: 20
+    duration_ms: 480
+    envelope: {attack_ms: 6, hold_ms: 30, release_ms: 390}
+  - name: wing_fold_right
+    kind: noise_burst
+    mode: air_sweep
+    color: pink
+    start_hz: 7200
+    end_hz: 980
+    q: 0.82
+    gain_db: -35
+    pan: 0.62
+    start_ms: 70
+    duration_ms: 470
+    envelope: {attack_ms: 6, hold_ms: 28, release_ms: 385}
+  - name: lost_crown_g
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 1567.98
+    gain_db: -27
+    pan: 0.36
+    start_ms: 0
+    duration_ms: 245
+    envelope: {attack_ms: 1, hold_ms: 8, release_ms: 205}
+  - name: lost_crown_e
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 1318.51
+    gain_db: -26
+    pan: -0.28
+    start_ms: 90
+    duration_ms: 250
+    envelope: {attack_ms: 1, hold_ms: 8, release_ms: 210}
+  - name: lost_crown_c
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 1046.50
+    gain_db: -25
+    pan: 0.10
+    start_ms: 185
+    duration_ms: 255
+    envelope: {attack_ms: 1, hold_ms: 8, release_ms: 215}
+  - name: ember_shed
+    kind: noise_burst
+    mode: grains
+    color: white
+    grain_count: 18
+    grain_decay_ms: 7
+    spread_ms: 390
+    gain_db: -35
+    start_ms: 45
+    duration_ms: 470
+    envelope: {attack_ms: 1, hold_ms: 35, release_ms: 390}
+    effects:
+      - {effect: bandpass, center_hz: 2400, q: 0.72}
+  - name: grown_form_resolve
+    kind: synth_tone
+    waveform: triangle
+    frequency_hz: 261.63
+    gain_db: -24
+    start_ms: 430
+    duration_ms: 300
+    stereo_spread_cents: 5
+    harmonics:
+      - {ratio: 1.0, gain_db: 0}
+      - {ratio: 1.5, gain_db: -13}
+      - {ratio: 2.0, gain_db: -18}
+    envelope: {attack_ms: 4, hold_ms: 40, release_ms: 235}
+postprocess:
+  - {effect: highpass, cutoff_hz: 50}
+  - {effect: lowpass, cutoff_hz: 8200}
+  - {effect: deharsh, center_hz: 3400, amount: 0.24, q: 0.9}
+  - {effect: chorus, rate_hz: 0.9, depth: 0.04, mix: 0.06}
+  - {effect: delay, delay_ms: 56, feedback: 0.07, mix: 0.05}
+  - {effect: reverb, room_size: 0.14, damping: 0.68, wet_level: 0.07, dry_level: 0.97, width: 0.85}
+  - {effect: soft_clip, drive: 0.18, mix: 0.18}
+  - {effect: fade_edges, in_ms: 0.2, out_ms: 18}
+  - {effect: normalize_peak, target_db: -8.5}
+notes: 'Fire-to-big reversion: halo unwinds, wings fold independently, crown notes fall away, embers scatter, and the grown form resolves underneath.'

@@ -1,0 +1,91 @@
+schema: ambition.sfxir.v1
+id: mary_o.revert.big_to_small
+duration_ms: 560
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 26080203
+  buffer_size: 128
+  final_peak_db: -8.5
+layers:
+  - name: power_fold
+    kind: synth_tone
+    waveform: triangle
+    frequency_hz: {start: 392.0, end: 123.47, curve: exp}
+    gain_db: -23
+    duration_ms: 510
+    stereo_spread_cents: 5
+    harmonics:
+      - {ratio: 1.0, gain_db: 0}
+      - {ratio: 1.5, gain_db: -15}
+    vibrato: {rate_hz: 8.0, depth_cents: 22, delay_ms: 35}
+    envelope: {attack_ms: 2, hold_ms: 55, release_ms: 420}
+  - name: lost_g
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 783.99
+    gain_db: -24
+    pan: 0.28
+    start_ms: 0
+    duration_ms: 270
+    envelope: {attack_ms: 1, hold_ms: 8, release_ms: 225}
+  - name: lost_e
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 659.25
+    gain_db: -23
+    pan: -0.25
+    start_ms: 80
+    duration_ms: 260
+    envelope: {attack_ms: 1, hold_ms: 8, release_ms: 215}
+  - name: lost_c
+    kind: synth_tone
+    waveform: bell
+    frequency_hz: 523.25
+    gain_db: -22
+    pan: 0.08
+    start_ms: 160
+    duration_ms: 250
+    envelope: {attack_ms: 1, hold_ms: 8, release_ms: 205}
+  - name: shrinking_air
+    kind: noise_burst
+    mode: air_sweep
+    color: pink
+    start_hz: 5200
+    end_hz: 620
+    q: 0.72
+    gain_db: -34
+    start_ms: 20
+    duration_ms: 440
+    envelope: {attack_ms: 8, hold_ms: 35, release_ms: 360}
+  - name: tall_short_pop_a
+    kind: noise_burst
+    mode: thud
+    color: brown
+    gain_db: -37
+    pan: -0.18
+    start_ms: 255
+    duration_ms: 115
+    envelope: {attack_ms: 1, hold_ms: 5, release_ms: 90}
+    effects:
+      - {effect: lowpass, cutoff_hz: 640}
+  - name: tall_short_pop_b
+    kind: synth_tone
+    waveform: pulse
+    pulse_width: 0.38
+    frequency_hz: {start: 246.94, end: 174.61, curve: exp}
+    gain_db: -31
+    pan: 0.16
+    start_ms: 350
+    duration_ms: 145
+    envelope: {attack_ms: 1, hold_ms: 8, release_ms: 112}
+postprocess:
+  - {effect: highpass, cutoff_hz: 45}
+  - {effect: lowpass, cutoff_hz: 6800}
+  - {effect: deharsh, center_hz: 3200, amount: 0.24, q: 0.9}
+  - {effect: delay, delay_ms: 42, feedback: 0.05, mix: 0.035}
+  - {effect: reverb, room_size: 0.09, damping: 0.72, wet_level: 0.045, dry_level: 0.98, width: 0.7}
+  - {effect: soft_clip, drive: 0.17, mix: 0.16}
+  - {effect: fade_edges, in_ms: 0.2, out_ms: 14}
+  - {effect: normalize_peak, target_db: -8.5}
+notes: 'Big-to-small power loss: descending broken chord, collapsing air, and two uneven size-pop beats rather than a reversed growth sweep.'

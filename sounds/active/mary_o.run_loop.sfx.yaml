@@ -1,0 +1,110 @@
+schema: ambition.sfxir.v1
+id: mary_o.run_loop
+duration_ms: 480
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 12789553
+  buffer_size: 128
+  final_peak_db: -16.0
+layers:
+- name: step_one
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -38
+  start_ms: 0
+  duration_ms: 90
+  pan: -0.12
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 65
+  effects:
+  - effect: lowpass
+    cutoff_hz: 900
+- name: step_two
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -38
+  start_ms: 120
+  duration_ms: 90
+  pan: 0.12
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 65
+  effects:
+  - effect: lowpass
+    cutoff_hz: 900
+- name: step_three
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -38
+  start_ms: 240
+  duration_ms: 90
+  pan: -0.1
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 65
+  effects:
+  - effect: lowpass
+    cutoff_hz: 900
+- name: step_four
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -38
+  start_ms: 360
+  duration_ms: 90
+  pan: 0.1
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 65
+  effects:
+  - effect: lowpass
+    cutoff_hz: 900
+- name: cloth_motion
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -49
+  start_ms: 0
+  duration_ms: 470
+  pan: 0.0
+  envelope:
+    attack_ms: 20
+    hold_ms: 80
+    release_ms: 350
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1800
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 3100
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.008
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -16.0
+notes: Use only if the movement implementation prefers a continuous run loop instead of per-footstep events. The
+  four evenly spaced shoe contacts define the loop period; do not play this simultaneously with mary_o.footstep.

@@ -1,0 +1,125 @@
+schema: ambition.sfxir.v1
+id: mary_o.respawn
+duration_ms: 560
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 57430318
+  buffer_size: 128
+  final_peak_db: -10.0
+layers:
+- name: return_air
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -36
+  start_ms: 0
+  duration_ms: 430
+  pan: 0.0
+  envelope:
+    attack_ms: 12
+    hold_ms: 80
+    release_ms: 340
+  start_hz: 520
+  end_hz: 5200
+  q: 0.68
+- name: return_body
+  kind: synth_tone
+  waveform: triangle
+  frequency_hz:
+    start: 130.81
+    end: 261.63
+    curve: exp
+  gain_db: -30
+  start_ms: 0
+  duration_ms: 480
+  pan: 0.0
+  stereo_spread_cents: 5
+  envelope:
+    attack_ms: 8
+    hold_ms: 55
+    release_ms: 395
+- name: return_one
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 523.25
+  gain_db: -29
+  start_ms: 90
+  duration_ms: 290
+  pan: -0.26
+  stereo_spread_cents: 8
+  envelope:
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 240
+- name: return_two
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 659.25
+  gain_db: -28
+  start_ms: 180
+  duration_ms: 260
+  pan: 0.0
+  stereo_spread_cents: 10
+  envelope:
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 215
+- name: return_three
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 1046.5
+  gain_db: -26
+  start_ms: 300
+  duration_ms: 225
+  pan: 0.26
+  stereo_spread_cents: 13
+  envelope:
+    attack_ms: 1
+    hold_ms: 12
+    release_ms: 180
+- name: control_pop
+  kind: noise_burst
+  mode: pogo_impact
+  color: pink
+  gain_db: -37
+  start_ms: 355
+  duration_ms: 130
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 95
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7800
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: chorus
+  rate_hz: 1.0
+  depth: 0.035
+  mix: 0.05
+- effect: delay
+  delay_ms: 58
+  feedback: 0.08
+  mix: 0.045
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.07
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -10.0
+notes: Use when Mary-O respawns and player control is restored. The rising return shimmer and final compact pop
+  communicate re-entry without sounding like a powerup transformation.

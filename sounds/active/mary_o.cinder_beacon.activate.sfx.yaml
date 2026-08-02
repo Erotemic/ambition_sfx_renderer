@@ -1,0 +1,125 @@
+schema: ambition.sfxir.v1
+id: mary_o.cinder_beacon.activate
+duration_ms: 760
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 90562774
+  buffer_size: 128
+  final_peak_db: -9.0
+layers:
+- name: ember_ignition
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -31
+  start_ms: 0
+  duration_ms: 560
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 9
+    release_ms: 460
+  grain_count: 22
+  grain_decay_ms: 5
+  spread_ms: 480
+- name: flame_body
+  kind: synth_tone
+  waveform: soft_saw
+  frequency_hz:
+    start: 110
+    end: 440
+    curve: exp
+  gain_db: -31
+  start_ms: 0
+  duration_ms: 650
+  pan: -0.08
+  stereo_spread_cents: 7
+  envelope:
+    attack_ms: 10
+    hold_ms: 70
+    release_ms: 540
+  harmonics:
+  - ratio: 1.0
+    gain_db: 0
+  - ratio: 2.0
+    gain_db: -17
+  - ratio: 3.0
+    gain_db: -24
+  tremolo:
+    rate_hz: 7.2
+    depth: 0.16
+- name: heat_lift
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -38
+  start_ms: 25
+  duration_ms: 570
+  pan: 0.0
+  envelope:
+    attack_ms: 15
+    hold_ms: 85
+    release_ms: 460
+  start_hz: 500
+  end_hz: 6200
+  q: 0.62
+- name: beacon_bell
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 987.77
+  gain_db: -27
+  start_ms: 340
+  duration_ms: 330
+  pan: 0.22
+  stereo_spread_cents: 14
+  envelope:
+    attack_ms: 1
+    hold_ms: 20
+    release_ms: 275
+- name: ember_crown
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 1318.51
+  gain_db: -31
+  start_ms: 455
+  duration_ms: 245
+  pan: -0.2
+  stereo_spread_cents: 16
+  envelope:
+    attack_ms: 1
+    hold_ms: 12
+    release_ms: 200
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 8000
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: chorus
+  rate_hz: 0.9
+  depth: 0.045
+  mix: 0.055
+- effect: delay
+  delay_ms: 75
+  feedback: 0.11
+  mix: 0.06
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.09
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -9.0
+notes: Use when Mary-O deliberately activates the Cinder Beacon prop or ability. The cue grows from ember crackle
+  into a rising flame body and a clear beacon bell; it is not the same event as entering fire form.

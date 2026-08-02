@@ -152,6 +152,7 @@ postprocess:
 ## Implemented layer kinds
 
 - `sample` — load a WAV/OGG/FLAC layer from disk with `soundfile`.
+- `synth_tone` — deterministic NumPy oscillator with pitch automation, harmonic stacks, vibrato, tremolo, and stereo detune for layered musical cues.
 - `pyfxr` — render a game-SFX seed with `pyfxr` presets or explicit SFX params.
 - `dawdreamer_faust` — render a Faust DSP patch through DawDreamer.
 - `pyo_patch` — intentionally TODO / `NotImplementedError` for now.

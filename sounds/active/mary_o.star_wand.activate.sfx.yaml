@@ -1,0 +1,132 @@
+schema: ambition.sfxir.v1
+id: mary_o.star_wand.activate
+duration_ms: 690
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 13228322
+  buffer_size: 128
+  final_peak_db: -9.5
+layers:
+- name: wand_sweep
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -36
+  start_ms: 0
+  duration_ms: 470
+  pan: 0.0
+  envelope:
+    attack_ms: 8
+    hold_ms: 55
+    release_ms: 380
+  start_hz: 700
+  end_hz: 7200
+  q: 0.7
+- name: wand_core
+  kind: synth_tone
+  waveform: triangle
+  frequency_hz:
+    start: 392
+    end: 784
+    curve: exp
+  gain_db: -31
+  start_ms: 0
+  duration_ms: 500
+  pan: 0.0
+  stereo_spread_cents: 8
+  envelope:
+    attack_ms: 5
+    hold_ms: 45
+    release_ms: 410
+- name: star_left
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 1046.5
+  gain_db: -28
+  start_ms: 95
+  duration_ms: 330
+  pan: -0.34
+  stereo_spread_cents: 14
+  envelope:
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 275
+- name: star_right
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 1318.51
+  gain_db: -29
+  start_ms: 190
+  duration_ms: 300
+  pan: 0.32
+  stereo_spread_cents: 16
+  envelope:
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 245
+- name: wand_crown
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 1567.98
+  gain_db: -26
+  start_ms: 325
+  duration_ms: 285
+  pan: 0.0
+  stereo_spread_cents: 18
+  envelope:
+    attack_ms: 1
+    hold_ms: 18
+    release_ms: 235
+  vibrato:
+    rate_hz: 6.8
+    depth_cents: 12
+    delay_ms: 55
+- name: star_dust
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -43
+  start_ms: 70
+  duration_ms: 500
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 7
+    release_ms: 410
+  grain_count: 17
+  grain_decay_ms: 4
+  spread_ms: 420
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 8800
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: chorus
+  rate_hz: 1.35
+  depth: 0.04
+  mix: 0.06
+- effect: delay
+  delay_ms: 68
+  feedback: 0.12
+  mix: 0.07
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.105
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -9.5
+notes: Use when Mary-O activates the Star Wand prop or ability. A lateral wand sweep, three separately placed star
+  tones, and a bright crown distinguish it from Spark Blossom casting and transformation music.

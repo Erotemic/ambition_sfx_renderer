@@ -1,0 +1,113 @@
+schema: ambition.sfxir.v1
+id: mary_o.powerup.emerge
+duration_ms: 560
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 11793701
+  buffer_size: 128
+  final_peak_db: -9.0
+layers:
+- name: emerge_body
+  kind: synth_tone
+  waveform: triangle
+  frequency_hz:
+    start: 196.0
+    end: 392.0
+    curve: exp
+  gain_db: -28
+  start_ms: 0
+  duration_ms: 470
+  pan: 0.0
+  stereo_spread_cents: 5
+  envelope:
+    attack_ms: 8
+    hold_ms: 55
+    release_ms: 390
+- name: lift_air
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -36
+  start_ms: 12
+  duration_ms: 420
+  pan: 0.0
+  envelope:
+    attack_ms: 12
+    hold_ms: 70
+    release_ms: 330
+  start_hz: 650
+  end_hz: 4600
+  q: 0.7
+- name: step_one
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 523.25
+  gain_db: -24
+  start_ms: 90
+  duration_ms: 300
+  pan: -0.28
+  stereo_spread_cents: 8
+  envelope:
+    attack_ms: 1
+    hold_ms: 12
+    release_ms: 250
+- name: step_two
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 659.25
+  gain_db: -25
+  start_ms: 180
+  duration_ms: 270
+  pan: 0.22
+  stereo_spread_cents: 10
+  envelope:
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 225
+- name: reward_reveal
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 987.77
+  gain_db: -24
+  start_ms: 300
+  duration_ms: 230
+  pan: 0.0
+  stereo_spread_cents: 13
+  envelope:
+    attack_ms: 1
+    hold_ms: 12
+    release_ms: 190
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7900
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: chorus
+  rate_hz: 1.1
+  depth: 0.035
+  mix: 0.05
+- effect: delay
+  delay_ms: 64
+  feedback: 0.08
+  mix: 0.05
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.075
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -9.0
+notes: Use when a powerup visibly rises or pops out of a question block. This cue announces that a reward has appeared;
+  collection and transformation should still use their own later sounds.
