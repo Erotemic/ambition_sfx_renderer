@@ -1,0 +1,70 @@
+schema: ambition.sfxir.v1
+id: vfx.patent_clerk.elevator_frame
+duration_ms: 600
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 781384
+  buffer_size: 128
+  final_peak_db: -10.5
+  safety_lowpass_hz: 6800
+authoring:
+  companion_for:
+    sprite_target: patent_clerk_vfx
+    animation: elevator_frame
+    visual_duration_ms: 600
+  playback:
+    mode: one_shot
+    sync_hint: visual_start
+    audibility: supporting
+  sound_design_family: mechanical_thought
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: cabin_motion
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -23
+  start_ms: 0
+  duration_ms: 600
+  envelope:
+    attack_ms: 3
+    hold_ms: 20
+    release_ms: 575
+  effects:
+  - effect: bandpass
+    center_hz: 720
+    q: 0.5
+- name: frame_shift
+  kind: synth_tone
+  gain_db: -28
+  start_ms: 0
+  duration_ms: 600
+  waveform: triangle
+  frequency_hz:
+    start: 145
+    end: 240
+    curve: smooth
+  envelope:
+    attack_ms: 5
+    hold_ms: 15
+    release_ms: 575
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 4300
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -11.0
+notes: Procedural SFX companion for patent_clerk_vfx::elevator_frame. Designed as mechanical thought; runtime integration
+  should bind through generic VFX/SFX presentation data, not animation-name switches.

@@ -1,0 +1,58 @@
+schema: ambition.sfxir.v1
+id: vfx.pca.oscillator_pulse.loop
+duration_ms: 816
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 685603
+  buffer_size: 128
+  final_peak_db: -14.0
+  safety_lowpass_hz: 5600
+authoring:
+  companion_for:
+    sprite_target: pca_vfx
+    animation: oscillator_pulse
+    visual_duration_ms: 816
+  playback:
+    mode: loop
+    sync_hint: loop_while_visual_is_sustained
+    audibility: supporting
+  sound_design_family: loop_digital
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: sustain
+  kind: synth_tone
+  gain_db: -25
+  start_ms: 0
+  duration_ms: 816
+  waveform: square
+  frequency_hz: 283
+  envelope:
+    attack_ms: 8
+    hold_ms: 786
+    release_ms: 18
+  tremolo:
+    rate_hz: 3.25
+    depth: 0.46
+  stereo_spread_cents: 7
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 5600
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: bitcrush
+  bit_depth: 12
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -14.0
+notes: Procedural SFX companion for pca_vfx::oscillator_pulse. Designed as loop digital; runtime integration should
+  bind through generic VFX/SFX presentation data, not animation-name switches.

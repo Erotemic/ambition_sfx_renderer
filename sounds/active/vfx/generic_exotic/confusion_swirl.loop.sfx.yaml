@@ -1,0 +1,83 @@
+schema: ambition.sfxir.v1
+id: vfx.generic_exotic.confusion_swirl.loop
+duration_ms: 864
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 288169
+  buffer_size: 128
+  final_peak_db: -14.0
+  safety_lowpass_hz: 6800
+authoring:
+  companion_for:
+    sprite_target: generic_exotic_fx
+    animation: confusion_swirl
+    visual_duration_ms: 864
+  playback:
+    mode: loop
+    sync_hint: loop_while_visual_is_sustained
+    audibility: supporting
+  sound_design_family: loop_magic
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: sustain
+  kind: synth_tone
+  gain_db: -27
+  start_ms: 0
+  duration_ms: 864
+  waveform: bell
+  frequency_hz: 379
+  envelope:
+    attack_ms: 8
+    hold_ms: 834
+    release_ms: 18
+  tremolo:
+    rate_hz: 3.0
+    depth: 0.24
+  stereo_spread_cents: 7
+- name: overtone
+  kind: synth_tone
+  gain_db: -34
+  start_ms: 0
+  duration_ms: 864
+  waveform: sine
+  frequency_hz: 568.5
+  pan: 0.12
+  envelope:
+    attack_ms: 10
+    hold_ms: 829
+    release_ms: 20
+  tremolo:
+    rate_hz: 1.6
+    depth: 0.18
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 6500
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: chorus
+  rate_hz: 0.85
+  depth: 0.22
+  centre_delay_ms: 5.5
+  feedback: 0.05
+  mix: 0.18
+- effect: reverb
+  room_size: 0.08
+  damping: 0.68
+  wet_level: 0.036000000000000004
+  dry_level: 0.97
+  width: 0.8
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -14.0
+notes: Procedural SFX companion for generic_exotic_fx::confusion_swirl. Designed as loop magic; runtime integration
+  should bind through generic VFX/SFX presentation data, not animation-name switches.

@@ -1,0 +1,80 @@
+schema: ambition.sfxir.v1
+id: vfx.carl_stargan.horizon_arc
+duration_ms: 522
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 298500
+  buffer_size: 128
+  final_peak_db: -10.5
+  safety_lowpass_hz: 6800
+authoring:
+  companion_for:
+    sprite_target: carl_stargan_vfx
+    animation: horizon_arc
+    visual_duration_ms: 522
+  playback:
+    mode: one_shot
+    sync_hint: visual_resolution_start
+    audibility: supporting
+  sound_design_family: cosmic
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: observation_chime
+  kind: synth_tone
+  gain_db: -22
+  start_ms: 0
+  duration_ms: 522
+  waveform: bell
+  frequency_hz:
+    start: 310
+    end: 418.5
+    curve: smooth
+  envelope:
+    attack_ms: 3
+    hold_ms: 18
+    release_ms: 497
+  stereo_spread_cents: 10
+- name: distant_body
+  kind: synth_tone
+  gain_db: -33
+  start_ms: 0
+  duration_ms: 522
+  waveform: sine
+  frequency_hz: 155.0
+  envelope:
+    attack_ms: 15
+    hold_ms: 467
+    release_ms: 30
+  tremolo:
+    rate_hz: 0.88
+    depth: 0.18
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 7200
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: delay
+  delay_seconds: 0.09
+  feedback: 0.12
+  mix: 0.08
+- effect: reverb
+  room_size: 0.22
+  damping: 0.68
+  wet_level: 0.099
+  dry_level: 0.97
+  width: 0.8
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -11.0
+notes: Procedural SFX companion for carl_stargan_vfx::horizon_arc. Designed as cosmic; runtime integration should
+  bind through generic VFX/SFX presentation data, not animation-name switches.

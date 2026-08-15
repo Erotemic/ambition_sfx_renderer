@@ -1,0 +1,71 @@
+schema: ambition.sfxir.v1
+id: vfx.generic_world.ember_wisp.loop
+duration_ms: 720
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 654248
+  buffer_size: 128
+  final_peak_db: -14.0
+  safety_lowpass_hz: 6800
+authoring:
+  companion_for:
+    sprite_target: generic_world_fx
+    animation: ember_wisp
+    visual_duration_ms: 720
+  playback:
+    mode: loop
+    sync_hint: loop_while_visual_is_sustained
+    audibility: supporting
+  sound_design_family: loop_energy
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: sustain
+  kind: synth_tone
+  gain_db: -27
+  start_ms: 0
+  duration_ms: 720
+  waveform: soft_saw
+  frequency_hz: 238
+  envelope:
+    attack_ms: 8
+    hold_ms: 690
+    release_ms: 18
+  tremolo:
+    rate_hz: 2.75
+    depth: 0.24
+  stereo_spread_cents: 7
+- name: overtone
+  kind: synth_tone
+  gain_db: -34
+  start_ms: 0
+  duration_ms: 720
+  waveform: sine
+  frequency_hz: 357.0
+  pan: 0.12
+  envelope:
+    attack_ms: 10
+    hold_ms: 685
+    release_ms: 20
+  tremolo:
+    rate_hz: 1.45
+    depth: 0.18
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 6500
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -14.0
+notes: Procedural SFX companion for generic_world_fx::ember_wisp. Designed as loop energy; runtime integration should
+  bind through generic VFX/SFX presentation data, not animation-name switches.

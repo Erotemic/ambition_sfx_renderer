@@ -1,0 +1,84 @@
+schema: ambition.sfxir.v1
+id: vfx.patent_clerk.known_result_stamp
+duration_ms: 486
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 169252
+  buffer_size: 128
+  final_peak_db: -8.0
+  safety_lowpass_hz: 6800
+authoring:
+  companion_for:
+    sprite_target: patent_clerk_vfx
+    animation: known_result_stamp
+    visual_duration_ms: 486
+  playback:
+    mode: one_shot
+    sync_hint: visual_contact_or_first_peak_frame
+    audibility: primary
+  sound_design_family: stamp
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: stamp_body
+  kind: noise_burst
+  mode: impact
+  color: brown
+  gain_db: -11
+  start_ms: 0
+  duration_ms: 190
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 130
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1700
+- name: ink_paper
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -23
+  start_ms: 18
+  duration_ms: 150
+  envelope:
+    attack_ms: 0
+    hold_ms: 4
+    release_ms: 100
+  effects:
+  - effect: bandpass
+    center_hz: 950
+    q: 0.65
+- name: desk_resonance
+  kind: synth_tone
+  gain_db: -30
+  start_ms: 0
+  duration_ms: 170
+  waveform: triangle
+  frequency_hz:
+    start: 112
+    end: 80.64
+    curve: exp
+  envelope:
+    attack_ms: 0
+    hold_ms: 6
+    release_ms: 140
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 3900
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -8.5
+notes: Procedural SFX companion for patent_clerk_vfx::known_result_stamp. Designed as stamp; runtime integration
+  should bind through generic VFX/SFX presentation data, not animation-name switches.
