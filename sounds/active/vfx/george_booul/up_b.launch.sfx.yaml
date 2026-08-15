@@ -1,0 +1,115 @@
+schema: ambition.sfxir.v1
+id: vfx.george_booul.up_b.launch
+duration_ms: 252
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 821918
+  buffer_size: 128
+  final_peak_db: -7.8
+layers:
+- name: ghost_launch
+  kind: noise_burst
+  mode: air_sweep
+  color: white
+  gain_db: -24
+  start_ms: 0
+  pan: 0.0
+  duration_ms: 235
+  envelope:
+    attack_ms: 0
+    hold_ms: 12
+    release_ms: 190
+  start_hz: 550
+  end_hz: 7600
+  q: 0.62
+- name: boolean_resolve
+  kind: synth_tone
+  waveform: soft_saw
+  frequency_hz:
+    start: 392
+    end: 1046.5
+    curve: exp
+  gain_db: -23
+  start_ms: 0
+  pan: 0.0
+  duration_ms: 230
+  envelope:
+    attack_ms: 1
+    hold_ms: 18
+    release_ms: 185
+  harmonics:
+  - ratio: 1.0
+    gain_db: 0
+  - ratio: 2.0
+    gain_db: -15
+  - ratio: 3.0
+    gain_db: -23
+  stereo_spread_cents: 10
+- name: true_crown
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 1318.51
+  gain_db: -29
+  start_ms: 54
+  pan: 0.16
+  duration_ms: 170
+  envelope:
+    attack_ms: 1
+    hold_ms: 8
+    release_ms: 130
+- name: set_impulse_body
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -31
+  start_ms: 0
+  pan: -0.08
+  duration_ms: 115
+  envelope:
+    attack_ms: 0
+    hold_ms: 4
+    release_ms: 86
+  filter:
+    kind: lowpass
+    hz: 600
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7600
+- effect: deharsh
+  center_hz: 3600
+  amount: 0.18
+  q: 0.9
+- effect: chorus
+  rate_hz: 0.8
+  depth: 0.04
+  mix: 0.035
+- effect: reverb
+  room_size: 0.18
+  damping: 0.72
+  wet_level: 0.09
+  dry_level: 0.97
+  width: 0.86
+- effect: soft_clip
+  drive: 0.22
+  mix: 0.18
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -7.8
+authoring:
+  companion_for:
+    sprite_target: george_booul_vfx
+    animation: excluded_middle_launch
+    visual_duration_ms: 252
+  playback:
+    mode: one_shot
+    sync_hint: set_impulse_at_0.18s
+    audibility: primary
+  sound_design_family: up_b_launch
+  character_context: 'George Booul / George Boo''l: bedsheet ghost + Boolean logic'
+notes: 'George is no longer undecided: the Set impulse gets a hard upward spectral sweep and a bright logical resolution.
+  This is the audible recovery activation.'

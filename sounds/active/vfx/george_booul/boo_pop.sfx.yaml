@@ -1,0 +1,94 @@
+schema: ambition.sfxir.v1
+id: vfx.george_booul.boo_pop
+duration_ms: 364
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 820000
+  buffer_size: 128
+  final_peak_db: -10.5
+layers:
+- name: sheet_whiff
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -30
+  start_ms: 0
+  pan: 0.0
+  duration_ms: 250
+  envelope:
+    attack_ms: 2
+    hold_ms: 8
+    release_ms: 205
+  start_hz: 700
+  end_hz: 3600
+  q: 0.7
+- name: boo_roundness
+  kind: synth_tone
+  waveform: soft_saw
+  frequency_hz:
+    start: 235
+    end: 330
+    curve: smooth
+  gain_db: -25
+  start_ms: 8
+  pan: 0.0
+  duration_ms: 230
+  envelope:
+    attack_ms: 2
+    hold_ms: 18
+    release_ms: 190
+  vibrato:
+    rate_hz: 6.2
+    depth_cents: 22
+- name: eye_ping
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 880
+  gain_db: -31
+  start_ms: 80
+  pan: 0.16
+  duration_ms: 155
+  envelope:
+    attack_ms: 1
+    hold_ms: 7
+    release_ms: 130
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7600
+- effect: deharsh
+  center_hz: 3600
+  amount: 0.18
+  q: 0.9
+- effect: chorus
+  rate_hz: 0.8
+  depth: 0.04
+  mix: 0.04
+- effect: reverb
+  room_size: 0.18
+  damping: 0.72
+  wet_level: 0.09
+  dry_level: 0.97
+  width: 0.86
+- effect: soft_clip
+  drive: 0.22
+  mix: 0.18
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -10.5
+authoring:
+  companion_for:
+    sprite_target: george_booul_vfx
+    animation: boo_pop
+    visual_duration_ms: 364
+  playback:
+    mode: one_shot
+    sync_hint: visual_start
+    audibility: supporting
+  sound_design_family: ghost_comedy
+  character_context: 'George Booul / George Boo''l: bedsheet ghost + Boolean logic'
+notes: 'A comic spectral pop: sheet-air first, then a rounded haunted vowel-like tone and tiny eye-hole ping.'
