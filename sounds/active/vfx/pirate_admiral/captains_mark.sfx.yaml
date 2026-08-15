@@ -1,0 +1,80 @@
+schema: ambition.sfxir.v1
+id: vfx.pirate_admiral.captains_mark
+duration_ms: 432
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 388753
+  buffer_size: 128
+  final_peak_db: -10.5
+  safety_lowpass_hz: 5200
+authoring:
+  companion_for:
+    sprite_target: pirate_admiral_vfx
+    animation: captains_mark
+    visual_duration_ms: 432
+  playback:
+    mode: one_shot
+    sync_hint: visual_start
+    audibility: supporting
+  sound_design_family: brass_command
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: brass_root
+  kind: synth_tone
+  gain_db: -22
+  start_ms: 0
+  duration_ms: 432
+  waveform: bell
+  frequency_hz: 392
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 402
+  harmonics:
+  - ratio: 1.0
+    gain_db: 0
+  - ratio: 1.5
+    gain_db: -7
+  - ratio: 2.0
+    gain_db: -11
+  stereo_spread_cents: 6
+- name: brass_answer
+  kind: synth_tone
+  gain_db: -28
+  start_ms: 36
+  duration_ms: 396
+  waveform: bell
+  frequency_hz: 588
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 357
+  stereo_spread_cents: 7
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 5200
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: reverb
+  room_size: 0.12
+  damping: 0.72
+  wet_level: 0.0696
+  dry_level: 0.98
+  width: 0.78
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -10.5
+notes: Procedural SFX companion for pirate_admiral_vfx::captains_mark. Designed as brass command; runtime integration should
+  bind through generic VFX/SFX presentation data, not animation-name switches.

@@ -21,13 +21,13 @@ def test_vfx_companion_manifest_is_complete_and_unique() -> None:
     companions = manifest["new_companions"]
     assert manifest["schema"] == "ambition.vfx_sfx_companions.v1"
     assert manifest["counts"] == {
-        "new": 112,
+        "new": 140,
         "existing_explosions": 5,
-        "total_mapped": 117,
+        "total_mapped": 145,
     }
-    assert len(companions) == 112
-    assert len({entry["sfx_cue_id"] for entry in companions}) == 112
-    assert len({(entry["sprite_target"], entry["animation"]) for entry in companions}) == 112
+    assert len(companions) == 140
+    assert len({entry["sfx_cue_id"] for entry in companions}) == 140
+    assert len({(entry["sprite_target"], entry["animation"]) for entry in companions}) == 140
 
     by_catalog = Counter(entry["catalog"] for entry in companions)
     assert by_catalog == {
@@ -38,6 +38,8 @@ def test_vfx_companion_manifest_is_complete_and_unique() -> None:
         "noether": 12,
         "patent_clerk": 14,
         "pca": 14,
+        "pirate_admiral": 14,
+        "ninja_shadow_oni_leader": 14,
     }
 
 

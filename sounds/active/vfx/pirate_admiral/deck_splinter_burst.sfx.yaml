@@ -1,0 +1,76 @@
+schema: ambition.sfxir.v1
+id: vfx.pirate_admiral.deck_splinter_burst
+duration_ms: 384
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 699671
+  buffer_size: 128
+  final_peak_db: -9.0
+  safety_lowpass_hz: 5200
+authoring:
+  companion_for:
+    sprite_target: pirate_admiral_vfx
+    animation: deck_splinter_burst
+    visual_duration_ms: 384
+  playback:
+    mode: one_shot
+    sync_hint: visual_contact_or_first_peak_frame
+    audibility: primary
+  sound_design_family: wood_splinter
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: deck_hit
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 384
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 190
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1200
+- name: splinters
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -17
+  start_ms: 8
+  duration_ms: 376
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 359
+  effects:
+  - effect: bandpass
+    center_hz: 2600
+    q: 0.72
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 5200
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: reverb
+  room_size: 0.04
+  damping: 0.72
+  wet_level: 0.06319999999999999
+  dry_level: 0.98
+  width: 0.78
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -9.0
+notes: Procedural SFX companion for pirate_admiral_vfx::deck_splinter_burst. Designed as wood splinter; runtime integration
+  should bind through generic VFX/SFX presentation data, not animation-name switches.

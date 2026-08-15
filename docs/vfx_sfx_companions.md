@@ -33,3 +33,12 @@ contract can promote that requirement without changing the content IDs.
 The five pre-existing generic explosion sounds remain the companions for the
 five `generic_explosions` rows and are referenced, rather than duplicated, by
 the cross-domain manifest.
+
+## Character leader vocabularies
+
+Character-specific catalogs still use the same generic mapping contract. The Pirate
+Admiral companions emphasize black powder, heavy cutlass steel, rope tension, anchor
+braking, wood/deck contact, and restrained brass command tones. The Shadow Oni
+Leader companions emphasize quiet blade air, breath, cloth and smoke, red-eye
+pressure, punctual iaijutsu/parry transients, and low shadow resonance. These are
+content vocabularies, not runtime character branches.

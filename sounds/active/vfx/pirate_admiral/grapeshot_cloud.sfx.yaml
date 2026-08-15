@@ -1,0 +1,76 @@
+schema: ambition.sfxir.v1
+id: vfx.pirate_admiral.grapeshot_cloud
+duration_ms: 416
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 915309
+  buffer_size: 128
+  final_peak_db: -11.5
+  safety_lowpass_hz: 4500
+authoring:
+  companion_for:
+    sprite_target: pirate_admiral_vfx
+    animation: grapeshot_cloud
+    visual_duration_ms: 416
+  playback:
+    mode: one_shot
+    sync_hint: visual_start
+    audibility: supporting
+  sound_design_family: black_powder_cloud
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: smoke_body
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  gain_db: -20
+  start_ms: 0
+  duration_ms: 416
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 398
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1300
+- name: shot_grains
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -24
+  start_ms: 22
+  duration_ms: 394
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 376
+  effects:
+  - effect: bandpass
+    center_hz: 2400
+    q: 0.8
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 4500
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: reverb
+  room_size: 0.05
+  damping: 0.72
+  wet_level: 0.064
+  dry_level: 0.98
+  width: 0.78
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -11.5
+notes: Procedural SFX companion for pirate_admiral_vfx::grapeshot_cloud. Designed as black powder cloud; runtime integration
+  should bind through generic VFX/SFX presentation data, not animation-name switches.

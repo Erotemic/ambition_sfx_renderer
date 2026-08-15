@@ -1,0 +1,74 @@
+schema: ambition.sfxir.v1
+id: vfx.ninja_shadow_oni_leader.iaijutsu_glint
+duration_ms: 240
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 962136
+  buffer_size: 128
+  final_peak_db: -8.5
+  safety_lowpass_hz: 6900
+authoring:
+  companion_for:
+    sprite_target: ninja_shadow_oni_leader_vfx
+    animation: iaijutsu_glint
+    visual_duration_ms: 240
+  playback:
+    mode: one_shot
+    sync_hint: visual_contact_or_first_peak_frame
+    audibility: primary
+  sound_design_family: iaijutsu_draw
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: draw_tick
+  kind: noise_burst
+  mode: blade_impact
+  color: white
+  gain_db: -13
+  start_ms: 0
+  duration_ms: 240
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 90
+- name: edge_glint
+  kind: synth_tone
+  gain_db: -23
+  start_ms: 2
+  duration_ms: 238
+  waveform: bell
+  frequency_hz:
+    start: 2100
+    end: 1560
+    curve: exp
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 150
+  stereo_spread_cents: 9
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 6900
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: reverb
+  room_size: 0.06
+  damping: 0.72
+  wet_level: 0.0648
+  dry_level: 0.98
+  width: 0.78
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -8.5
+notes: Procedural SFX companion for ninja_shadow_oni_leader_vfx::iaijutsu_glint. Designed as iaijutsu draw; runtime integration
+  should bind through generic VFX/SFX presentation data, not animation-name switches.
