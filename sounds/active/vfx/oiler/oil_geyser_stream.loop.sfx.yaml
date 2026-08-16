@@ -1,0 +1,113 @@
+schema: ambition.sfxir.v1
+id: vfx.oiler.oil_geyser_stream.loop
+duration_ms: 672
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 914512
+  buffer_size: 128
+  final_peak_db: -12.7
+layers:
+- name: churn_body
+  kind: synth_tone
+  waveform: triangle
+  frequency_hz:
+    start: 93.0
+    end: 101.0
+    curve: smooth
+  gain_db: -37
+  start_ms: 0
+  pan: -0.04
+  duration_ms: 672
+  envelope:
+    attack_ms: 14
+    hold_ms: 560
+    release_ms: 70
+  tremolo:
+    rate_hz: 4.4
+    depth: 0.17
+- name: spray_core
+  kind: noise_burst
+  mode: air_sweep
+  color: white
+  gain_db: -28
+  start_ms: 0
+  pan: 0.02
+  duration_ms: 672
+  envelope:
+    attack_ms: 12
+    hold_ms: 530
+    release_ms: 90
+  start_hz: 1250
+  end_hz: 2650
+  q: 0.62
+- name: wet_core
+  kind: noise_burst
+  mode: wet_impact
+  color: brown
+  gain_db: -31
+  start_ms: 0
+  pan: 0.0
+  duration_ms: 672
+  envelope:
+    attack_ms: 10
+    hold_ms: 520
+    release_ms: 110
+- name: detached_droplets
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -38
+  start_ms: 22
+  pan: 0.0
+  duration_ms: 628
+  envelope:
+    attack_ms: 0
+    hold_ms: 6
+    release_ms: 612
+  grain_count: 14
+  grain_decay_ms: 7
+  spread_ms: 590
+postprocess:
+- effect: highpass
+  cutoff_hz: 50
+- effect: lowpass
+  cutoff_hz: 7400
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.18
+  q: 0.9
+- effect: chorus
+  rate_hz: 0.22
+  depth: 0.12
+  mix: 0.08
+- effect: reverb
+  room_size: 0.11
+  damping: 0.7
+  wet_level: 0.03
+  dry_level: 0.995
+  width: 0.78
+- effect: soft_clip
+  drive: 0.16
+  mix: 0.1
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 4
+- effect: normalize_peak
+  target_db: -12.7
+authoring:
+  companion_for:
+    sprite_target: oiler_vfx
+    animation: oil_geyser_stream
+    visual_duration_ms: 672
+  playback:
+    mode: loop
+    sync_hint: stream_sustain
+    audibility: subtle
+  sound_design_family: oil_attack
+  auto_registration:
+    mechanism: recursive sounds/active cue discovery
+    central_registry_edit_required: false
+  character_context: 'Oiler: Euler-inspired practical gate mechanic; chalk, bearings, brass/steel, gauges, oil,
+    and stabilizer hardware.'
+notes: Sustained pressurized oil jet with a low churn underneath a steady spray band and sparse droplets.

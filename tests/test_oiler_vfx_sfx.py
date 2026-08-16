@@ -27,14 +27,17 @@ EXPECTED = {
     "pressure_vent": 540,
     "portal_leak": 840,
     "unit_circle_rotation": 560,
+    "oil_geyser_emerge": 432,
+    "oil_geyser_stream": 672,
+    "oil_geyser_impact": 368,
 }
-LOOPS = {"invariant_loop", "gate_calibration", "portal_leak"}
+LOOPS = {"invariant_loop", "gate_calibration", "portal_leak", "oil_geyser_stream"}
 
 
 def test_oiler_sfx_are_auto_discovered_recursively_without_registry_edits():
     discovered = set(iter_cue_files(ROOT / "sounds", group="active"))
     local = set(OILER_DIR.glob("*.sfx.yaml"))
-    assert len(local) == 20
+    assert len(local) == 23
     assert {path.resolve() for path in local}.issubset(discovered)
 
 
