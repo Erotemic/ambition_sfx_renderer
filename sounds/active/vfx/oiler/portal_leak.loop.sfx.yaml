@@ -1,0 +1,97 @@
+schema: ambition.sfxir.v1
+id: vfx.oiler.portal_leak.loop
+duration_ms: 840
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 914166
+  buffer_size: 128
+  final_peak_db: -13.5
+layers:
+- name: unstable_ring
+  kind: synth_tone
+  waveform: triangle
+  frequency_hz:
+    start: 123.47
+    end: 130.81
+    curve: smooth
+  gain_db: -36
+  start_ms: 0
+  pan: 0.0
+  duration_ms: 840
+  envelope:
+    attack_ms: 18
+    hold_ms: 680
+    release_ms: 90
+  tremolo:
+    rate_hz: 3.2
+    depth: 0.16
+- name: leak_air
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -42
+  start_ms: 0
+  pan: 0.0
+  duration_ms: 840
+  envelope:
+    attack_ms: 20
+    hold_ms: 650
+    release_ms: 100
+  start_hz: 700
+  end_hz: 1100
+  q: 0.55
+- name: diagnostic_spits
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -42
+  start_ms: 20
+  pan: 0.0
+  duration_ms: 800
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 789
+  grain_count: 7
+  grain_decay_ms: 4
+  spread_ms: 720
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7800
+- effect: deharsh
+  center_hz: 3500
+  amount: 0.16
+  q: 0.9
+- effect: reverb
+  room_size: 0.16
+  damping: 0.72
+  wet_level: 0.045
+  dry_level: 0.98
+  width: 0.82
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.14
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 4
+- effect: normalize_peak
+  target_db: -13.5
+authoring:
+  companion_for:
+    sprite_target: oiler_vfx
+    animation: portal_leak
+    visual_duration_ms: 840
+  playback:
+    mode: loop
+    sync_hint: visual_start
+    audibility: subtle
+  sound_design_family: unstable_gate
+  auto_registration:
+    mechanism: recursive sounds/active cue discovery
+    central_registry_edit_required: false
+  character_context: 'Oiler: Euler-inspired practical gate mechanic; chalk, bearings, brass/steel, gauges, oil,
+    and stabilizer hardware.'
+notes: 'Subtle unstable gate leak: low imperfect hum, air seep, and sparse diagnostic spits.'

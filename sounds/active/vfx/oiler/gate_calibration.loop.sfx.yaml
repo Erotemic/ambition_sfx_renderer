@@ -1,0 +1,79 @@
+schema: ambition.sfxir.v1
+id: vfx.oiler.gate_calibration.loop
+duration_ms: 768
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 914672
+  buffer_size: 128
+  final_peak_db: -13.0
+layers:
+- name: gate_hum
+  kind: synth_tone
+  waveform: sine
+  frequency_hz: 146.83
+  gain_db: -34
+  start_ms: 0
+  pan: 0.0
+  duration_ms: 768
+  envelope:
+    attack_ms: 18
+    hold_ms: 620
+    release_ms: 100
+  tremolo:
+    rate_hz: 2.6
+    depth: 0.1
+- name: calibration_ticks
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -40
+  start_ms: 0
+  pan: 0.0
+  duration_ms: 768
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 757
+  grain_count: 12
+  grain_decay_ms: 3
+  spread_ms: 700
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7800
+- effect: deharsh
+  center_hz: 3500
+  amount: 0.16
+  q: 0.9
+- effect: reverb
+  room_size: 0.16
+  damping: 0.72
+  wet_level: 0.045
+  dry_level: 0.98
+  width: 0.82
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.14
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 4
+- effect: normalize_peak
+  target_db: -13.0
+authoring:
+  companion_for:
+    sprite_target: oiler_vfx
+    animation: gate_calibration
+    visual_duration_ms: 768
+  playback:
+    mode: loop
+    sync_hint: visual_start
+    audibility: subtle
+  sound_design_family: gate_calibration
+  auto_registration:
+    mechanism: recursive sounds/active cue discovery
+    central_registry_edit_required: false
+  character_context: 'Oiler: Euler-inspired practical gate mechanic; chalk, bearings, brass/steel, gauges, oil,
+    and stabilizer hardware.'
+notes: Quiet looping gate hum and periodic calibration ticks.
