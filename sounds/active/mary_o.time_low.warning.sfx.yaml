@@ -1,0 +1,85 @@
+schema: ambition.sfxir.v1
+id: mary_o.time_low.warning
+duration_ms: 340
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 45280421
+  buffer_size: 128
+  final_peak_db: -10.0
+layers:
+- name: warning_high
+  kind: synth_tone
+  waveform: pulse
+  frequency_hz: 880.0
+  gain_db: -24
+  start_ms: 0
+  duration_ms: 145
+  pan: -0.18
+  stereo_spread_cents: 2
+  envelope:
+    attack_ms: 1
+    hold_ms: 14
+    release_ms: 105
+- name: warning_low
+  kind: synth_tone
+  waveform: pulse
+  frequency_hz: 659.25
+  gain_db: -24
+  start_ms: 145
+  duration_ms: 165
+  pan: 0.18
+  stereo_spread_cents: 2
+  envelope:
+    attack_ms: 1
+    hold_ms: 14
+    release_ms: 125
+- name: clock_tick_one
+  kind: noise_burst
+  mode: metal_chink
+  color: pink
+  gain_db: -42
+  start_ms: 5
+  duration_ms: 75
+  pan: -0.22
+  envelope:
+    attack_ms: 1
+    hold_ms: 2
+    release_ms: 48
+- name: clock_tick_two
+  kind: noise_burst
+  mode: metal_chink
+  color: pink
+  gain_db: -42
+  start_ms: 150
+  duration_ms: 75
+  pan: 0.22
+  envelope:
+    attack_ms: 1
+    hold_ms: 2
+    release_ms: 48
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 6500
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.012
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -10.0
+notes: Use for a repeatable low-time warning beat during countdown pressure. The alternating urgent notes and clock-like
+  ticks should cut through gameplay without becoming a continuous alarm.

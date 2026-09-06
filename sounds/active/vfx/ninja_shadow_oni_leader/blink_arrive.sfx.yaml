@@ -1,0 +1,77 @@
+schema: ambition.sfxir.v1
+id: vfx.ninja_shadow_oni_leader.blink_arrive
+duration_ms: 368
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 931304
+  buffer_size: 128
+  final_peak_db: -12.0
+  safety_lowpass_hz: 5200
+authoring:
+  companion_for:
+    sprite_target: ninja_shadow_oni_leader_vfx
+    animation: blink_arrive
+    visual_duration_ms: 368
+  playback:
+    mode: one_shot
+    sync_hint: visual_start
+    audibility: supporting
+  sound_design_family: shadow_arrive
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: fold_in
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -21
+  start_ms: 0
+  duration_ms: 368
+  envelope:
+    attack_ms: 2
+    hold_ms: 5
+    release_ms: 348
+  start_hz: 420.0
+  end_hz: 3200.0
+  q: 0.78
+- name: seam_open
+  kind: synth_tone
+  gain_db: -28
+  start_ms: 0
+  duration_ms: 368
+  waveform: triangle
+  frequency_hz:
+    start: 170
+    end: 880
+    curve: exp
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 343
+  stereo_spread_cents: 5
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 5200
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: reverb
+  room_size: 0.1
+  damping: 0.72
+  wet_level: 0.068
+  dry_level: 0.98
+  width: 0.78
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -12.0
+notes: Procedural SFX companion for ninja_shadow_oni_leader_vfx::blink_arrive. Designed as shadow arrive; runtime integration
+  should bind through generic VFX/SFX presentation data, not animation-name switches.

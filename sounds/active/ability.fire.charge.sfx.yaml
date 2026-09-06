@@ -1,0 +1,107 @@
+schema: ambition.sfxir.v1
+id: ability.fire.charge
+duration_ms: 820
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 860101
+  buffer_size: 128
+layers:
+- name: ember_air_rise
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -31
+  start_ms: 0
+  duration_ms: 760
+  pan: 0.0
+  envelope:
+    attack_ms: 35
+    hold_ms: 100
+    release_ms: 590
+  effects:
+  - effect: bandpass
+    center_hz: 1250
+    q: 0.65
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 6200
+- name: flame_core_rise
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -22
+  start_ms: 0
+  duration_ms: 760
+  pan: -0.04
+  parameters:
+    /AmbitionTone/freq:
+      start: 164.81
+      end: 493.88
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 24
+    hold_ms: 90
+    release_ms: 620
+- name: heat_harmonic
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -28
+  start_ms: 180
+  duration_ms: 510
+  pan: 0.08
+  parameters:
+    /AmbitionTone/freq:
+      start: 246.94
+      end: 659.25
+      curve: exp
+    /AmbitionTone/gain: -19
+  envelope:
+    attack_ms: 20
+    hold_ms: 55
+    release_ms: 430
+- name: tiny_embers
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -39
+  start_ms: 120
+  duration_ms: 520
+  pan: 0.0
+  envelope:
+    attack_ms: 8
+    hold_ms: 10
+    release_ms: 470
+  effects:
+  - effect: bandpass
+    center_hz: 3200
+    q: 1.1
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 9000
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: lowpass
+  cutoff_hz: 8200
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.22
+  q: 0.9
+- effect: soft_clip
+  drive: 0.26
+  mix: 0.18
+- effect: reverb
+  room_size: 0.14
+  damping: 0.65
+  wet_level: 0.06
+  dry_level: 0.96
+  width: 0.75
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 14
+- effect: normalize_peak
+  target_db: -10
+notes: 'Fire ability charge: warm rising ember energy for fire-arrow-style item charge.'

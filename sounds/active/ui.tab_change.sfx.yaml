@@ -1,0 +1,50 @@
+schema: ambition.sfxir.v1
+id: ui.tab.change
+duration_ms: 100
+notes: 'UI tab switch'
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1873
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/tone.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionTone/freq:
+        start: 520
+        end: 680
+        curve: exp
+      /AmbitionTone/gain: -18
+    envelope:
+      attack_ms: 1
+      hold_ms: 12
+      release_ms: 76
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: select
+    seed: 1874
+    gain_db: -26
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 120
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: chorus
+    rate_hz: 1.5
+    depth: 0.05
+    mix: 0.07
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 55
+  - effect: normalize_peak
+    target_db: -9.0

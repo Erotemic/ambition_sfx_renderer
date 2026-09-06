@@ -1,0 +1,86 @@
+schema: ambition.sfxir.v1
+id: vfx.george_booul.up_b.gate
+duration_ms: 448
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 822192
+  buffer_size: 128
+  final_peak_db: -15.0
+layers:
+- name: false_wall
+  kind: synth_tone
+  waveform: triangle
+  frequency_hz: 293.66
+  gain_db: -37
+  start_ms: 0
+  pan: -0.38
+  duration_ms: 390
+  envelope:
+    attack_ms: 8
+    hold_ms: 170
+    release_ms: 200
+- name: true_wall
+  kind: synth_tone
+  waveform: triangle
+  frequency_hz: 587.33
+  gain_db: -37
+  start_ms: 0
+  pan: 0.38
+  duration_ms: 390
+  envelope:
+    attack_ms: 8
+    hold_ms: 170
+    release_ms: 200
+- name: open_middle
+  kind: synth_tone
+  waveform: sine
+  frequency_hz: 880
+  gain_db: -38
+  start_ms: 110
+  pan: 0.0
+  duration_ms: 245
+  envelope:
+    attack_ms: 8
+    hold_ms: 70
+    release_ms: 160
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7600
+- effect: deharsh
+  center_hz: 3600
+  amount: 0.18
+  q: 0.9
+- effect: chorus
+  rate_hz: 0.8
+  depth: 0.04
+  mix: 0.03
+- effect: reverb
+  room_size: 0.18
+  damping: 0.72
+  wet_level: 0.11
+  dry_level: 0.97
+  width: 0.86
+- effect: soft_clip
+  drive: 0.22
+  mix: 0.18
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -15.0
+authoring:
+  companion_for:
+    sprite_target: george_booul_vfx
+    animation: excluded_middle_gate
+    visual_duration_ms: 448
+  playback:
+    mode: one_shot
+    sync_hint: layer_at_impulse_during_ascent
+    audibility: subtle
+  sound_design_family: up_b_boolean_gate
+  character_context: 'George Booul / George Boo''l: bedsheet ghost + Boolean logic'
+notes: Quiet spatial support for the 0/1 gate opening around the rise. This should disappear under a dense mix before
+  the launch cue does.

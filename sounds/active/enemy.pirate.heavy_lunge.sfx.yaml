@@ -1,0 +1,70 @@
+schema: ambition.sfxir.v1
+id: enemy.pirate.heavy_lunge
+duration_ms: 420
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 421933
+  buffer_size: 128
+layers:
+- name: armor_shift
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  gain_db: -17
+  start_ms: 0
+  duration_ms: 220
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 170
+  effects:
+  - effect: bandpass
+    center_hz: 380.0
+    q: 0.35
+- name: boot_thud
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -10
+  start_ms: 160
+  duration_ms: 170
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 130
+  effects:
+  - effect: bandpass
+    center_hz: 120.0
+    q: 0.45
+- name: heavy_grunt
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -20
+  start_ms: 40
+  duration_ms: 310
+  parameters:
+    /AmbitionTone/freq:
+      start: 130.8127826502993
+      end: 146.8323839587038
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 250
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6800
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -7
+notes: pirate heavy lunge / broadside body move

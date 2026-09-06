@@ -1,0 +1,87 @@
+schema: ambition.sfxir.v1
+id: fighter.gunner.smash_up
+duration_ms: 415
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 37199951
+  buffer_size: 128
+layers:
+- name: servo
+  kind: synth_tone
+  waveform: pulse
+  pulse_width: 0.28
+  frequency_hz:
+    start: 1500
+    end: 900
+    curve: exp
+  gain_db: -4
+  start_ms: 0
+  duration_ms: 165
+  envelope:
+    attack_ms: 2
+    hold_ms: 41
+    release_ms: 99
+  effects:
+  - effect: bandpass
+    hz: 1200
+    q: 0.55
+- name: air
+  kind: noise_burst
+  mode: whoosh
+  color: pink
+  gain_db: -9
+  start_ms: 4
+  duration_ms: 235
+  envelope:
+    attack_ms: 29
+    hold_ms: 47
+    release_ms: 152
+  effects:
+  - effect: bandpass
+    hz: 2000
+    q: 0.6
+- name: mass
+  kind: noise_burst
+  mode: machine_crunch
+  color: brown
+  gain_db: -11
+  start_ms: 78
+  duration_ms: 195
+  envelope:
+    attack_ms: 1
+    hold_ms: 5
+    release_ms: 152
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3300
+- name: stance
+  kind: noise_burst
+  mode: dirt_thud
+  color: brown
+  gain_db: -19
+  start_ms: 3
+  duration_ms: 190
+  envelope:
+    attack_ms: 1
+    hold_ms: 6
+    release_ms: 152
+  effects:
+  - effect: lowpass
+    cutoff_hz: 480
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -8
+notes: |
+  The forward smash aimed at the sky.

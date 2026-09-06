@@ -1,0 +1,64 @@
+schema: ambition.sfxir.v1
+id: player.death
+duration_ms: 430
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 278081
+  buffer_size: 128
+layers:
+- name: death_thud
+  kind: noise_burst
+  color: brown
+  gain_db: -9
+  start_ms: 0
+  duration_ms: 80
+  envelope:
+    attack_ms: 0
+    hold_ms: 6
+    release_ms: 62
+  filter:
+    kind: lowpass
+    cutoff_hz: 650
+- name: falling_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -8
+  start_ms: 20
+  duration_ms: 360
+  parameters:
+    /AmbitionTone/freq:
+      start: 210
+      end: 54
+      curve: exp
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 300
+- name: dust_tail
+  kind: noise_burst
+  color: pink
+  gain_db: -30
+  start_ms: 90
+  duration_ms: 250
+  envelope:
+    attack_ms: 10
+    hold_ms: 1
+    release_ms: 220
+  filter:
+    kind: lowpass
+    cutoff_hz: 1100
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 2200
+- effect: soft_clip
+  drive: 0.55
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -8.0
+notes: longer death fall with thud and dust

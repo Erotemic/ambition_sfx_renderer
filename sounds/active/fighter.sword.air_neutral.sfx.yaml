@@ -1,0 +1,55 @@
+schema: ambition.sfxir.v1
+id: fighter.sword.air_neutral
+duration_ms: 235
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 27762003
+  buffer_size: 128
+layers:
+- name: air
+  kind: noise_burst
+  mode: whoosh
+  color: pink
+  gain_db: -13
+  start_ms: 0
+  duration_ms: 140
+  envelope:
+    attack_ms: 14
+    hold_ms: 23
+    release_ms: 98
+  effects:
+  - effect: bandpass
+    hz: 2400
+    q: 0.8
+- name: steel
+  kind: synth_tone
+  waveform: bell
+  frequency_hz:
+    start: 2050
+    end: 1200
+    curve: exp
+  gain_db: -19
+  start_ms: 8
+  duration_ms: 180
+  envelope:
+    attack_ms: 1
+    hold_ms: 6
+    release_ms: 144
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -11
+notes: |
+  A spin with no ground under it. Airier than any grounded swing: no body
+  layer at all, because there is no stance to push off.

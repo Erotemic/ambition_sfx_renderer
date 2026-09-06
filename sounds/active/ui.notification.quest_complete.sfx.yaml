@@ -1,0 +1,56 @@
+schema: ambition.sfxir.v1
+id: ui.notification.quest_complete
+duration_ms: 680
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 370826
+  buffer_size: 128
+layers:
+- name: quest_low
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -15
+  start_ms: 0
+  duration_ms: 420
+  parameters:
+    /AmbitionTone/freq:
+      start: 260
+      end: 520
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 3
+    hold_ms: 40
+    release_ms: 330
+- name: quest_high
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -22
+  start_ms: 160
+  duration_ms: 400
+  parameters:
+    /AmbitionTone/freq:
+      start: 520
+      end: 1040
+      curve: exp
+    /AmbitionTone/gain: -19
+  envelope:
+    attack_ms: 2
+    hold_ms: 40
+    release_ms: 300
+postprocess:
+- effect: highpass
+  cutoff_hz: 80
+- effect: lowpass
+  cutoff_hz: 4200
+- effect: deharsh
+  amount: 0.4
+- effect: soft_clip
+  drive: 0.2
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -11
+notes: quest complete

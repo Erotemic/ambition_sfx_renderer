@@ -1,0 +1,78 @@
+schema: ambition.sfxir.v1
+id: player.robot.slash.air
+duration_ms: 205
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 731903
+  buffer_size: 128
+layers:
+- name: blade_pressure_wake
+  kind: noise_burst
+  mode: air_sweep
+  color: white
+  start_hz: 6800
+  end_hz: 760
+  q: 0.78
+  gain_db: -4.5
+  start_ms: 0
+  duration_ms: 188
+  pan: -0.10
+  envelope:
+    attack_ms: 8
+    hold_ms: 80
+    release_ms: 48
+- name: close_air_body
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  start_hz: 3100
+  end_hz: 430
+  q: 0.62
+  gain_db: -10.5
+  start_ms: 13
+  duration_ms: 158
+  pan: 0.14
+  envelope:
+    attack_ms: 5
+    hold_ms: 66
+    release_ms: 54
+- name: blade_edge_pass
+  kind: noise_burst
+  mode: grains
+  color: white
+  grain_count: 5
+  grain_decay_ms: 3.2
+  spread_ms: 13
+  grain_start_ms: 0
+  gain_db: -15
+  start_ms: 72
+  duration_ms: 24
+  filter:
+    kind: bandpass
+    hz: 3300
+    q: 1.15
+  envelope:
+    attack_ms: 0
+    hold_ms: 3
+    release_ms: 14
+postprocess:
+- effect: highpass
+  cutoff_hz: 115
+- effect: lowpass
+  cutoff_hz: 7200
+- effect: deharsh
+  amount: 0.32
+- effect: compressor
+  threshold_db: -17
+  ratio: 2.2
+  attack_ms: 2
+  release_ms: 45
+- effect: soft_clip
+  drive: 0.28
+- effect: fade_edges
+  fade_in_ms: 1.0
+  fade_out_ms: 18
+- effect: normalize_peak
+  target_db: -4.8
+notes: canonical robot player slash through open air; broad moving pressure wake with no contact transient

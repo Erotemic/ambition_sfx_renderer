@@ -1,0 +1,70 @@
+schema: ambition.sfxir.v1
+id: fighter.brawler.tilt_up
+duration_ms: 205
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 79387948
+  buffer_size: 128
+layers:
+- name: air
+  kind: noise_burst
+  mode: whoosh
+  color: pink
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 110
+  envelope:
+    attack_ms: 13
+    hold_ms: 22
+    release_ms: 71
+  effects:
+  - effect: bandpass
+    hz: 1950
+    q: 0.5
+- name: knuckle
+  kind: noise_burst
+  mode: flesh_hit
+  color: pink
+  gain_db: -16
+  start_ms: 8
+  duration_ms: 100
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 75
+  effects:
+  - effect: lowpass
+    cutoff_hz: 4200
+- name: body
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -27
+  start_ms: 3
+  duration_ms: 90
+  envelope:
+    attack_ms: 1
+    hold_ms: 6
+    release_ms: 72
+  effects:
+  - effect: lowpass
+    cutoff_hz: 540
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -11
+notes: |
+  An uppercut's little brother. Brighter than the forward tilt by the same
+  margin the sword's up-tilt is brighter than its forward one -- direction
+  is pitch here too.

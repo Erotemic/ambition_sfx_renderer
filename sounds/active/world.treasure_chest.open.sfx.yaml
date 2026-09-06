@@ -1,0 +1,68 @@
+schema: ambition.sfxir.v1
+id: world.treasure_chest.open
+duration_ms: 520
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 622770
+  buffer_size: 128
+layers:
+- name: wood_creak
+  kind: noise_burst
+  color: brown
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 220
+  envelope:
+    attack_ms: 8
+    hold_ms: 20
+    release_ms: 180
+  filter:
+    kind: bandpass
+    hz: 520
+    q: 0.4
+- name: latch_click
+  kind: noise_burst
+  color: pink
+  gain_db: -13
+  start_ms: 55
+  duration_ms: 24
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 1200
+    q: 0.9
+- name: reward_hint
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -19
+  start_ms: 220
+  duration_ms: 230
+  parameters:
+    /AmbitionTone/freq:
+      start: 420
+      end: 840
+      curve: exp
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 3
+    hold_ms: 28
+    release_ms: 150
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 3000
+- effect: deharsh
+  amount: 0.3
+- effect: soft_clip
+  drive: 0.45
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -9
+notes: wood chest open with latch and small reward hint

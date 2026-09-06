@@ -1,0 +1,51 @@
+schema: ambition.sfxir.v1
+id: player.robot.slash.impact.pogo
+duration_ms: 330
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 602413
+  buffer_size: 128
+  safety_lowpass_hz: 2200
+layers:
+- name: low_rubber_and_spring
+  kind: noise_burst
+  mode: pogo_impact
+  color: brown
+  gain_db: -2.8
+  duration_ms: 305
+  envelope:
+    attack_ms: 0
+    hold_ms: 30
+    release_ms: 245
+- name: ground_weight
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -9.5
+  duration_ms: 92
+  filter:
+    kind: lowpass
+    cutoff_hz: 330
+  envelope:
+    attack_ms: 0
+    hold_ms: 8
+    release_ms: 68
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 1800
+- effect: compressor
+  threshold_db: -19
+  ratio: 3.5
+  attack_ms: 0.8
+  release_ms: 96
+- effect: soft_clip
+  drive: 0.54
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 28
+- effect: normalize_peak
+  target_db: -4.2
+notes: canonical robot player's pogo confirmation; very low rubber thud followed by a low-register compressed spring rebound

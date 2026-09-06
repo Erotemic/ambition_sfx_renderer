@@ -1,0 +1,51 @@
+schema: ambition.sfxir.v1
+id: player.run.stop
+duration_ms: 110
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 619416
+  buffer_size: 128
+layers:
+- name: run_stop_slide
+  kind: noise_burst
+  color: pink
+  gain_db: -19
+  start_ms: 0
+  duration_ms: 52
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 800
+    q: 0.45
+- name: stop_thud
+  kind: noise_burst
+  color: brown
+  gain_db: -20
+  start_ms: 20
+  duration_ms: 38
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: lowpass
+    cutoff_hz: 700
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 3200
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -9
+notes: run stop

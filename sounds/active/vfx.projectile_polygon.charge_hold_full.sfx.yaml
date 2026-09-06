@@ -1,0 +1,58 @@
+schema: ambition.sfxir.v1
+id: vfx.projectile_polygon.charge_hold_full
+duration_ms: 640
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 30664721
+  buffer_size: 128
+layers:
+- name: core
+  kind: synth_tone
+  waveform: pulse
+  frequency_hz:
+    start: 1450
+    end: 1450
+    curve: exp
+  gain_db: -14
+  start_ms: 0
+  duration_ms: 620
+  vibrato_rate_hz: 7.5
+  vibrato_depth_cents: 14
+  envelope:
+    attack_ms: 30
+    hold_ms: 206
+    release_ms: 200
+- name: bed
+  kind: noise_burst
+  mode: whoosh
+  color: white
+  gain_db: -21
+  start_ms: 0
+  duration_ms: 620
+  envelope:
+    attack_ms: 40
+    hold_ms: 206
+    release_ms: 248
+  effects:
+  - effect: bandpass
+    hz: 4200
+    q: 0.6
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -12
+notes: |
+  Held at full: it stays big and gets ANGRY rather than sitting. A loop,
+  so it must not fatigue -- flat in pitch, because there is nowhere left
+  to climb, and carried by an unstable pulse instead.

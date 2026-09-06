@@ -1,0 +1,56 @@
+schema: ambition.sfxir.v1
+id: world.save_point.activate
+duration_ms: 560
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 94135
+  buffer_size: 128
+layers:
+- name: save_low
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -13
+  start_ms: 0
+  duration_ms: 360
+  parameters:
+    /AmbitionTone/freq:
+      start: 220
+      end: 440
+      curve: exp
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 4
+    hold_ms: 60
+    release_ms: 240
+- name: save_high
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -20
+  start_ms: 110
+  duration_ms: 360
+  parameters:
+    /AmbitionTone/freq:
+      start: 440
+      end: 880
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 4
+    hold_ms: 60
+    release_ms: 230
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 2200
+- effect: deharsh
+  amount: 0.3
+- effect: soft_clip
+  drive: 0.45
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -10
+notes: save point activation

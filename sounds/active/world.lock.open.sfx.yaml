@@ -1,0 +1,68 @@
+schema: ambition.sfxir.v1
+id: world.lock.open
+duration_ms: 260
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 20783
+  buffer_size: 128
+layers:
+- name: lock_click
+  kind: noise_burst
+  color: pink
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 22
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 1400
+    q: 0.9
+- name: mechanism
+  kind: noise_burst
+  color: brown
+  gain_db: -20
+  start_ms: 22
+  duration_ms: 120
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 600
+    q: 0.45
+- name: unlock_hint
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -24
+  start_ms: 120
+  duration_ms: 100
+  parameters:
+    /AmbitionTone/freq:
+      start: 420
+      end: 760
+      curve: exp
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 70
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 2600
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -10
+notes: lock open

@@ -1,0 +1,93 @@
+schema: ambition.sfxir.v1
+id: mary_o.water.exit
+duration_ms: 380
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 64669455
+  buffer_size: 128
+  final_peak_db: -11.0
+layers:
+- name: surface_break
+  kind: noise_burst
+  mode: wet_impact
+  color: pink
+  gain_db: -29
+  start_ms: 0
+  duration_ms: 230
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 14
+    release_ms: 180
+- name: upward_air
+  kind: noise_burst
+  mode: air_sweep
+  color: white
+  gain_db: -35
+  start_ms: 10
+  duration_ms: 290
+  pan: 0.0
+  envelope:
+    attack_ms: 4
+    hold_ms: 35
+    release_ms: 225
+  start_hz: 700
+  end_hz: 4800
+  q: 0.68
+- name: falling_drops
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -38
+  start_ms: 70
+  duration_ms: 250
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 9
+    release_ms: 195
+  grain_count: 10
+  grain_decay_ms: 5
+  spread_ms: 170
+- name: surface_glint
+  kind: synth_tone
+  waveform: sine
+  frequency_hz:
+    start: 390
+    end: 690
+    curve: smooth
+  gain_db: -39
+  start_ms: 70
+  duration_ms: 210
+  pan: 0.1
+  stereo_spread_cents: 4
+  envelope:
+    attack_ms: 1
+    hold_ms: 8
+    release_ms: 170
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 4800
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.035
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -11.0
+notes: Use when Mary-O leaves water and re-enters air. It is lighter and more upward-moving than water entry, with
+  droplets trailing after the surface break.

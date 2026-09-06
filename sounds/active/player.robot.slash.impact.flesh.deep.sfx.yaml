@@ -1,0 +1,42 @@
+schema: ambition.sfxir.v1
+# Squishy click/filter technique reference: James Patrick / Slam Academy
+# https://www.youtube.com/watch?v=RFzSPUJ_A3Q
+# Adapted as one layer of game Foley; the final cue and implementation are original.
+id: player.robot.slash.impact.flesh.deep
+duration_ms: 420
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 664219
+  buffer_size: 128
+  safety_lowpass_hz: 4600
+  safety_drive: 1.0
+  safety_clip_mix: 0.10
+  final_peak_db: -5.0
+layers:
+- name: close_mic_deep_gel_cut
+  kind: noise_burst
+  mode: flesh_deep
+  color: pink
+  gain_db: 0.0
+  duration_ms: 415
+  envelope:
+    attack_ms: 2.0
+    hold_ms: 0
+    release_ms: 20
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 4200
+- effect: compressor
+  threshold_db: -12
+  ratio: 1.20
+  attack_ms: 24
+  release_ms: 145
+- effect: fade_edges
+  in_ms: 1.5
+  out_ms: 19
+- effect: normalize_peak
+  target_db: -4.4
+notes: 'polished deep player-robot biological slash with a centered blood-and-tissue body, dynamically separated oscillating splatter, compact lateral droplets, fibrous tearing, soft pulp, blade shear, and a narrowing close-mic suction release; the attributed click-filter technique remains supporting articulation'

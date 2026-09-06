@@ -1,0 +1,119 @@
+schema: ambition.sfxir.v1
+id: mary_o.spark.cast
+duration_ms: 430
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 84857857
+  buffer_size: 128
+  final_peak_db: -9.0
+layers:
+- name: hand_ignition
+  kind: synth_tone
+  waveform: triangle
+  frequency_hz:
+    start: 330
+    end: 760
+    curve: exp
+  gain_db: -24
+  start_ms: 0
+  duration_ms: 300
+  pan: -0.12
+  stereo_spread_cents: 9
+  envelope:
+    attack_ms: 2
+    hold_ms: 30
+    release_ms: 235
+  harmonics:
+  - ratio: 1.0
+    gain_db: 0
+  - ratio: 2.0
+    gain_db: -14
+- name: wand_air
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -33
+  start_ms: 12
+  duration_ms: 300
+  pan: 0.0
+  envelope:
+    attack_ms: 5
+    hold_ms: 45
+    release_ms: 230
+  start_hz: 900
+  end_hz: 6200
+  q: 0.72
+- name: star_ping_left
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 1046.5
+  gain_db: -24
+  start_ms: 105
+  duration_ms: 250
+  pan: -0.34
+  stereo_spread_cents: 12
+  envelope:
+    attack_ms: 1
+    hold_ms: 9
+    release_ms: 210
+- name: star_ping_right
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 1318.51
+  gain_db: -26
+  start_ms: 165
+  duration_ms: 220
+  pan: 0.31
+  stereo_spread_cents: 13
+  envelope:
+    attack_ms: 1
+    hold_ms: 7
+    release_ms: 185
+- name: release_tick
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -38
+  start_ms: 205
+  duration_ms: 80
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 60
+  grain_count: 4
+  grain_decay_ms: 3
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 8200
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: chorus
+  rate_hz: 1.4
+  depth: 0.04
+  mix: 0.06
+- effect: delay
+  delay_ms: 48
+  feedback: 0.08
+  mix: 0.05
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.07
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -9.0
+notes: Use when Mary-O releases a Spark Blossom projectile from her hand. The cue combines magical ignition, a fast
+  casting sweep, and separate stellar pings so it reads as a cast rather than a generic gunshot.

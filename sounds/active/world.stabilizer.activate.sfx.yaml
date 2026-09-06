@@ -1,0 +1,55 @@
+schema: ambition.sfxir.v1
+id: world.stabilizer.activate
+duration_ms: 900
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 871327
+  buffer_size: 128
+layers:
+- name: stabilizer_rise
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -25
+  start_ms: 0
+  duration_ms: 760
+  parameters:
+    /AmbitionTone/freq:
+      start: 164.81377845643496
+      end: 493.8833012561241
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 60
+    hold_ms: 0
+    release_ms: 570
+- name: stabilizer_air
+  kind: noise_burst
+  mode: scrape
+  color: white
+  gain_db: -35
+  start_ms: 120
+  duration_ms: 640
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 520
+  effects:
+  - effect: bandpass
+    center_hz: 2800.0
+    q: 0.35
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6800
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -12
+notes: Oiler stabilizer activation

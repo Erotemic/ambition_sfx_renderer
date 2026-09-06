@@ -1,0 +1,55 @@
+schema: ambition.sfxir.v1
+id: fighter.brawler.air_neutral
+duration_ms: 215
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 15610297
+  buffer_size: 128
+layers:
+- name: air
+  kind: noise_burst
+  mode: whoosh
+  color: pink
+  gain_db: -13
+  start_ms: 0
+  duration_ms: 125
+  envelope:
+    attack_ms: 15
+    hold_ms: 25
+    release_ms: 81
+  effects:
+  - effect: bandpass
+    hz: 1800
+    q: 0.55
+- name: knuckle
+  kind: noise_burst
+  mode: flesh_light
+  color: pink
+  gain_db: -18
+  start_ms: 7
+  duration_ms: 95
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 71
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3000
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -11
+notes: |
+  A front kick with nothing under it. No body layer, as with every aerial
+  -- there is no stance to drive from.

@@ -1,0 +1,68 @@
+schema: ambition.sfxir.v1
+id: player.robot.slash.impact.robot
+duration_ms: 225
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 271904
+  buffer_size: 128
+layers:
+- name: shell_and_internal_break
+  kind: noise_burst
+  mode: robot_crunch
+  color: pink
+  gain_db: -2.8
+  duration_ms: 195
+  envelope:
+    attack_ms: 0
+    hold_ms: 24
+    release_ms: 130
+- name: crushed_mechanism
+  kind: noise_burst
+  mode: robot_crunch
+  color: white
+  gain_db: -9.5
+  start_ms: 5
+  duration_ms: 150
+  pan: 0.11
+  filter:
+    kind: bandpass
+    hz: 1880
+    q: 0.72
+  envelope:
+    attack_ms: 0
+    hold_ms: 14
+    release_ms: 92
+- name: hard_edge
+  kind: noise_burst
+  mode: grains
+  color: white
+  grain_count: 7
+  grain_decay_ms: 3.2
+  spread_ms: 16
+  gain_db: -13
+  start_ms: 0
+  duration_ms: 48
+  pan: -0.08
+  filter:
+    kind: bandpass
+    hz: 2950
+    q: 1.0
+postprocess:
+- effect: highpass
+  cutoff_hz: 42
+- effect: lowpass
+  cutoff_hz: 6100
+- effect: compressor
+  threshold_db: -18
+  ratio: 4.0
+  attack_ms: 0.5
+  release_ms: 60
+- effect: soft_clip
+  drive: 0.72
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 20
+- effect: normalize_peak
+  target_db: -4.2
+notes: robot player's blade breaking a mechanical body; hard shell crack, compact gear crunch, and restrained metallic resonance

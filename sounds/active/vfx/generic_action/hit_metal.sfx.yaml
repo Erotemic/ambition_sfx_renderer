@@ -1,0 +1,73 @@
+schema: ambition.sfxir.v1
+id: vfx.generic_action.hit_metal
+duration_ms: 228
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 784338
+  buffer_size: 128
+  final_peak_db: -8.0
+  safety_lowpass_hz: 6800
+authoring:
+  companion_for:
+    sprite_target: generic_action_fx
+    animation: hit_metal
+    visual_duration_ms: 228
+  playback:
+    mode: one_shot
+    sync_hint: visual_contact_or_first_peak_frame
+    audibility: primary
+  sound_design_family: metal
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: metal_contact
+  kind: noise_burst
+  mode: metal_chink
+  color: white
+  gain_db: -10
+  start_ms: 0
+  duration_ms: 220
+  envelope:
+    attack_ms: 0
+    hold_ms: 3
+    release_ms: 165
+- name: ring
+  kind: synth_tone
+  gain_db: -24
+  start_ms: 0
+  duration_ms: 228
+  waveform: bell
+  frequency_hz:
+    start: 1030
+    end: 680
+    curve: exp
+  envelope:
+    attack_ms: 0
+    hold_ms: 8
+    release_ms: 210
+  stereo_spread_cents: 7
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 6500
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: reverb
+  room_size: 0.08
+  damping: 0.68
+  wet_level: 0.036000000000000004
+  dry_level: 0.97
+  width: 0.8
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -8.0
+notes: Procedural SFX companion for generic_action_fx::hit_metal. Designed as metal; runtime integration should
+  bind through generic VFX/SFX presentation data, not animation-name switches.

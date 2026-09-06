@@ -1,0 +1,52 @@
+schema: ambition.sfxir.v1
+id: player.robot.slash.impact.metal.chink
+duration_ms: 165
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 918224
+  buffer_size: 128
+  safety_lowpass_hz: 8600
+layers:
+- name: high_metal_chink
+  kind: noise_burst
+  mode: metal_chink
+  color: white
+  gain_db: -2.7
+  duration_ms: 146
+  envelope:
+    attack_ms: 0
+    hold_ms: 10
+    release_ms: 112
+- name: blade_edge_tick
+  kind: noise_burst
+  mode: grains
+  color: white
+  grain_count: 3
+  grain_decay_ms: 2.2
+  spread_ms: 5
+  gain_db: -12
+  duration_ms: 25
+  pan: 0.12
+  filter:
+    kind: bandpass
+    hz: 5100
+    q: 1.25
+postprocess:
+- effect: highpass
+  cutoff_hz: 520
+- effect: lowpass
+  cutoff_hz: 8600
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.8
+  attack_ms: 0.2
+  release_ms: 42
+- effect: soft_clip
+  drive: 0.28
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 16
+- effect: normalize_peak
+  target_db: -4.7
+notes: short high chink for a light slash against thin or lightly struck metal; intentionally not a gong

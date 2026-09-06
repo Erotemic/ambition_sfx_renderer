@@ -1,0 +1,90 @@
+schema: ambition.sfxir.v1
+id: boss.smirking_behemoth.defeat
+duration_ms: 1450
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 871104
+  buffer_size: 128
+layers:
+- name: behemoth_low_fall
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -23
+  start_ms: 0
+  duration_ms: 1000
+  pan: 0.0
+  parameters:
+    /AmbitionTone/freq:
+      start: 220.0
+      end: 146.83
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 12
+    hold_ms: 140
+    release_ms: 820
+- name: behemoth_collapse_dust
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  gain_db: -31
+  start_ms: 280
+  duration_ms: 850
+  pan: 0.0
+  envelope:
+    attack_ms: 20
+    hold_ms: 80
+    release_ms: 690
+  effects:
+  - effect: bandpass
+    center_hz: 550
+    q: 0.6
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 4300
+- name: final_body_hit
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -18
+  start_ms: 760
+  duration_ms: 360
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 10
+    release_ms: 310
+  effects:
+  - effect: bandpass
+    center_hz: 120
+    q: 0.55
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 2600
+postprocess:
+- effect: highpass
+  cutoff_hz: 25
+- effect: lowpass
+  cutoff_hz: 5200
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.22
+  q: 0.9
+- effect: soft_clip
+  drive: 0.48
+  mix: 0.18
+- effect: reverb
+  room_size: 0.14
+  damping: 0.65
+  wet_level: 0.06
+  dry_level: 0.96
+  width: 0.75
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 14
+- effect: normalize_peak
+  target_db: -8
+notes: 'Smirking Behemoth defeat: low fall and dusty body hit.'

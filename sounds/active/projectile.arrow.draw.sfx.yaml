@@ -1,0 +1,38 @@
+schema: ambition.sfxir.v1
+id: projectile.arrow.draw
+duration_ms: 220
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 707714
+  buffer_size: 128
+layers:
+- name: bow_creak
+  kind: noise_burst
+  color: brown
+  gain_db: -18
+  start_ms: 0
+  duration_ms: 160
+  envelope:
+    attack_ms: 10
+    hold_ms: 20
+    release_ms: 118
+  filter:
+    kind: bandpass
+    hz: 650
+    q: 0.45
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 3500
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.45
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -9
+notes: arrow draw

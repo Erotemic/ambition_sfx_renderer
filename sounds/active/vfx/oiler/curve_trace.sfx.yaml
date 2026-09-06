@@ -1,0 +1,80 @@
+schema: ambition.sfxir.v1
+id: vfx.oiler.curve_trace
+duration_ms: 520
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 914171
+  buffer_size: 128
+  final_peak_db: -11.5
+layers:
+- name: chalk_route
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -29
+  start_ms: 0
+  pan: 0.0
+  duration_ms: 430
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 419
+  filter:
+    kind: bandpass
+    hz: 1900
+    q: 0.8
+- name: construction_ticks
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -35
+  start_ms: 80
+  pan: 0.0
+  duration_ms: 330
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 319
+  grain_count: 8
+  grain_decay_ms: 4
+  spread_ms: 280
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7800
+- effect: deharsh
+  center_hz: 3500
+  amount: 0.16
+  q: 0.9
+- effect: reverb
+  room_size: 0.16
+  damping: 0.72
+  wet_level: 0.045
+  dry_level: 0.98
+  width: 0.82
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.14
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 10
+- effect: normalize_peak
+  target_db: -11.5
+authoring:
+  companion_for:
+    sprite_target: oiler_vfx
+    animation: curve_trace
+    visual_duration_ms: 520
+  playback:
+    mode: one_shot
+    sync_hint: visual_start
+    audibility: supporting
+  sound_design_family: chalk_curve
+  auto_registration:
+    mechanism: recursive sounds/active cue discovery
+    central_registry_edit_required: false
+  character_context: 'Oiler: Euler-inspired practical gate mechanic; chalk, bearings, brass/steel, gauges, oil,
+    and stabilizer hardware.'
+notes: Longer chalk route trace with measured construction ticks.

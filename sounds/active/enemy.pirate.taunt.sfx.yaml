@@ -1,0 +1,55 @@
+schema: ambition.sfxir.v1
+id: enemy.pirate.taunt
+duration_ms: 520
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 582298
+  buffer_size: 128
+layers:
+- name: mouthy_yarr
+  kind: noise_burst
+  mode: burst
+  color: brown
+  gain_db: -19
+  start_ms: 0
+  duration_ms: 360
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 300
+  effects:
+  - effect: bandpass
+    center_hz: 750.0
+    q: 0.45
+- name: taunt_pitch
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -23
+  start_ms: 80
+  duration_ms: 330
+  parameters:
+    /AmbitionTone/freq:
+      start: 146.8323839587038
+      end: 174.61411571650194
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 5
+    hold_ms: 0
+    release_ms: 260
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6800
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -9
+notes: pirate taunt/yarr bark

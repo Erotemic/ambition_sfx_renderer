@@ -1,0 +1,51 @@
+schema: ambition.sfxir.v1
+id: world.rock.hit
+duration_ms: 120
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 77685
+  buffer_size: 128
+layers:
+- name: rock_hit
+  kind: noise_burst
+  color: brown
+  gain_db: -11
+  start_ms: 0
+  duration_ms: 42
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: lowpass
+    cutoff_hz: 700
+- name: rock_tick
+  kind: noise_burst
+  color: pink
+  gain_db: -23
+  start_ms: 8
+  duration_ms: 24
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 1200
+    q: 0.5
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 2600
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -10
+notes: rock hit

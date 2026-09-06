@@ -1,0 +1,78 @@
+schema: ambition.sfxir.v1
+id: vfx.ninja_shadow_oni_leader.gaze_lock.loop
+duration_ms: 640
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 236161
+  buffer_size: 128
+  final_peak_db: -17.0
+  safety_lowpass_hz: 2200
+authoring:
+  companion_for:
+    sprite_target: ninja_shadow_oni_leader_vfx
+    animation: gaze_lock
+    visual_duration_ms: 640
+  playback:
+    mode: loop
+    sync_hint: visual_sustain
+    audibility: subtle
+  sound_design_family: gaze_pressure
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: pressure_low
+  kind: synth_tone
+  gain_db: -36
+  start_ms: 0
+  duration_ms: 640
+  waveform: sine
+  frequency_hz: 71
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 90
+    release_ms: 510
+  tremolo:
+    rate_hz: 1.9
+    depth: 0.28
+  stereo_spread_cents: 2
+- name: eye_bead
+  kind: synth_tone
+  gain_db: -40
+  start_ms: 0
+  duration_ms: 640
+  waveform: triangle
+  frequency_hz: 420
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 80
+    release_ms: 500
+  tremolo:
+    rate_hz: 3.8
+    depth: 0.18
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 2200
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: reverb
+  room_size: 0.08
+  damping: 0.72
+  wet_level: 0.0664
+  dry_level: 0.98
+  width: 0.78
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -17.0
+notes: Procedural SFX companion for ninja_shadow_oni_leader_vfx::gaze_lock. Designed as gaze pressure; runtime integration
+  should bind through generic VFX/SFX presentation data, not animation-name switches.

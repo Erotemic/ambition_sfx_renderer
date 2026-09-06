@@ -1,0 +1,70 @@
+schema: ambition.sfxir.v1
+id: fighter.brawler.smash_down
+duration_ms: 400
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 90541626
+  buffer_size: 128
+layers:
+- name: air
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -8
+  start_ms: 0
+  duration_ms: 215
+  envelope:
+    attack_ms: 26
+    hold_ms: 43
+    release_ms: 139
+  effects:
+  - effect: bandpass
+    hz: 760
+    q: 0.4
+- name: knuckle
+  kind: noise_burst
+  mode: dirt_thud
+  color: pink
+  gain_db: -11
+  start_ms: 12
+  duration_ms: 200
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 150
+  effects:
+  - effect: lowpass
+    cutoff_hz: 700
+- name: body
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -15
+  start_ms: 3
+  duration_ms: 225
+  envelope:
+    attack_ms: 1
+    hold_ms: 6
+    release_ms: 180
+  effects:
+  - effect: lowpass
+    cutoff_hz: 540
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -8
+notes: |
+  Both fists into the ground. Dirt rather than flesh: what this move
+  actually strikes is the floor, and the shock is what reaches whoever is
+  standing on it.

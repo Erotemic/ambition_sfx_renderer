@@ -1,0 +1,71 @@
+schema: ambition.sfxir.v1
+id: ambient.lab.alarm_loop
+duration_ms: 1200
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 316539
+  buffer_size: 128
+layers:
+- name: alarm_loop_a
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -30
+  start_ms: 0
+  duration_ms: 500
+  parameters:
+    /AmbitionTone/freq:
+      start: 220.0
+      end: 220.0
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 10
+    hold_ms: 0
+    release_ms: 420
+- name: alarm_loop_b
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -32
+  start_ms: 600
+  duration_ms: 500
+  parameters:
+    /AmbitionTone/freq:
+      start: 261.6255653005986
+      end: 261.6255653005986
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 10
+    hold_ms: 0
+    release_ms: 420
+- name: alarm_static
+  kind: noise_burst
+  mode: burst
+  color: pink
+  gain_db: -39
+  start_ms: 0
+  duration_ms: 1100
+  envelope:
+    attack_ms: 60
+    hold_ms: 1
+    release_ms: 950
+  effects:
+  - effect: bandpass
+    center_hz: 1300.0
+    q: 0.35
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6800
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -17
+notes: intro lab alarm loop bed

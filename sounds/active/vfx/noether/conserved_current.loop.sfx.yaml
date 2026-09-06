@@ -1,0 +1,78 @@
+schema: ambition.sfxir.v1
+id: vfx.noether.conserved_current.loop
+duration_ms: 792
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 788566
+  buffer_size: 128
+  final_peak_db: -14.0
+  safety_lowpass_hz: 6800
+authoring:
+  companion_for:
+    sprite_target: noether_vfx
+    animation: conserved_current
+    visual_duration_ms: 792
+  playback:
+    mode: loop
+    sync_hint: loop_while_visual_is_sustained
+    audibility: supporting
+  sound_design_family: math_loop
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: paired_a
+  kind: synth_tone
+  gain_db: -27
+  start_ms: 0
+  duration_ms: 792
+  waveform: sine
+  frequency_hz: 207.6547664944219
+  pan: -0.22
+  envelope:
+    attack_ms: 8
+    hold_ms: 762
+    release_ms: 18
+  tremolo:
+    rate_hz: 2
+    depth: 0.25
+- name: paired_b
+  kind: synth_tone
+  gain_db: -27
+  start_ms: 0
+  duration_ms: 792
+  waveform: sine
+  frequency_hz: 311.48214974163284
+  pan: 0.22
+  envelope:
+    attack_ms: 8
+    hold_ms: 762
+    release_ms: 18
+  tremolo:
+    rate_hz: 2
+    depth: 0.25
+    phase: 3.141592653589793
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 6200
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: reverb
+  room_size: 0.07
+  damping: 0.68
+  wet_level: 0.03150000000000001
+  dry_level: 0.97
+  width: 0.8
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -14.0
+notes: Procedural SFX companion for noether_vfx::conserved_current. Designed as math loop; runtime integration should
+  bind through generic VFX/SFX presentation data, not animation-name switches.

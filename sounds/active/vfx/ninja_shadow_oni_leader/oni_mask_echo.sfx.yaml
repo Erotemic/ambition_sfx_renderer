@@ -1,0 +1,85 @@
+schema: ambition.sfxir.v1
+id: vfx.ninja_shadow_oni_leader.oni_mask_echo
+duration_ms: 486
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 456918
+  buffer_size: 128
+  final_peak_db: -11.5
+  safety_lowpass_hz: 3400
+authoring:
+  companion_for:
+    sprite_target: ninja_shadow_oni_leader_vfx
+    animation: oni_mask_echo
+    visual_duration_ms: 486
+  playback:
+    mode: one_shot
+    sync_hint: visual_start
+    audibility: supporting
+  sound_design_family: oni_mask_resonance
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: mask_low
+  kind: synth_tone
+  gain_db: -25
+  start_ms: 0
+  duration_ms: 486
+  waveform: triangle
+  frequency_hz:
+    start: 92
+    end: 78
+    curve: exp
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 458
+  harmonics:
+  - ratio: 1
+    gain_db: 0
+  - ratio: 2.0
+    gain_db: -10
+  - ratio: 3.02
+    gain_db: -15
+  stereo_spread_cents: 3
+- name: eye overtone
+  kind: synth_tone
+  gain_db: -34
+  start_ms: 38
+  duration_ms: 448
+  waveform: sine
+  frequency_hz:
+    start: 690
+    end: 560
+    curve: exp
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 411
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 3400
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: reverb
+  room_size: 0.14
+  damping: 0.72
+  wet_level: 0.0712
+  dry_level: 0.98
+  width: 0.78
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -11.5
+notes: Procedural SFX companion for ninja_shadow_oni_leader_vfx::oni_mask_echo. Designed as oni mask resonance; runtime integration
+  should bind through generic VFX/SFX presentation data, not animation-name switches.

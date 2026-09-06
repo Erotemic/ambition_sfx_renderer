@@ -1,0 +1,56 @@
+schema: ambition.sfxir.v1
+id: enemy.robot.caster_charge
+duration_ms: 700
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 535577
+  buffer_size: 128
+layers:
+- name: caster_core
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -25
+  start_ms: 0
+  duration_ms: 620
+  parameters:
+    /AmbitionTone/freq:
+      start: 261.6255653005986
+      end: 783.9908719634985
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 60
+    hold_ms: 0
+    release_ms: 480
+- name: arc_grit
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -34
+  start_ms: 100
+  duration_ms: 480
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 20
+  effects:
+  - effect: bandpass
+    center_hz: 2700.0
+    q: 0.55
+  grain_count: 28
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6800
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -11
+notes: robot caster spell charge

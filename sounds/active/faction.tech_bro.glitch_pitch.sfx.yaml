@@ -1,0 +1,72 @@
+schema: ambition.sfxir.v1
+id: faction.tech_bro.glitch_pitch
+duration_ms: 420
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 202065
+  buffer_size: 128
+layers:
+- name: glitch_a
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -22
+  start_ms: 0
+  duration_ms: 130
+  parameters:
+    /AmbitionTone/freq:
+      start: 739.9888454232688
+      end: 523.2511306011972
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 90
+- name: glitch_b
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -24
+  start_ms: 110
+  duration_ms: 90
+  parameters:
+    /AmbitionTone/freq:
+      start: 440.0
+      end: 622.2539674441618
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 70
+- name: packet_loss
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -32
+  start_ms: 0
+  duration_ms: 370
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 20
+  effects:
+  - effect: bandpass
+    center_hz: 2500.0
+    q: 0.7
+  grain_count: 20
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6800
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -11
+notes: tech bro disruptive glitch sting

@@ -1,0 +1,54 @@
+schema: ambition.sfxir.v1
+id: projectile.magic_missile.impact
+duration_ms: 280
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 449412
+  buffer_size: 128
+layers:
+- name: magic_pop
+  kind: noise_burst
+  color: pink
+  gain_db: -11
+  start_ms: 0
+  duration_ms: 34
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 1300
+    q: 0.55
+- name: magic_ring
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -16
+  start_ms: 8
+  duration_ms: 190
+  parameters:
+    /AmbitionTone/freq:
+      start: 760
+      end: 420
+      curve: exp
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 150
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 3500
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.45
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -9
+notes: magic missile impact

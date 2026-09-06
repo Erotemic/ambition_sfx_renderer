@@ -1,0 +1,97 @@
+schema: ambition.sfxir.v1
+id: vfx.oiler.stabilizer_lock
+duration_ms: 336
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 914601
+  buffer_size: 128
+  final_peak_db: -8.8
+layers:
+- name: clamp_one
+  kind: noise_burst
+  mode: metal_hit
+  color: white
+  gain_db: -27
+  start_ms: 0
+  pan: -0.32
+  duration_ms: 120
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 109
+- name: clamp_two
+  kind: noise_burst
+  mode: metal_hit
+  color: white
+  gain_db: -27
+  start_ms: 55
+  pan: 0.3
+  duration_ms: 120
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 109
+- name: clamp_three
+  kind: noise_burst
+  mode: metal_gong
+  color: white
+  gain_db: -26
+  start_ms: 110
+  pan: 0.0
+  duration_ms: 180
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 169
+- name: locked
+  kind: synth_tone
+  waveform: sine
+  frequency_hz: 392.0
+  gain_db: -32
+  start_ms: 110
+  pan: 0.0
+  duration_ms: 210
+  envelope:
+    attack_ms: 1
+    hold_ms: 8
+    release_ms: 195
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7800
+- effect: deharsh
+  center_hz: 3500
+  amount: 0.16
+  q: 0.9
+- effect: reverb
+  room_size: 0.16
+  damping: 0.72
+  wet_level: 0.045
+  dry_level: 0.98
+  width: 0.82
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.14
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 10
+- effect: normalize_peak
+  target_db: -8.8
+authoring:
+  companion_for:
+    sprite_target: oiler_vfx
+    animation: stabilizer_lock
+    visual_duration_ms: 336
+  playback:
+    mode: one_shot
+    sync_hint: visual_start
+    audibility: primary
+  sound_design_family: stabilizer_lock
+  auto_registration:
+    mechanism: recursive sounds/active cue discovery
+    central_registry_edit_required: false
+  character_context: 'Oiler: Euler-inspired practical gate mechanic; chalk, bearings, brass/steel, gauges, oil,
+    and stabilizer hardware.'
+notes: Three staggered clamp engagements resolve into a stable ring.

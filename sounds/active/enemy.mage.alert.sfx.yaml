@@ -1,0 +1,70 @@
+schema: ambition.sfxir.v1
+id: enemy.mage.alert
+duration_ms: 520
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 880102
+  buffer_size: 128
+layers:
+- name: mage_alert_tone
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -24
+  start_ms: 0
+  duration_ms: 430
+  pan: 0.0
+  parameters:
+    /AmbitionTone/freq:
+      start: 329.63
+      end: 493.88
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 8
+    hold_ms: 40
+    release_ms: 350
+- name: mage_alert_air
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -38
+  start_ms: 30
+  duration_ms: 390
+  pan: 0.0
+  envelope:
+    attack_ms: 10
+    hold_ms: 20
+    release_ms: 330
+  effects:
+  - effect: bandpass
+    center_hz: 1800
+    q: 0.85
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 7000
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: lowpass
+  cutoff_hz: 7200
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.22
+  q: 0.9
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.18
+- effect: reverb
+  room_size: 0.14
+  damping: 0.65
+  wet_level: 0.06
+  dry_level: 0.96
+  width: 0.75
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 14
+- effect: normalize_peak
+  target_db: -11
+notes: 'Mage alert: small rising magical attention cue.'

@@ -1,0 +1,69 @@
+schema: ambition.sfxir.v1
+id: fighter.brawler.dash_attack
+duration_ms: 290
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 63281940
+  buffer_size: 128
+layers:
+- name: air
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -10
+  start_ms: 0
+  duration_ms: 175
+  envelope:
+    attack_ms: 21
+    hold_ms: 35
+    release_ms: 113
+  effects:
+  - effect: bandpass
+    hz: 1300
+    q: 0.45
+- name: knuckle
+  kind: noise_burst
+  mode: flesh_hit
+  color: pink
+  gain_db: -14
+  start_ms: 12
+  duration_ms: 150
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 112
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2100
+- name: body
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -19
+  start_ms: 3
+  duration_ms: 160
+  envelope:
+    attack_ms: 1
+    hold_ms: 6
+    release_ms: 128
+  effects:
+  - effect: lowpass
+    cutoff_hz: 540
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -10
+notes: |
+  A shoulder thrown at a run. Carries the most body of any non-smash,
+  because the whole run is behind it.

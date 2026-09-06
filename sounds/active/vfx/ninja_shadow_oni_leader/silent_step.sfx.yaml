@@ -1,0 +1,75 @@
+schema: ambition.sfxir.v1
+id: vfx.ninja_shadow_oni_leader.silent_step
+duration_ms: 336
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 955484
+  buffer_size: 128
+  final_peak_db: -17.0
+  safety_lowpass_hz: 2600
+authoring:
+  companion_for:
+    sprite_target: ninja_shadow_oni_leader_vfx
+    animation: silent_step
+    visual_duration_ms: 336
+  playback:
+    mode: one_shot
+    sync_hint: visual_contact_or_first_peak_frame
+    audibility: subtle
+  sound_design_family: silent_footwork
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: cloth_step
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -34
+  start_ms: 0
+  duration_ms: 336
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 180
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1100
+- name: sole_touch
+  kind: noise_burst
+  mode: grains
+  color: brown
+  gain_db: -38
+  start_ms: 35
+  duration_ms: 301
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 130
+  effects:
+  - effect: lowpass
+    cutoff_hz: 700
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 2600
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: reverb
+  room_size: 0.02
+  damping: 0.72
+  wet_level: 0.061599999999999995
+  dry_level: 0.98
+  width: 0.78
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -17.0
+notes: Procedural SFX companion for ninja_shadow_oni_leader_vfx::silent_step. Designed as silent footwork; runtime integration
+  should bind through generic VFX/SFX presentation data, not animation-name switches.

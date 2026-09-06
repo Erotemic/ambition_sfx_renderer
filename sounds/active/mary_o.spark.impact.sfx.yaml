@@ -1,0 +1,112 @@
+schema: ambition.sfxir.v1
+id: mary_o.spark.impact
+duration_ms: 390
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 87973925
+  buffer_size: 128
+  final_peak_db: -9.0
+layers:
+- name: magic_crack
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -25
+  start_ms: 0
+  duration_ms: 170
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 8
+    release_ms: 130
+  grain_count: 11
+  grain_decay_ms: 5
+  spread_ms: 80
+- name: fire_puff
+  kind: noise_burst
+  mode: burst
+  color: pink
+  gain_db: -31
+  start_ms: 8
+  duration_ms: 280
+  pan: 0.0
+  envelope:
+    attack_ms: 2
+    hold_ms: 18
+    release_ms: 220
+  effects:
+  - effect: bandpass
+    center_hz: 1900
+    q: 0.7
+- name: impact_core
+  kind: synth_tone
+  waveform: triangle
+  frequency_hz:
+    start: 620
+    end: 240
+    curve: exp
+  gain_db: -23
+  start_ms: 0
+  duration_ms: 260
+  pan: 0.0
+  stereo_spread_cents: 5
+  envelope:
+    attack_ms: 1
+    hold_ms: 16
+    release_ms: 220
+- name: star_shard_a
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 1174.66
+  gain_db: -28
+  start_ms: 45
+  duration_ms: 250
+  pan: -0.32
+  stereo_spread_cents: 15
+  envelope:
+    attack_ms: 1
+    hold_ms: 6
+    release_ms: 210
+- name: star_shard_b
+  kind: synth_tone
+  waveform: bell
+  frequency_hz: 1567.98
+  gain_db: -30
+  start_ms: 92
+  duration_ms: 230
+  pan: 0.34
+  stereo_spread_cents: 17
+  envelope:
+    attack_ms: 1
+    hold_ms: 5
+    release_ms: 195
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7900
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: delay
+  delay_ms: 58
+  feedback: 0.09
+  mix: 0.055
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.075
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -9.0
+notes: Use when a Spark Blossom projectile hits an enemy or destructible target. The physical crack and low magical
+  core provide impact weight while displaced star shards preserve the Spark Blossom identity.

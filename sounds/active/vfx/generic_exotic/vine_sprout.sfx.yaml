@@ -1,0 +1,76 @@
+schema: ambition.sfxir.v1
+id: vfx.generic_exotic.vine_sprout
+duration_ms: 704
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 536435
+  buffer_size: 128
+  final_peak_db: -10.5
+  safety_lowpass_hz: 6800
+authoring:
+  companion_for:
+    sprite_target: generic_exotic_fx
+    animation: vine_sprout
+    visual_duration_ms: 704
+  playback:
+    mode: one_shot
+    sync_hint: visual_start
+    audibility: supporting
+  sound_design_family: growth
+  runtime_status: authored_companion_not_auto_bound
+layers:
+- name: organic_air
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -25
+  start_ms: 0
+  duration_ms: 704
+  envelope:
+    attack_ms: 3
+    hold_ms: 10
+    release_ms: 674
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2600
+- name: organic_chime
+  kind: synth_tone
+  gain_db: -24
+  start_ms: 0
+  duration_ms: 300
+  waveform: bell
+  frequency_hz:
+    start: 414.09999999999997
+    end: 616.1
+    curve: smooth
+  pan: 0.08
+  envelope:
+    attack_ms: 4
+    hold_ms: 12
+    release_ms: 250
+postprocess:
+- effect: highpass
+  cutoff_hz: 35
+- effect: lowpass
+  cutoff_hz: 4800
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.38
+  mix: 0.25
+- effect: reverb
+  room_size: 0.09
+  damping: 0.68
+  wet_level: 0.0405
+  dry_level: 0.97
+  width: 0.8
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 6
+- effect: normalize_peak
+  target_db: -10.5
+notes: Procedural SFX companion for generic_exotic_fx::vine_sprout. Designed as growth; runtime integration should
+  bind through generic VFX/SFX presentation data, not animation-name switches.

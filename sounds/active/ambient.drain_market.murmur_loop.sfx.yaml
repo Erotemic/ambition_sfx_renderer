@@ -1,0 +1,55 @@
+schema: ambition.sfxir.v1
+id: ambient.drain_market.murmur_loop
+duration_ms: 1600
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 791697
+  buffer_size: 128
+layers:
+- name: crowd_murmur
+  kind: noise_burst
+  mode: burst
+  color: brown
+  gain_db: -38
+  start_ms: 0
+  duration_ms: 1500
+  envelope:
+    attack_ms: 100
+    hold_ms: 1
+    release_ms: 1300
+  effects:
+  - effect: bandpass
+    center_hz: 650.0
+    q: 0.25
+- name: market_clinks
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -39
+  start_ms: 120
+  duration_ms: 1300
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 20
+  effects:
+  - effect: bandpass
+    center_hz: 1900.0
+    q: 0.55
+  grain_count: 26
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6800
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -20
+notes: drain market bulletin/crowd murmur loop

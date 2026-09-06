@@ -1,0 +1,56 @@
+schema: ambition.sfxir.v1
+id: world.save_point.idle_loop
+duration_ms: 1300
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 634307
+  buffer_size: 128
+layers:
+- name: save_idle_a
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -35
+  start_ms: 0
+  duration_ms: 1300
+  parameters:
+    /AmbitionTone/freq:
+      start: 220
+      end: 220
+      curve: linear
+    /AmbitionTone/gain: -26
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 1290
+- name: save_idle_b
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -42
+  start_ms: 0
+  duration_ms: 1300
+  parameters:
+    /AmbitionTone/freq:
+      start: 330
+      end: 330
+      curve: linear
+    /AmbitionTone/gain: -30
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 1290
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 2600
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -20
+notes: very quiet save point idle loop

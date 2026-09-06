@@ -1,0 +1,51 @@
+schema: ambition.sfxir.v1
+id: player.low_health.pulse
+duration_ms: 780
+notes: 'quiet low-health pulse bed; auto policy writes OGG'
+
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1817
+  buffer_size: 128
+
+layers:
+  - name: tonal_body
+    kind: dawdreamer_faust
+    dsp: patches/faust/tone.dsp
+    gain_db: 0
+    parameters:
+      /AmbitionTone/freq:
+        start: 110
+        end: 115
+        curve: exp
+      /AmbitionTone/gain: -23
+    envelope:
+      attack_ms: 65
+      hold_ms: 520
+      release_ms: 195
+
+  - name: pyfxr_seed
+    kind: pyfxr
+    preset: hurt
+    seed: 1818
+    gain_db: -36
+
+postprocess:
+  - effect: highpass
+    cutoff_hz: 70
+  - effect: compressor
+    threshold_db: -18
+    ratio: 2.4
+    attack_ms: 3
+    release_ms: 70
+  - effect: lowpass
+    cutoff_hz: 1400
+  - effect: reverb
+    room_size: 0.05
+    wet_level: 0.025
+  - effect: limiter
+    threshold_db: -2.0
+    release_ms: 55
+  - effect: normalize_peak
+    target_db: -14.0

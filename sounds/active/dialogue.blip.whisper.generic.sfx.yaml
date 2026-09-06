@@ -1,0 +1,55 @@
+schema: ambition.sfxir.v1
+id: dialogue.blip.whisper.generic
+duration_ms: 130
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 742944
+  buffer_size: 128
+layers:
+- name: whisper_tick
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -30
+  start_ms: 0
+  duration_ms: 42
+  parameters:
+    /AmbitionTone/freq: 233.08188075904496
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 2
+    hold_ms: 0
+    release_ms: 34
+  pan: -0.03
+- name: whisper_air
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -36
+  start_ms: 1
+  duration_ms: 62
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 34
+  effects:
+  - effect: bandpass
+    center_hz: 1600.0
+    q: 0.55
+  pan: 0.02
+  grain_count: 7
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 3600
+- effect: deharsh
+  amount: 0.22
+- effect: soft_clip
+  drive: 0.18
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -20
+notes: 'generic typewriter blip for Yarn [whisper] lines when no speaker-specific whisper voiceprint is authored'

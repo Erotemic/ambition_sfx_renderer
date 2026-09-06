@@ -1,0 +1,55 @@
+schema: ambition.sfxir.v1
+id: story.creator.interrupt
+duration_ms: 700
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 543519
+  buffer_size: 128
+layers:
+- name: raid_air
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  gain_db: -24
+  start_ms: 0
+  duration_ms: 450
+  envelope:
+    attack_ms: 15
+    hold_ms: 1
+    release_ms: 400
+  effects:
+  - effect: bandpass
+    center_hz: 550.0
+    q: 0.35
+- name: wrong_question
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -18
+  start_ms: 100
+  duration_ms: 520
+  parameters:
+    /AmbitionTone/freq:
+      start: 130.8127826502993
+      end: 97.99885899543733
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 35
+    hold_ms: 0
+    release_ms: 420
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6400
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -9
+notes: creator line interrupted by raid / unfinished question

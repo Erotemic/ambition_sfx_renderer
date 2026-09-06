@@ -1,0 +1,55 @@
+schema: ambition.sfxir.v1
+id: fighter.sword.air_up
+duration_ms: 245
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 61370985
+  buffer_size: 128
+layers:
+- name: air
+  kind: noise_burst
+  mode: whoosh
+  color: pink
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 145
+  envelope:
+    attack_ms: 14
+    hold_ms: 24
+    release_ms: 101
+  effects:
+  - effect: bandpass
+    hz: 2900
+    q: 0.7
+- name: steel
+  kind: synth_tone
+  waveform: bell
+  frequency_hz:
+    start: 2600
+    end: 1550
+    curve: exp
+  gain_db: -17
+  start_ms: 8
+  duration_ms: 190
+  envelope:
+    attack_ms: 1
+    hold_ms: 6
+    release_ms: 152
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -10
+notes: |
+  The brightest cue in the kit. An up-air is the one swing whose whole
+  point is above you.

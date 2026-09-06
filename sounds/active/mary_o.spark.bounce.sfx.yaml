@@ -1,0 +1,80 @@
+schema: ambition.sfxir.v1
+id: mary_o.spark.bounce
+duration_ms: 190
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 83139747
+  buffer_size: 128
+  final_peak_db: -10.0
+layers:
+- name: surface_pop
+  kind: noise_burst
+  mode: pogo_impact
+  color: pink
+  gain_db: -27
+  start_ms: 0
+  duration_ms: 135
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 5
+    release_ms: 100
+- name: bounce_note
+  kind: synth_tone
+  waveform: bell
+  frequency_hz:
+    start: 740
+    end: 980
+    curve: smooth
+  gain_db: -23
+  start_ms: 8
+  duration_ms: 145
+  pan: -0.12
+  stereo_spread_cents: 8
+  envelope:
+    attack_ms: 1
+    hold_ms: 8
+    release_ms: 115
+- name: star_tail
+  kind: synth_tone
+  waveform: sine
+  frequency_hz: 1479.98
+  gain_db: -31
+  start_ms: 42
+  duration_ms: 120
+  pan: 0.28
+  stereo_spread_cents: 10
+  envelope:
+    attack_ms: 1
+    hold_ms: 5
+    release_ms: 95
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7600
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: delay
+  delay_ms: 34
+  feedback: 0.04
+  mix: 0.025
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.035
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -10.0
+notes: Use each time a Spark Blossom projectile bounces from level geometry. It is intentionally short and repeatable,
+  with a physical spring-pop under a small magical pitch lift.

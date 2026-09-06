@@ -1,0 +1,55 @@
+schema: ambition.sfxir.v1
+id: fighter.brawler.air_up
+duration_ms: 240
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 44431827
+  buffer_size: 128
+layers:
+- name: air
+  kind: noise_burst
+  mode: whoosh
+  color: pink
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 140
+  envelope:
+    attack_ms: 17
+    hold_ms: 28
+    release_ms: 91
+  effects:
+  - effect: bandpass
+    hz: 2200
+    q: 0.5
+- name: knuckle
+  kind: noise_burst
+  mode: flesh_light
+  color: pink
+  gain_db: -16
+  start_ms: 8
+  duration_ms: 115
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 86
+  effects:
+  - effect: lowpass
+    cutoff_hz: 4600
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -10
+notes: |
+  A somersault kick through the ceiling. The brightest cue the brawler
+  has.

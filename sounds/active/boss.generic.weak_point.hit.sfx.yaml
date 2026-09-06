@@ -1,0 +1,54 @@
+schema: ambition.sfxir.v1
+id: boss.generic.weak_point.hit
+duration_ms: 260
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 870412
+  buffer_size: 128
+layers:
+- name: impact
+  kind: noise_burst
+  color: pink
+  gain_db: -10
+  start_ms: 0
+  duration_ms: 24
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 1300
+    q: 0.8
+- name: weak_ping
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -13
+  start_ms: 5
+  duration_ms: 170
+  parameters:
+    /AmbitionTone/freq:
+      start: 760
+      end: 1180
+      curve: exp
+    /AmbitionTone/gain: -16
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 120
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 2600
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.55
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 30
+- effect: normalize_peak
+  target_db: -8
+notes: weak point hit ping

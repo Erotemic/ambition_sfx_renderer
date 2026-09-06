@@ -1,0 +1,90 @@
+schema: ambition.sfxir.v1
+id: boss.gnu_ton.phase_transition
+duration_ms: 1150
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 872104
+  buffer_size: 128
+layers:
+- name: gnu_phase_low
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -23
+  start_ms: 0
+  duration_ms: 900
+  pan: 0.0
+  parameters:
+    /AmbitionTone/freq:
+      start: 146.83
+      end: 220.0
+      curve: exp
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 25
+    hold_ms: 140
+    release_ms: 720
+- name: gnu_phase_breath
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  gain_db: -33
+  start_ms: 80
+  duration_ms: 820
+  pan: 0.0
+  envelope:
+    attack_ms: 40
+    hold_ms: 90
+    release_ms: 660
+  effects:
+  - effect: bandpass
+    center_hz: 600
+    q: 0.6
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 3800
+- name: gnu_phase_stomp
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -18
+  start_ms: 760
+  duration_ms: 270
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 10
+    release_ms: 230
+  effects:
+  - effect: bandpass
+    center_hz: 115
+    q: 0.55
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 2500
+postprocess:
+- effect: highpass
+  cutoff_hz: 25
+- effect: lowpass
+  cutoff_hz: 4400
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.22
+  q: 0.9
+- effect: soft_clip
+  drive: 0.48
+  mix: 0.18
+- effect: reverb
+  room_size: 0.14
+  damping: 0.65
+  wet_level: 0.06
+  dry_level: 0.96
+  width: 0.75
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 14
+- effect: normalize_peak
+  target_db: -8.5
+notes: 'Gnu Ton phase transition: low rising bellow into stomp.'

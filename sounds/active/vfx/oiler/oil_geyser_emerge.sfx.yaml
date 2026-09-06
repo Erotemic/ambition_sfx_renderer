@@ -1,0 +1,103 @@
+schema: ambition.sfxir.v1
+id: vfx.oiler.oil_geyser_emerge
+duration_ms: 432
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 914511
+  buffer_size: 128
+  final_peak_db: -9.1
+layers:
+- name: valve_snap
+  kind: noise_burst
+  mode: metal_hit
+  color: white
+  gain_db: -30
+  start_ms: 0
+  pan: -0.08
+  duration_ms: 118
+  envelope:
+    attack_ms: 0
+    hold_ms: 6
+    release_ms: 104
+- name: oil_cough
+  kind: noise_burst
+  mode: wet_impact
+  color: brown
+  gain_db: -22
+  start_ms: 12
+  pan: 0.0
+  duration_ms: 246
+  envelope:
+    attack_ms: 1
+    hold_ms: 16
+    release_ms: 210
+- name: pressure_push
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -27
+  start_ms: 16
+  pan: 0.04
+  duration_ms: 320
+  envelope:
+    attack_ms: 2
+    hold_ms: 72
+    release_ms: 206
+  start_hz: 980
+  end_hz: 2250
+  q: 0.65
+- name: oily_spits
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -34
+  start_ms: 42
+  pan: 0.06
+  duration_ms: 220
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 209
+  grain_count: 7
+  grain_decay_ms: 8
+  spread_ms: 160
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7600
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.17
+  q: 0.9
+- effect: reverb
+  room_size: 0.14
+  damping: 0.72
+  wet_level: 0.04
+  dry_level: 0.99
+  width: 0.84
+- effect: soft_clip
+  drive: 0.2
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -9.1
+authoring:
+  companion_for:
+    sprite_target: oiler_vfx
+    animation: oil_geyser_emerge
+    visual_duration_ms: 432
+  playback:
+    mode: one_shot
+    sync_hint: emitter_burst
+    audibility: supporting
+  sound_design_family: oil_attack
+  auto_registration:
+    mechanism: recursive sounds/active cue discovery
+    central_registry_edit_required: false
+  character_context: 'Oiler: Euler-inspired practical gate mechanic; chalk, bearings, brass/steel, gauges, oil,
+    and stabilizer hardware.'
+notes: Pressurized valve snap with a thick initial oil cough and short forward spray thrust.

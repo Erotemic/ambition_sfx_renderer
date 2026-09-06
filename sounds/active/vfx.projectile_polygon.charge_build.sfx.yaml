@@ -1,0 +1,79 @@
+schema: ambition.sfxir.v1
+id: vfx.projectile_polygon.charge_build
+duration_ms: 868
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 32523386
+  buffer_size: 128
+layers:
+- name: core
+  kind: synth_tone
+  waveform: soft_saw
+  frequency_hz:
+    start: 300
+    end: 1450
+    curve: exp
+  gain_db: -11
+  start_ms: 0
+  duration_ms: 868
+  vibrato_rate_hz: 7.5
+  vibrato_depth_cents: 14
+  envelope:
+    attack_ms: 25
+    hold_ms: 289
+    release_ms: 60
+- name: bed
+  kind: noise_burst
+  mode: whoosh
+  color: white
+  gain_db: -19
+  start_ms: 0
+  duration_ms: 868
+  envelope:
+    attack_ms: 40
+    hold_ms: 289
+    release_ms: 347
+  effects:
+  - effect: bandpass
+    hz: 3400
+    q: 0.45
+- name: rings
+  kind: synth_tone
+  waveform: sine
+  frequency_hz:
+    start: 600
+    end: 2900
+    curve: exp
+  gain_db: -20
+  start_ms: 90
+  duration_ms: 778
+  tremolo:
+    rate_hz: 11
+    depth: 0.55
+  envelope:
+    attack_ms: 120
+    hold_ms: 380
+    release_ms: 240
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -10
+notes: |
+  THE FILL, and its length is not a guess: 868ms is the sheet's own
+  `charge_build` row, fourteen frames at 62ms. The art was drawn as one
+  long climb rather than a loop so a ring count could be read at a glance,
+  and the audio finishing at a different time than the picture would break
+  exactly that. Nearly a decade of pitch -- 300Hz to 1450 -- so the tier
+  is audible without a meter, with a tremolo ring band accelerating
+  underneath.

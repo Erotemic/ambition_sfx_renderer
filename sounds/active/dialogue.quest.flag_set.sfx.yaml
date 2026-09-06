@@ -1,0 +1,56 @@
+schema: ambition.sfxir.v1
+id: dialogue.quest.flag_set
+duration_ms: 260
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 303010
+  buffer_size: 128
+layers:
+- name: flag_lo
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -23
+  start_ms: 0
+  duration_ms: 160
+  parameters:
+    /AmbitionTone/freq:
+      start: 293.6647679174076
+      end: 440.0
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 120
+- name: flag_hi
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -26
+  start_ms: 92
+  duration_ms: 120
+  parameters:
+    /AmbitionTone/freq:
+      start: 369.9944227116344
+      end: 587.3295358348151
+      curve: linear
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 90
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6500
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -13
+notes: set_flag / quest state changed

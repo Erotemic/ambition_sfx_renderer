@@ -1,0 +1,77 @@
+schema: ambition.sfxir.v1
+id: vfx.oiler.oil_slick
+duration_ms: 640
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 913953
+  buffer_size: 128
+  final_peak_db: -14.0
+layers:
+- name: spread
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -39
+  start_ms: 0
+  pan: 0.0
+  duration_ms: 520
+  envelope:
+    attack_ms: 20
+    hold_ms: 50
+    release_ms: 410
+  filter:
+    kind: lowpass
+    hz: 700
+    q: 0.7
+- name: settle
+  kind: noise_burst
+  mode: wet_impact
+  color: brown
+  gain_db: -39
+  start_ms: 360
+  pan: 0.0
+  duration_ms: 180
+  envelope:
+    attack_ms: 0
+    hold_ms: 5
+    release_ms: 169
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 7800
+- effect: deharsh
+  center_hz: 3500
+  amount: 0.16
+  q: 0.9
+- effect: reverb
+  room_size: 0.16
+  damping: 0.72
+  wet_level: 0.045
+  dry_level: 0.98
+  width: 0.82
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.14
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 10
+- effect: normalize_peak
+  target_db: -14.0
+authoring:
+  companion_for:
+    sprite_target: oiler_vfx
+    animation: oil_slick
+    visual_duration_ms: 640
+  playback:
+    mode: one_shot
+    sync_hint: surface_contact
+    audibility: subtle
+  sound_design_family: oil_wet
+  auto_registration:
+    mechanism: recursive sounds/active cue discovery
+    central_registry_edit_required: false
+  character_context: 'Oiler: Euler-inspired practical gate mechanic; chalk, bearings, brass/steel, gauges, oil,
+    and stabilizer hardware.'
+notes: Very restrained wet spreading texture; intentionally supporting/near-ambient.

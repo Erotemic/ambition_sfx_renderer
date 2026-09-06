@@ -1,0 +1,66 @@
+schema: ambition.sfxir.v1
+id: dialogue.choice.appear
+duration_ms: 190
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 897524
+  buffer_size: 128
+layers:
+- name: choice_a
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -23
+  start_ms: 0
+  duration_ms: 80
+  parameters:
+    /AmbitionTone/freq: 523.2511306011972
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 60
+- name: choice_b
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -25
+  start_ms: 72
+  duration_ms: 80
+  parameters:
+    /AmbitionTone/freq: 783.9908719634985
+    /AmbitionTone/gain: -18
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 60
+- name: ui_air
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -34
+  start_ms: 10
+  duration_ms: 90
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 20
+  effects:
+  - effect: bandpass
+    center_hz: 2800.0
+    q: 0.6
+  grain_count: 6
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+- effect: lowpass
+  cutoff_hz: 6500
+- effect: deharsh
+  amount: 0.2
+- effect: soft_clip
+  drive: 0.3
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -14
+notes: dialogue option list appears

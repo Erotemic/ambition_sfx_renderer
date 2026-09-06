@@ -1,0 +1,197 @@
+schema: ambition.sfxir.v1
+id: ui.menu.rotate
+duration_ms: 428
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 850101
+  buffer_size: 128
+layers:
+- name: note_00
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -21
+  start_ms: 0
+  duration_ms: 96
+  pan: 0.28
+  parameters:
+    /AmbitionTone/freq: 659.25
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0.25
+    hold_ms: 7
+    release_ms: 86
+- name: note_00_octave_spark
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -32
+  start_ms: 1
+  duration_ms: 78
+  pan: -0.22400000000000003
+  parameters:
+    /AmbitionTone/freq: 1318.5
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 0.15
+    hold_ms: 3
+    release_ms: 72
+- name: note_01
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -21
+  start_ms: 48
+  duration_ms: 96
+  pan: 0.14
+  parameters:
+    /AmbitionTone/freq: 880.0
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0.25
+    hold_ms: 7
+    release_ms: 86
+- name: note_01_octave_spark
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -32
+  start_ms: 49
+  duration_ms: 78
+  pan: -0.11200000000000002
+  parameters:
+    /AmbitionTone/freq: 1760.0
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 0.15
+    hold_ms: 3
+    release_ms: 72
+- name: note_02
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -21
+  start_ms: 96
+  duration_ms: 96
+  pan: 0.0
+  parameters:
+    /AmbitionTone/freq: 830.61
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0.25
+    hold_ms: 7
+    release_ms: 86
+- name: note_02_octave_spark
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -32
+  start_ms: 97
+  duration_ms: 78
+  pan: -0.0
+  parameters:
+    /AmbitionTone/freq: 1661.22
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 0.15
+    hold_ms: 3
+    release_ms: 72
+- name: note_03
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -21
+  start_ms: 144
+  duration_ms: 96
+  pan: -0.14
+  parameters:
+    /AmbitionTone/freq: 739.99
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0.25
+    hold_ms: 7
+    release_ms: 86
+- name: note_03_octave_spark
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -32
+  start_ms: 145
+  duration_ms: 78
+  pan: 0.11200000000000002
+  parameters:
+    /AmbitionTone/freq: 1479.98
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 0.15
+    hold_ms: 3
+    release_ms: 72
+- name: note_04
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -22
+  start_ms: 192
+  duration_ms: 206
+  pan: -0.28
+  parameters:
+    /AmbitionTone/freq: 659.25
+    /AmbitionTone/gain: -17
+  envelope:
+    attack_ms: 0.25
+    hold_ms: 16
+    release_ms: 196
+- name: note_04_octave_spark
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -32
+  start_ms: 193
+  duration_ms: 188
+  pan: 0.22400000000000003
+  parameters:
+    /AmbitionTone/freq: 1318.5
+    /AmbitionTone/gain: -20
+  envelope:
+    attack_ms: 0.15
+    hold_ms: 3
+    release_ms: 182
+- name: tiny_glass_air
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -41
+  start_ms: 0
+  duration_ms: 288
+  pan: 0.0
+  envelope:
+    attack_ms: 0.2
+    hold_ms: 2
+    release_ms: 284
+  effects:
+  - effect: bandpass
+    center_hz: 3300
+    q: 1.2
+  - effect: highpass
+    cutoff_hz: 80
+  - effect: lowpass
+    cutoff_hz: 9500
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: lowpass
+  cutoff_hz: 9200
+- effect: deharsh
+  center_hz: 3400
+  amount: 0.18
+  q: 0.9
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.18
+- effect: delay
+  delay_ms: 58
+  feedback: 0.07
+  mix: 0.05
+- effect: reverb
+  room_size: 0.14
+  damping: 0.65
+  wet_level: 0.06
+  dry_level: 0.96
+  width: 0.75
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 14
+- effect: normalize_peak
+  target_db: -10
+notes: 'Menu panel/cube rotate flourish. Original five-note jeweled gesture: R, +5, +4, +2, R.'

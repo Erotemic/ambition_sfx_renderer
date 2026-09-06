@@ -1,0 +1,70 @@
+schema: ambition.sfxir.v1
+id: fighter.brawler.smash_forward
+duration_ms: 420
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 48527615
+  buffer_size: 128
+layers:
+- name: air
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -8
+  start_ms: 0
+  duration_ms: 235
+  envelope:
+    attack_ms: 29
+    hold_ms: 47
+    release_ms: 152
+  effects:
+  - effect: bandpass
+    hz: 1400
+    q: 0.4
+- name: knuckle
+  kind: noise_burst
+  mode: flesh_heavy
+  color: pink
+  gain_db: -11
+  start_ms: 16
+  duration_ms: 190
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 142
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2300
+- name: body
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -17
+  start_ms: 3
+  duration_ms: 200
+  envelope:
+    attack_ms: 1
+    hold_ms: 6
+    release_ms: 160
+  effects:
+  - effect: lowpass
+    cutoff_hz: 540
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -8
+notes: |
+  The haymaker. Everything is bigger: the air takes a quarter of a second
+  to move, the impact is the loudest layer in the kit, and there is more
+  body under it than any other move.

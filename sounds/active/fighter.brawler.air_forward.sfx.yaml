@@ -1,0 +1,55 @@
+schema: ambition.sfxir.v1
+id: fighter.brawler.air_forward
+duration_ms: 265
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 56920707
+  buffer_size: 128
+layers:
+- name: air
+  kind: noise_burst
+  mode: whoosh
+  color: pink
+  gain_db: -11
+  start_ms: 0
+  duration_ms: 160
+  envelope:
+    attack_ms: 20
+    hold_ms: 32
+    release_ms: 104
+  effects:
+  - effect: bandpass
+    hz: 1400
+    q: 0.45
+- name: knuckle
+  kind: noise_burst
+  mode: flesh_hit
+  color: pink
+  gain_db: -14
+  start_ms: 12
+  duration_ms: 145
+  envelope:
+    attack_ms: 1
+    hold_ms: 4
+    release_ms: 108
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2300
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -10
+notes: |
+  The overhead hook that sweeps down in front. The longest-travelling
+  aerial, and it sounds like it.

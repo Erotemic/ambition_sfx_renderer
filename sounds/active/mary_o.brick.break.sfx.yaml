@@ -1,0 +1,105 @@
+schema: ambition.sfxir.v1
+id: mary_o.brick.break
+duration_ms: 430
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 15765818
+  buffer_size: 128
+  final_peak_db: -8.5
+layers:
+- name: central_crack
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -25
+  start_ms: 0
+  duration_ms: 210
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 8
+    release_ms: 165
+- name: brick_fragments
+  kind: noise_burst
+  mode: grains
+  color: brown
+  gain_db: -28
+  start_ms: 0
+  duration_ms: 350
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 8
+    release_ms: 285
+  grain_count: 18
+  grain_decay_ms: 7
+  spread_ms: 260
+- name: hard_edges
+  kind: noise_burst
+  mode: metal_chink
+  color: pink
+  gain_db: -39
+  start_ms: 20
+  duration_ms: 180
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 5
+    release_ms: 140
+- name: masonry_body
+  kind: synth_tone
+  waveform: triangle
+  frequency_hz:
+    start: 180
+    end: 72
+    curve: exp
+  gain_db: -35
+  start_ms: 0
+  duration_ms: 320
+  pan: 0.0
+  stereo_spread_cents: 3
+  envelope:
+    attack_ms: 1
+    hold_ms: 22
+    release_ms: 260
+- name: falling_dust
+  kind: noise_burst
+  mode: burst
+  color: brown
+  gain_db: -42
+  start_ms: 90
+  duration_ms: 280
+  pan: 0.0
+  envelope:
+    attack_ms: 6
+    hold_ms: 18
+    release_ms: 220
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1300
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 4700
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.03
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -8.5
+notes: Use when Mary-O actually breaks a brick or masonry block. It includes a central fracture, multiple debris
+  pieces, and settling dust; do not use it for ordinary question-block bonks.

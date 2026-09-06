@@ -1,0 +1,50 @@
+schema: ambition.sfxir.v1
+id: enemy.slime.split
+duration_ms: 260
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 323965
+  buffer_size: 128
+layers:
+- name: wet_split
+  kind: noise_burst
+  color: pink
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 110
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 700
+    q: 0.4
+- name: slime_bits
+  kind: noise_burst
+  color: white
+  gain_db: -26
+  start_ms: 45
+  duration_ms: 120
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 1700
+    q: 0.45
+postprocess:
+- effect: highpass
+  cutoff_hz: 40
+- effect: lowpass
+  cutoff_hz: 2500
+- effect: soft_clip
+  drive: 0.45
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 10
+- effect: normalize_peak
+  target_db: -10
+notes: slime split

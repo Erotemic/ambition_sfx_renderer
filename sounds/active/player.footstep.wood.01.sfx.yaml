@@ -1,0 +1,51 @@
+schema: ambition.sfxir.v1
+id: player.footstep.wood.01
+duration_ms: 88
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 401601
+  buffer_size: 128
+layers:
+- name: sole_thump
+  kind: noise_burst
+  color: brown
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 28
+  envelope:
+    attack_ms: 0
+    hold_ms: 2
+    release_ms: 18
+  filter:
+    kind: lowpass
+    cutoff_hz: 460
+- name: surface_texture
+  kind: noise_burst
+  color: brown
+  gain_db: -20
+  start_ms: 5
+  duration_ms: 34
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 24
+  filter:
+    kind: bandpass
+    hz: 1008.0
+    q: 0.55
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 780
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 8
+- effect: normalize_peak
+  target_db: -15
+notes: 'wood footstep variant 1: non-tonal foley thud/scuff'

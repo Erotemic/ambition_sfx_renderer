@@ -1,0 +1,52 @@
+schema: ambition.sfxir.v1
+id: ambient.cave.drip_loop
+duration_ms: 1800
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 782076
+  buffer_size: 128
+layers:
+- name: drip_a
+  kind: noise_burst
+  color: pink
+  gain_db: -28
+  start_ms: 120
+  duration_ms: 34
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 1100
+    q: 0.5
+- name: drip_b
+  kind: noise_burst
+  color: pink
+  gain_db: -31
+  start_ms: 1000
+  duration_ms: 32
+  envelope:
+    attack_ms: 0
+    hold_ms: 1
+    release_ms: 10
+  filter:
+    kind: bandpass
+    hz: 900
+    q: 0.45
+postprocess:
+- effect: highpass
+  cutoff_hz: 25
+- effect: lowpass
+  cutoff_hz: 2600
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.25
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 20
+- effect: normalize_peak
+  target_db: -20
+notes: cave drip loop draft

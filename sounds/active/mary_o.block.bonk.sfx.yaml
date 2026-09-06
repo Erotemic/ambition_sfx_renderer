@@ -1,0 +1,78 @@
+schema: ambition.sfxir.v1
+id: mary_o.block.bonk
+duration_ms: 190
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 91030345
+  buffer_size: 128
+  final_peak_db: -9.5
+layers:
+- name: block_body
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -25
+  start_ms: 0
+  duration_ms: 150
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 6
+    release_ms: 115
+  effects:
+  - effect: lowpass
+    cutoff_hz: 820
+- name: spring_tock
+  kind: synth_tone
+  waveform: triangle
+  frequency_hz:
+    start: 280
+    end: 410
+    curve: smooth
+  gain_db: -27
+  start_ms: 5
+  duration_ms: 155
+  pan: 0.08
+  stereo_spread_cents: 3
+  envelope:
+    attack_ms: 1
+    hold_ms: 8
+    release_ms: 120
+- name: edge_click
+  kind: noise_burst
+  mode: metal_chink
+  color: pink
+  gain_db: -39
+  start_ms: 8
+  duration_ms: 90
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 3
+    release_ms: 65
+postprocess:
+- effect: highpass
+  cutoff_hz: 45
+- effect: lowpass
+  cutoff_hz: 5200
+- effect: deharsh
+  center_hz: 3300
+  amount: 0.18
+  q: 0.9
+- effect: reverb
+  room_size: 0.12
+  damping: 0.68
+  wet_level: 0.025
+  dry_level: 0.97
+  width: 0.8
+- effect: soft_clip
+  drive: 0.18
+  mix: 0.16
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 12
+- effect: normalize_peak
+  target_db: -9.5
+notes: Use when Mary-O strikes a populated question or reward block from below. It should communicate a springy
+  block hit before the separate powerup-emergence cue plays.

@@ -1,0 +1,64 @@
+schema: ambition.sfxir.v1
+id: vfx.projectile_polygon.charge_cancel
+duration_ms: 460
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 15397808
+  buffer_size: 128
+layers:
+- name: core
+  kind: synth_tone
+  waveform: soft_saw
+  frequency_hz:
+    start: 1300
+    end: 190
+    curve: lin
+  gain_db: -15
+  start_ms: 0
+  duration_ms: 380
+  vibrato_rate_hz: 7.5
+  vibrato_depth_cents: 14
+  envelope:
+    attack_ms: 2
+    hold_ms: 126
+    release_ms: 300
+- name: bed
+  kind: noise_burst
+  mode: whoosh
+  color: white
+  gain_db: -19
+  start_ms: 0
+  duration_ms: 360
+  envelope:
+    attack_ms: 6
+    hold_ms: 120
+    release_ms: 144
+  effects:
+  - effect: bandpass
+    hz: 900
+    q: 0.5
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -12
+notes: |
+  IT WAS DROPPED, and it must not be mistaken for the release. A shield-
+  drop mistake and a fired shot are different events and a player has to
+  hear which one happened. What separates them is MEASURED: this is 5.2dB
+  quieter, it ends 200Hz lower, and it decays MONOTONICALLY -- the release
+  does not, because the ball departing puts a bump back into its tail near
+  the end. ⛔ It is NOT the fall SHAPE, which was the first claim here and
+  was wrong: tracked in tenths, cancel front-loads 33% of its drop against
+  the release’s 27%, so the two curves are near enough to identical that
+  nobody could tell them apart by contour alone.

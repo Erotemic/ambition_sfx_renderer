@@ -1,0 +1,51 @@
+schema: ambition.sfxir.v1
+id: player.attack.charge
+duration_ms: 620
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 1269
+  buffer_size: 128
+layers:
+- name: tonal_body
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: 0
+  parameters:
+    /AmbitionTone/freq:
+      start: 260
+      end: 920
+      curve: exp
+    /AmbitionTone/gain: -15
+  envelope:
+    attack_ms: 20
+    hold_ms: 180
+    release_ms: 341
+- name: pyfxr_seed
+  kind: pyfxr
+  preset: powerup
+  seed: 1270
+  gain_db: -27
+postprocess:
+- effect: highpass
+  cutoff_hz: 55
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.4
+  attack_ms: 3
+  release_ms: 70
+- effect: chorus
+  rate_hz: 1.1
+  depth: 0.11
+  mix: 0.2
+- effect: limiter
+  threshold_db: -2.0
+  release_ms: 45
+- effect: reverb
+  room_size: 0.14
+  damping: 0.72
+  wet_level: 0.065
+  dry_level: 1.0
+- effect: normalize_peak
+  target_db: -6.0
+notes: long charge-up bed; auto policy writes OGG

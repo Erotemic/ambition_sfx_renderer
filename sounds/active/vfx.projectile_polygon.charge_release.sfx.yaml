@@ -1,0 +1,72 @@
+schema: ambition.sfxir.v1
+id: vfx.projectile_polygon.charge_release
+duration_ms: 520
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 64547715
+  buffer_size: 128
+layers:
+- name: core
+  kind: synth_tone
+  waveform: soft_saw
+  frequency_hz:
+    start: 1500
+    end: 260
+    curve: exp
+  gain_db: -8
+  start_ms: 0
+  duration_ms: 420
+  vibrato_rate_hz: 7.5
+  vibrato_depth_cents: 14
+  envelope:
+    attack_ms: 1
+    hold_ms: 140
+    release_ms: 330
+- name: bed
+  kind: noise_burst
+  mode: burst
+  color: white
+  gain_db: -13
+  start_ms: 0
+  duration_ms: 300
+  envelope:
+    attack_ms: 1
+    hold_ms: 100
+    release_ms: 120
+  effects:
+  - effect: bandpass
+    hz: 2200
+    q: 0.35
+- name: departure
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  gain_db: -17
+  start_ms: 30
+  duration_ms: 420
+  envelope:
+    attack_ms: 8
+    hold_ms: 60
+    release_ms: 330
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3200
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -7
+notes: |
+  IT LEAVES. The whole climb spent at once: a fast fall from 1500Hz to
+  260, which is the exact inverse of the fill, plus the ball's own
+  departure sweeping away. The loudest thing the character does.

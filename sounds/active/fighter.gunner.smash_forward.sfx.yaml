@@ -1,0 +1,89 @@
+schema: ambition.sfxir.v1
+id: fighter.gunner.smash_forward
+duration_ms: 430
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 5918639
+  buffer_size: 128
+layers:
+- name: servo
+  kind: synth_tone
+  waveform: pulse
+  pulse_width: 0.28
+  frequency_hz:
+    start: 980
+    end: 560
+    curve: exp
+  gain_db: -4
+  start_ms: 0
+  duration_ms: 170
+  envelope:
+    attack_ms: 2
+    hold_ms: 42
+    release_ms: 102
+  effects:
+  - effect: bandpass
+    hz: 770
+    q: 0.55
+- name: air
+  kind: noise_burst
+  mode: whoosh
+  color: pink
+  gain_db: -9
+  start_ms: 4
+  duration_ms: 245
+  envelope:
+    attack_ms: 30
+    hold_ms: 49
+    release_ms: 159
+  effects:
+  - effect: bandpass
+    hz: 1350
+    q: 0.6
+- name: mass
+  kind: noise_burst
+  mode: machine_crunch
+  color: brown
+  gain_db: -11
+  start_ms: 81
+  duration_ms: 210
+  envelope:
+    attack_ms: 1
+    hold_ms: 5
+    release_ms: 163
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2200
+- name: stance
+  kind: noise_burst
+  mode: dirt_thud
+  color: brown
+  gain_db: -17
+  start_ms: 3
+  duration_ms: 205
+  envelope:
+    attack_ms: 1
+    hold_ms: 6
+    release_ms: 164
+  effects:
+  - effect: lowpass
+    cutoff_hz: 480
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -8
+notes: |
+  The whole animal thrown forward behind a long servo wind-up. The mass
+  layer turns to machine here: at full commitment the cannon's mount takes
+  the load and you hear it.

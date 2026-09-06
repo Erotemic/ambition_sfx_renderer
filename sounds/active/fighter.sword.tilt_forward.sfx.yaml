@@ -1,0 +1,69 @@
+schema: ambition.sfxir.v1
+id: fighter.sword.tilt_forward
+duration_ms: 215
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 67927508
+  buffer_size: 128
+layers:
+- name: air
+  kind: noise_burst
+  mode: whoosh
+  color: pink
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 125
+  envelope:
+    attack_ms: 12
+    hold_ms: 20
+    release_ms: 87
+  effects:
+  - effect: bandpass
+    hz: 2000
+    q: 0.75
+- name: steel
+  kind: synth_tone
+  waveform: bell
+  frequency_hz:
+    start: 1750
+    end: 980
+    curve: exp
+  gain_db: -18
+  start_ms: 10
+  duration_ms: 165
+  envelope:
+    attack_ms: 1
+    hold_ms: 6
+    release_ms: 132
+- name: body
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -27
+  start_ms: 4
+  duration_ms: 95
+  envelope:
+    attack_ms: 1
+    hold_ms: 5
+    release_ms: 76
+  effects:
+  - effect: lowpass
+    cutoff_hz: 620
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -11
+notes: |
+  A committed poke with the shoulder in it. Lower and longer than the jab
+  by exactly as much as it is slower.

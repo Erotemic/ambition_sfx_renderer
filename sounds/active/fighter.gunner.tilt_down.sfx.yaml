@@ -1,0 +1,88 @@
+schema: ambition.sfxir.v1
+id: fighter.gunner.tilt_down
+duration_ms: 205
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 23022953
+  buffer_size: 128
+layers:
+- name: servo
+  kind: synth_tone
+  waveform: pulse
+  pulse_width: 0.28
+  frequency_hz:
+    start: 1000
+    end: 640
+    curve: exp
+  gain_db: -8
+  start_ms: 0
+  duration_ms: 80
+  envelope:
+    attack_ms: 2
+    hold_ms: 20
+    release_ms: 48
+  effects:
+  - effect: bandpass
+    hz: 820
+    q: 0.55
+- name: air
+  kind: noise_burst
+  mode: whoosh
+  color: pink
+  gain_db: -13
+  start_ms: 4
+  duration_ms: 110
+  envelope:
+    attack_ms: 13
+    hold_ms: 22
+    release_ms: 71
+  effects:
+  - effect: bandpass
+    hz: 1080
+    q: 0.6
+- name: mass
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -15
+  start_ms: 36
+  duration_ms: 120
+  envelope:
+    attack_ms: 1
+    hold_ms: 5
+    release_ms: 93
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1050
+- name: stance
+  kind: noise_burst
+  mode: dirt_thud
+  color: brown
+  gain_db: -22
+  start_ms: 3
+  duration_ms: 115
+  envelope:
+    attack_ms: 1
+    hold_ms: 6
+    release_ms: 92
+  effects:
+  - effect: lowpass
+    cutoff_hz: 480
+postprocess:
+- effect: highpass
+  cutoff_hz: 60
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.35
+- effect: soft_clip
+  drive: 0.4
+- effect: fade_edges
+  fade_in_ms: 0.3
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -11
+notes: |
+  A tail sweep along the floor. Almost no machine in it -- the cannon is
+  at the other end of him.
