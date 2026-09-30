@@ -3,40 +3,22 @@ schema: ambition.sfxir.v1
 # https://www.youtube.com/watch?v=RFzSPUJ_A3Q
 # Adapted as one layer of game Foley; the final cue and implementation are original.
 id: player.robot.slash.impact.flesh.light
-duration_ms: 285
+duration_ms: 260
 render:
   sample_rate: 48000
   channels: 2
-  seed: 551119
+  # The seed of the approved "gore" candidate's light partner (2026-09-30).
+  seed: 2212
   buffer_size: 128
-  safety_lowpass_hz: 4900
-  safety_drive: 1.0
-  safety_clip_mix: 0.08
-  final_peak_db: -6.2
+  # The recipe does its own safety; see the deep cue.
+  safety_profile: none
 layers:
-- name: light_wet_nick_with_juice_slurp
+- name: gore_strike_light
   kind: noise_burst
-  mode: flesh_light
-  color: pink
-  gain_db: 0.0
-  duration_ms: 280
-  envelope:
-    attack_ms: 2.5
-    hold_ms: 0
-    release_ms: 20
+  mode: flesh_strike
+  weight: light
+  duration_ms: 260
 postprocess:
-- effect: highpass
-  cutoff_hz: 74
-- effect: lowpass
-  cutoff_hz: 4650
-- effect: compressor
-  threshold_db: -13
-  ratio: 1.12
-  attack_ms: 24
-  release_ms: 125
-- effect: fade_edges
-  in_ms: 1.5
-  out_ms: 18
 - effect: normalize_peak
-  target_db: -5.8
-notes: light-touch player-robot flesh nick with reduced entry mass and splatter, followed by a dominant close-mic liquid suction tail, juice bubbles, soft wet seals, and sticky pull-free; the attributed click-filter technique remains supporting articulation
+  target_db: -6.2
+notes: 'light player-robot blade hit on flesh: the same family as the deep cue, smaller - a shorter and brighter crack, a thump from 230 to 100 Hz, a higher smack, and the light tissue stems as a quick tail; the attributed click-filter technique remains supporting articulation inside the tissue stems'

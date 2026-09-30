@@ -10,6 +10,7 @@ processing still applies gain, pan, envelope, and effects from the YAML.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
@@ -1775,6 +1776,153 @@ def _flesh_impact(
         return _deep_flesh_squish_cut(n, sample_rate, rng)
     return _light_flesh_squish_cut(n, sample_rate, rng)
 
+def _butter(
+    audio: np.ndarray, sample_rate: int, btype: str, hz: Any, order: int = 2
+) -> np.ndarray:
+    nyquist = sample_rate * 0.5
+    wn = np.asarray(hz, dtype=np.float64) / nyquist
+    sos = signal.butter(order, wn, btype=btype, output="sos")
+    return signal.sosfilt(sos, audio, axis=-1).astype(np.float32)
+
+
+def _strike_envelope(
+    n: int, sample_rate: int, *, attack_ms: float, decay_ms: float, start_ms: float = 0.0
+) -> np.ndarray:
+    """Near-instant rise and exponential fall: the shape of a struck body."""
+    t = np.arange(n, dtype=np.float32) / float(sample_rate) - start_ms / 1000.0
+    rise = np.clip(t / max(1e-5, attack_ms / 1000.0), 0.0, 1.0)
+    fall = np.exp(-np.clip(t, 0.0, None) / (decay_ms / 1000.0))
+    return (rise * fall * (t >= 0)).astype(np.float32)
+
+
+@dataclass(frozen=True)
+class _FleshStrike:
+    """One weight of the `flesh_strike` recipe.
+
+    The strike comes first: a broadband crack, a pitched thump that falls, and
+    a midrange smack, all at full level in the first milliseconds. The wet
+    tissue stems of `_flesh_cut_components` then follow as a tail that DECAYS.
+    The older `flesh_light` / `flesh_deep` recipes have no strike and hold a
+    flat level, so they read as a squelch and not as a hit.
+    """
+
+    deep: bool
+    tail_weights: tuple[tuple[str, float], ...]
+    tail_start_ms: float
+    tail_hold_ms: float
+    tail_decay_ms: float
+    tail_lowpass_hz: float
+    tail_gain: float
+    side_highpass_hz: float
+    side_gain_pre: float
+    crack_hz: tuple[float, float]
+    crack_decay_ms: float
+    crack_gain: float
+    thump_hz: tuple[float, float]
+    thump_sweep_ms: float
+    thump_decay_ms: float
+    thump_gain: float
+    smack_hz: float
+    smack_decay_ms: float
+    smack_gain: float
+    side_gain: float
+    lowpass_hz: float
+
+
+_FLESH_STRIKES = {
+    "heavy": _FleshStrike(
+        deep=True,
+        tail_weights=(
+            ("blood", 1.0), ("splatter", 1.0), ("suction", 0.8), ("pulp", 0.6),
+            ("muscle", 0.6), ("bubbles", 0.5), ("squish", 0.3),
+        ),
+        tail_start_ms=4.0, tail_hold_ms=25.0, tail_decay_ms=140.0,
+        tail_lowpass_hz=4200.0, tail_gain=1.10,
+        side_highpass_hz=800.0, side_gain_pre=1.0,
+        crack_hz=(1800.0, 8000.0), crack_decay_ms=4.0, crack_gain=0.60,
+        thump_hz=(170.0, 62.0), thump_sweep_ms=28.0, thump_decay_ms=60.0, thump_gain=0.55,
+        smack_hz=520.0, smack_decay_ms=45.0, smack_gain=0.90,
+        side_gain=0.45, lowpass_hz=9000.0,
+    ),
+    "light": _FleshStrike(
+        deep=False,
+        tail_weights=(
+            ("blood", 1.0), ("splatter", 0.9), ("suction", 0.9), ("bubbles", 0.5),
+            ("squish", 0.4), ("muscle", 0.3),
+        ),
+        tail_start_ms=3.0, tail_hold_ms=10.0, tail_decay_ms=70.0,
+        tail_lowpass_hz=4800.0, tail_gain=1.0,
+        side_highpass_hz=1000.0, side_gain_pre=0.9,
+        crack_hz=(2200.0, 9500.0), crack_decay_ms=2.8, crack_gain=0.70,
+        thump_hz=(230.0, 100.0), thump_sweep_ms=18.0, thump_decay_ms=26.0, thump_gain=0.40,
+        smack_hz=800.0, smack_decay_ms=26.0, smack_gain=0.85,
+        side_gain=0.32, lowpass_hz=10000.0,
+    ),
+}
+
+
+def _flesh_strike(
+    n: int, sample_rate: int, rng: np.random.Generator, *, weight: str
+) -> np.ndarray:
+    """A blade HITTING flesh: strike first, then a decaying wet tail (stereo)."""
+    try:
+        p = _FLESH_STRIKES[weight]
+    except KeyError:
+        raise ValueError(
+            f"unknown flesh_strike weight {weight!r}; expected {sorted(_FLESH_STRIKES)}"
+        ) from None
+    sr = sample_rate
+    t = np.arange(n, dtype=np.float32) / float(sr)
+
+    # The rng is consumed in a fixed order (tail stems, crack, smack), so one
+    # seed gives one render.
+    stems = _flesh_cut_components(n, sr, rng, deep=p.deep)
+    tail = sum(stems[name] * gain for name, gain in p.tail_weights)
+    tt = t - p.tail_start_ms / 1000.0
+    tail_env = (
+        np.clip(tt / 0.004, 0.0, 1.0)
+        * np.exp(-np.clip(tt - p.tail_hold_ms / 1000.0, 0.0, None) / (p.tail_decay_ms / 1000.0))
+        * (tt >= 0)
+    )
+    tail = _normalized(tail * tail_env)
+
+    crack = _butter(_white(n, rng), sr, "bandpass", p.crack_hz) * _strike_envelope(
+        n, sr, attack_ms=0.15, decay_ms=p.crack_decay_ms
+    )
+    click = np.zeros(n, dtype=np.float32)
+    click[0] = 1.0
+    click = _butter(_butter(click, sr, "highpass", 900.0), sr, "lowpass", 6000.0) * 40.0
+    crack = _normalized(crack + click * 0.6)
+
+    f0, f1 = p.thump_hz
+    freq = f1 + (f0 - f1) * np.exp(-t / (p.thump_sweep_ms / 1000.0))
+    tone = np.sin(2 * np.pi * np.cumsum(freq) / sr) * _strike_envelope(
+        n, sr, attack_ms=0.8, decay_ms=p.thump_decay_ms
+    )
+    thump = _normalized(np.tanh(tone * 2.2) / np.tanh(2.2))
+
+    smack_band = (p.smack_hz / 2.5, p.smack_hz * 2.5)
+    smack = _normalized(
+        _butter(_pink(n, rng), sr, "bandpass", smack_band)
+        * _strike_envelope(n, sr, attack_ms=0.5, decay_ms=p.smack_decay_ms, start_ms=0.5)
+    )
+
+    core = (
+        crack * p.crack_gain
+        + thump * p.thump_gain
+        + smack * p.smack_gain
+        + _butter(tail, sr, "lowpass", p.tail_lowpass_hz) * p.tail_gain
+    )
+    # Only the upper wet detail goes wide, with a short cross delay.
+    side = _butter(tail, sr, "highpass", p.side_highpass_hz) * p.side_gain_pre
+    side_r = _delay_mono(side, ms_to_samples(1.6, sr))
+    stereo = np.stack([core + side * p.side_gain, core + side_r * p.side_gain])
+    stereo = np.tanh(stereo * 1.25) / np.tanh(1.25)
+    stereo = _butter(_butter(stereo, sr, "highpass", 32.0, 3), sr, "lowpass", p.lowpass_hz, 3)
+    fade = np.clip((n - np.arange(n)) / ms_to_samples(18.0, sr), 0.0, 1.0) ** 1.5
+    return _normalized(stereo * fade[None, :])
+
+
 def _wet_impact(n: int, sample_rate: int, rng: np.random.Generator) -> np.ndarray:
     """Compatibility name for the light flesh-contact recipe."""
     return _flesh_impact(n, sample_rate, rng, deep=False)
@@ -1973,6 +2121,8 @@ def render_noise_layer(layer: dict[str, Any], context: dict[str, Any]) -> np.nda
         mono = _flesh_impact(n, sample_rate, rng, deep=False)
     elif mode in {"flesh_deep", "deep_flesh", "flesh_heavy"}:
         mono = _flesh_impact(n, sample_rate, rng, deep=True)
+    elif mode == "flesh_strike":
+        mono = _flesh_strike(n, sample_rate, rng, weight=str(layer.get("weight", "heavy")))
     elif mode in {"robot_crunch", "machine_crunch", "robot_hit"}:
         mono = _robot_crunch(n, sample_rate, rng)
     elif mode in {"metal_hit", "metal_ching", "metal", "metal_chink"}:
@@ -1986,7 +2136,7 @@ def render_noise_layer(layer: dict[str, Any], context: dict[str, Any]) -> np.nda
     else:
         raise ValueError(
             f"unknown noise mode {mode!r}; expected burst, grains, thud, scrape, "
-            "air_sweep, flesh_light, flesh_deep, robot_crunch, metal_chink, "
+            "air_sweep, flesh_light, flesh_deep, flesh_strike, robot_crunch, metal_chink, "
             "metal_gong, pogo_impact, or blade_impact"
         )
 

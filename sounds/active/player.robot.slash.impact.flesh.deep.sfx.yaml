@@ -3,40 +3,24 @@ schema: ambition.sfxir.v1
 # https://www.youtube.com/watch?v=RFzSPUJ_A3Q
 # Adapted as one layer of game Foley; the final cue and implementation are original.
 id: player.robot.slash.impact.flesh.deep
-duration_ms: 420
+duration_ms: 430
 render:
   sample_rate: 48000
   channels: 2
-  seed: 664219
+  # The seed of the approved "gore" candidate (2026-09-30).
+  seed: 2202
   buffer_size: 128
-  safety_lowpass_hz: 4600
-  safety_drive: 1.0
-  safety_clip_mix: 0.10
-  final_peak_db: -5.0
+  # The recipe does its own safety (highpass, soft saturation, lowpass at
+  # 9 kHz, fade). The default tone-safety pass lowpasses at about 4.6-7 kHz
+  # and removes the crack that makes this a hit.
+  safety_profile: none
 layers:
-- name: close_mic_deep_gel_cut
+- name: gore_strike_heavy
   kind: noise_burst
-  mode: flesh_deep
-  color: pink
-  gain_db: 0.0
-  duration_ms: 415
-  envelope:
-    attack_ms: 2.0
-    hold_ms: 0
-    release_ms: 20
+  mode: flesh_strike
+  weight: heavy
+  duration_ms: 430
 postprocess:
-- effect: highpass
-  cutoff_hz: 45
-- effect: lowpass
-  cutoff_hz: 4200
-- effect: compressor
-  threshold_db: -12
-  ratio: 1.20
-  attack_ms: 24
-  release_ms: 145
-- effect: fade_edges
-  in_ms: 1.5
-  out_ms: 19
 - effect: normalize_peak
-  target_db: -4.4
-notes: 'polished deep player-robot biological slash with a centered blood-and-tissue body, dynamically separated oscillating splatter, compact lateral droplets, fibrous tearing, soft pulp, blade shear, and a narrowing close-mic suction release; the attributed click-filter technique remains supporting articulation'
+  target_db: -5.0
+notes: 'heavy player-robot blade hit on flesh: a broadband crack, a thump that falls from 170 to 62 Hz, and a midrange meat smack in the first milliseconds, then the wet tissue stems (blood, splatter, suction, pulp, muscle, bubbles) as a tail that decays over about 300 ms; the attributed click-filter technique remains supporting articulation inside the tissue stems'
