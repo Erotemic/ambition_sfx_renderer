@@ -213,6 +213,83 @@ def _air_sweep(
     return _normalized(out * arc + edge * 0.22)
 
 
+
+def _contour(n: int, points: Any, peak_at: float) -> np.ndarray:
+    """A value rising from ``points[0]`` to ``points[1]`` at ``peak_at`` (a
+    fraction of the layer) and settling to ``points[2]``, eased both ways."""
+    start, peak, end = (float(v) for v in points)
+    t = np.linspace(0.0, 1.0, n, endpoint=False, dtype=np.float64)
+    peak_at = float(np.clip(peak_at, 0.02, 0.98))
+    rise = np.clip(t / peak_at, 0.0, 1.0)
+    fall = np.clip((t - peak_at) / (1.0 - peak_at), 0.0, 1.0)
+    ease = lambda u: u * u * (3.0 - 2.0 * u)  # noqa: E731
+    return np.where(t < peak_at, start + (peak - start) * ease(rise), peak + (end - peak) * ease(fall))
+
+
+def _roar(n: int, sample_rate: int, rng: np.random.Generator, layer: dict[str, Any]) -> np.ndarray:
+    """A big animal's roar, by source and filter.
+
+    The SOURCE is a voice: a harmonic pulse train whose pitch follows
+    ``f0_hz`` ``[start, peak, end]`` (peaking at ``peak_at``), wandering by
+    ``jitter`` (a fraction of the pitch), with a subharmonic at half the pitch
+    (``sub_amount``: the period-doubled growl of a throat pushed past its
+    register) and an amplitude rasp (``rasp_hz``, ``rasp_depth``: the flutter
+    of a wet throat). ``breath`` mixes in turbulence. The FILTER is a mouth:
+    two banks of formants, ``formants_closed`` and ``formants_open``
+    (``[[hz, q, gain], ...]``), crossfaded by ``open`` ``[start, peak, end]``,
+    so the roar opens and closes. ``drive`` saturates the result.
+    """
+    peak_at = float(layer.get("peak_at", 0.35))
+    f0 = _contour(n, layer.get("f0_hz", [70.0, 110.0, 60.0]), peak_at)
+    jitter = float(layer.get("jitter", 0.03))
+    if jitter > 0.0:
+        # A slow random wander, smoothed to ~25 ms.
+        walk = rng.standard_normal(n // 256 + 2)
+        walk = np.interp(np.arange(n) / 256.0, np.arange(walk.size), walk)
+        kernel = np.hanning(max(3, int(sample_rate * 0.025)))
+        walk = np.convolve(walk, kernel / kernel.sum(), mode="same")
+        f0 = f0 * (1.0 + jitter * walk / max(1e-6, np.abs(walk).max()))
+    phase = 2.0 * np.pi * np.cumsum(f0) / sample_rate
+    source = np.zeros(n, dtype=np.float64)
+    nyquist = sample_rate * 0.5
+    for k in range(1, int(layer.get("harmonics", 48)) + 1):
+        # Fade each harmonic out where it would alias.
+        keep = np.clip((nyquist * 0.9 - k * f0) / (nyquist * 0.1), 0.0, 1.0)
+        source += keep * np.sin(k * phase) / k ** float(layer.get("tilt", 0.9))
+    sub = float(layer.get("sub_amount", 0.4))
+    if sub > 0.0:
+        sub_wave = np.zeros(n, dtype=np.float64)
+        for k in (1, 3, 5, 7):
+            sub_wave += np.sin(k * phase * 0.5) / k
+        source += sub * sub_wave
+    rasp_hz = float(layer.get("rasp_hz", 32.0))
+    rasp_depth = float(layer.get("rasp_depth", 0.5))
+    if rasp_depth > 0.0:
+        t = np.arange(n) / sample_rate
+        flutter = 0.5 + 0.5 * np.sin(2.0 * np.pi * rasp_hz * t + 0.7 * np.sin(2.0 * np.pi * rasp_hz * 0.37 * t))
+        source *= (1.0 - rasp_depth) + rasp_depth * flutter
+    source = source / max(1e-9, np.abs(source).max())
+    breath = float(layer.get("breath", 0.35))
+    if breath > 0.0:
+        source = source + breath * _colored_noise("pink", n, rng) * (0.4 + 0.6 * np.abs(source))
+    open_amount = np.clip(_contour(n, layer.get("open", [0.2, 1.0, 0.3]), peak_at), 0.0, 1.0)
+
+    def bank(formants: Any) -> np.ndarray:
+        out = np.zeros(n, dtype=np.float64)
+        for hz, q, gain in formants:
+            out += float(gain) * _filter_mono(source.astype(np.float32), sample_rate, kind="bandpass", hz=float(hz), q=float(q))
+        return out
+
+    closed = bank(layer.get("formants_closed", [[300, 1.2, 1.0], [900, 1.5, 0.5], [2200, 2.0, 0.2]]))
+    opened = bank(layer.get("formants_open", [[650, 1.0, 1.0], [1300, 1.4, 0.7], [2700, 1.8, 0.35]]))
+    voice = (1.0 - open_amount) * closed + open_amount * opened
+    # The chest under it: the raw source, low-passed.
+    voice += float(layer.get("chest", 0.5)) * _filter_mono(source.astype(np.float32), sample_rate, kind="lowpass", hz=220.0)
+    drive = float(layer.get("drive", 2.0))
+    voice = np.tanh(drive * voice / max(1e-9, np.abs(voice).max()))
+    return _normalized(voice.astype(np.float32))
+
+
 def _moving_band_noise(
     n: int,
     sample_rate: int,
@@ -2123,6 +2200,8 @@ def render_noise_layer(layer: dict[str, Any], context: dict[str, Any]) -> np.nda
         mono = _flesh_impact(n, sample_rate, rng, deep=True)
     elif mode == "flesh_strike":
         mono = _flesh_strike(n, sample_rate, rng, weight=str(layer.get("weight", "heavy")))
+    elif mode in {"roar", "animal_roar"}:
+        mono = _roar(n, sample_rate, rng, layer)
     elif mode in {"robot_crunch", "machine_crunch", "robot_hit"}:
         mono = _robot_crunch(n, sample_rate, rng)
     elif mode in {"metal_hit", "metal_ching", "metal", "metal_chink"}:
@@ -2136,7 +2215,7 @@ def render_noise_layer(layer: dict[str, Any], context: dict[str, Any]) -> np.nda
     else:
         raise ValueError(
             f"unknown noise mode {mode!r}; expected burst, grains, thud, scrape, "
-            "air_sweep, flesh_light, flesh_deep, flesh_strike, robot_crunch, metal_chink, "
+            "air_sweep, flesh_light, flesh_deep, flesh_strike, roar, robot_crunch, metal_chink, "
             "metal_gong, pogo_impact, or blade_impact"
         )
 
