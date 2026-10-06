@@ -1,0 +1,46 @@
+schema: ambition.sfxir.v1
+id: boss.trex.roar
+# The T-rex's roar: Jon's pick `e_beast_2s` (audition round 5, 2026-10-06).
+# Round 2's beast (a breathy, irregular voice through a throat metres long),
+# opening at full voice and HOLDING open to the end, then a fast taper and a
+# short room. The `creature` mode is the audition code itself.
+duration_ms: 2300
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 51
+  buffer_size: 128
+  # The audition's timbre is the approved sound: no automatic lowpass or
+  # de-harsh. The finish sets the level.
+  safety_profile: none
+layers:
+- name: beast
+  kind: noise_burst
+  mode: creature
+  seed: 51
+  duration_ms: 2300
+  voices:
+  - start_ms: 0
+    duration_ms: 2000
+    level: 1.0
+    f0_hz: [[0, 120], [0.25, 210], [0.6, 185], [1, 160]]
+    jaw: [[0, 0.1], [0.2, 1], [0.8, 0.9], [1, 0.7]]
+    amp: [[0, 0], [0.08, 0.7], [0.25, 1], [0.85, 0.92], [1, 0.85]]
+    doubling: [[0, 0.2], [0.3, 0.7], [0.8, 0.9], [1, 0.6]]
+    spacing_hz: 290
+    breath: 0.55
+  sub:
+    start_ms: 0
+    duration_ms: 2000
+    level: 0.35
+    freq_hz: [[0, 48], [0.3, 62], [1, 50]]
+    amp: [[0, 0], [0.15, 1], [1, 0.8]]
+  finish:
+    # Held, then -45 dB over the voice's last 0.35 s; the room rings 0.3 s on.
+    shape_db: [[0, 0], [0.7173913043478262, 0], [0.8695652173913044, -45], [1, -70]]
+    saturate: 1.5
+    room_s: 0.45
+    room_mix: 0.22
+    room_seed: 7
+    cut_ms: 25
+    peak_db: -6

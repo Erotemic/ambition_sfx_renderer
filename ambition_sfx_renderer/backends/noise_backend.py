@@ -2202,6 +2202,10 @@ def render_noise_layer(layer: dict[str, Any], context: dict[str, Any]) -> np.nda
         mono = _flesh_strike(n, sample_rate, rng, weight=str(layer.get("weight", "heavy")))
     elif mode in {"roar", "animal_roar"}:
         mono = _roar(n, sample_rate, rng, layer)
+    elif mode == "creature":
+        from ambition_sfx_renderer.backends.creature_voice import render_creature
+
+        mono = render_creature(n, sample_rate, layer)
     elif mode in {"robot_crunch", "machine_crunch", "robot_hit"}:
         mono = _robot_crunch(n, sample_rate, rng)
     elif mode in {"metal_hit", "metal_ching", "metal", "metal_chink"}:
@@ -2215,7 +2219,7 @@ def render_noise_layer(layer: dict[str, Any], context: dict[str, Any]) -> np.nda
     else:
         raise ValueError(
             f"unknown noise mode {mode!r}; expected burst, grains, thud, scrape, "
-            "air_sweep, flesh_light, flesh_deep, flesh_strike, roar, robot_crunch, metal_chink, "
+            "air_sweep, flesh_light, flesh_deep, flesh_strike, roar, creature, robot_crunch, metal_chink, "
             "metal_gong, pogo_impact, or blade_impact"
         )
 

@@ -1,0 +1,78 @@
+schema: ambition.sfxir.v1
+id: boss.trex.death
+# The T-rex's death knell: the phase-2 scream slides down two octaves into a groan.
+# Ported from Jon's audition `untracked/sfx-candidates/trex_vox` (2026-10-06):
+# the same throat as `boss.trex.roar`.
+duration_ms: 3200.0
+render: {sample_rate: 48000, channels: 2, seed: 82, buffer_size: 128, safety_profile: none}
+layers:
+- name: wail
+  kind: noise_burst
+  mode: creature
+  seed: 82
+  start_ms: 0.0
+  duration_ms: 3200.0
+  voices:
+  - start_ms: 0.0
+    duration_ms: 1900.0
+    level: 1.0
+    f0_hz:
+    - [0.0, 420.0]
+    - [0.15, 540.0]
+    - [0.45, 400.0]
+    - [0.75, 230.0]
+    - [1.0, 150.0]
+    jaw:
+    - [0.0, 0.4]
+    - [0.15, 1.0]
+    - [1.0, 0.3]
+    amp:
+    - [0.0, 0.0]
+    - [0.06, 1.0]
+    - [0.5, 0.8]
+    - [1.0, 0.0]
+    spacing_hz: 420
+    f1_hz: [440, 950]
+    breath: 0.35
+    jitter: 0.05
+    doubling:
+    - [0.0, 0.1]
+    - [0.6, 0.6]
+    - [1.0, 1.0]
+    tilt_hz: 3400
+    flutter: 0.08
+  - start_ms: 400.0
+    duration_ms: 2600.0
+    level: 0.7
+    f0_hz:
+    - [0.0, 120.0]
+    - [0.5, 105.0]
+    - [1.0, 70.0]
+    jaw:
+    - [0.0, 0.6]
+    - [0.5, 0.4]
+    - [1.0, 0.1]
+    amp:
+    - [0.0, 0.0]
+    - [0.1, 0.6]
+    - [0.6, 0.8]
+    - [1.0, 0.0]
+    spacing_hz: 290
+    breath: 0.7
+    jitter: 0.1
+    doubling:
+    - [0.0, 0.6]
+    - [1.0, 1.0]
+  finish:
+    shape_db:
+    - [0, 0]
+    - [0.4, -2]
+    - [0.75, -12]
+    - [0.93, -35]
+    - [1, -70]
+    saturate: 1.5
+    room_s: 0.45
+    room_mix: 0.22
+    room_seed: 7
+    cut_ms: 30
+    peak_db: -6.0

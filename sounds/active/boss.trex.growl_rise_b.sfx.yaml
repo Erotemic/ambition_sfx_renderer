@@ -1,0 +1,65 @@
+schema: ambition.sfxir.v1
+id: boss.trex.growl_rise_b
+# The T-rex: a growl winding up into a bark (a charge's tell), take b.
+# Ported from Jon's audition `untracked/sfx-candidates/trex_vox` (2026-10-06):
+# the same throat as `boss.trex.roar`.
+duration_ms: 980.0
+render: {sample_rate: 48000, channels: 2, seed: 1076, buffer_size: 128, safety_profile: none}
+layers:
+- name: rise
+  kind: noise_burst
+  mode: creature
+  seed: 1076
+  start_ms: 0.0
+  duration_ms: 980.0
+  voices:
+  - start_ms: 0.0
+    duration_ms: 800.0
+    level: 1.0
+    f0_hz:
+    - [0.0, 96.6]
+    - [0.65, 138.0]
+    - [0.8, 220.8]
+    - [1.0, 184.0]
+    jaw:
+    - [0.0, 0.1]
+    - [0.65, 0.4]
+    - [0.8, 1.0]
+    - [1.0, 0.8]
+    amp:
+    - [0.0, 0.0]
+    - [0.1, 0.5]
+    - [0.65, 0.75]
+    - [0.78, 1.0]
+    - [1.0, 0.8]
+    spacing_hz: 290
+    breath: 0.55
+    jitter: 0.08
+    doubling:
+    - [0.0, 0.8]
+    - [0.7, 0.5]
+    - [1.0, 0.7]
+    tilt_hz: 2400
+  sub:
+    start_ms: 0.0
+    duration_ms: 800.0
+    level: 0.3
+    freq_hz:
+    - [0.0, 46.0]
+    - [1.0, 56.0]
+    amp:
+    - [0.0, 0.0]
+    - [0.3, 0.8]
+    - [1.0, 0.6]
+  finish:
+    shape_db:
+    - [0, 0.0]
+    - [0.663265306122449, 0.0]
+    - [0.8163265306122449, -45.0]
+    - [1, -70.0]
+    saturate: 1.5
+    room_s: 0.45
+    room_mix: 0.22
+    room_seed: 7
+    cut_ms: 20
+    peak_db: -6.0
