@@ -1,0 +1,93 @@
+schema: ambition.sfxir.v1
+id: boss.mockingbird.lock_on
+duration_ms: 700
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 610194
+  buffer_size: 128
+layers:
+- name: beep1
+  kind: synth_tone
+  waveform: square
+  frequency_hz:
+    start: 1760
+    end: 1760
+    curve: linear
+  gain_db: -14
+  start_ms: 0
+  duration_ms: 70
+  envelope:
+    attack_ms: 2
+    hold_ms: 40
+    release_ms: 20
+  effects:
+  - effect: lowpass
+    cutoff_hz: 5000
+- name: beep2
+  kind: synth_tone
+  waveform: square
+  frequency_hz:
+    start: 1760
+    end: 1760
+    curve: linear
+  gain_db: -14
+  start_ms: 140
+  duration_ms: 70
+  envelope:
+    attack_ms: 2
+    hold_ms: 40
+    release_ms: 20
+  effects:
+  - effect: lowpass
+    cutoff_hz: 5000
+- name: beep3
+  kind: synth_tone
+  waveform: square
+  frequency_hz:
+    start: 1760
+    end: 1760
+    curve: linear
+  gain_db: -14
+  start_ms: 280
+  duration_ms: 70
+  envelope:
+    attack_ms: 2
+    hold_ms: 40
+    release_ms: 20
+  effects:
+  - effect: lowpass
+    cutoff_hz: 5000
+- name: lock
+  kind: synth_tone
+  waveform: square
+  frequency_hz:
+    start: 2093
+    end: 2093
+    curve: linear
+  gain_db: -13
+  start_ms: 420
+  duration_ms: 230
+  envelope:
+    attack_ms: 2
+    hold_ms: 170
+    release_ms: 50
+  effects:
+  - effect: lowpass
+    cutoff_hz: 5000
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.25
+- effect: soft_clip
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -8
+notes: 'Its targeting locks on: three quick beeps and a held tone, the missile''s
+  tell.'

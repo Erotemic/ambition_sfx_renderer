@@ -1,0 +1,102 @@
+schema: ambition.sfxir.v1
+id: boss.mockingbird.stall
+duration_ms: 1100
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 610776
+  buffer_size: 128
+layers:
+- name: winddown
+  kind: synth_tone
+  waveform: saw
+  frequency_hz:
+    start: 520
+    end: 110
+    curve: exp
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 1000
+  envelope:
+    attack_ms: 10
+    hold_ms: 300
+    release_ms: 690
+  effects:
+  - effect: bandpass
+    hz: 600
+    q: 0.7
+- name: cough1
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -10
+  start_ms: 80
+  duration_ms: 140
+  envelope:
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 120
+- name: cough2
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -12
+  start_ms: 330
+  duration_ms: 140
+  envelope:
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 120
+- name: cough3
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -11
+  start_ms: 520
+  duration_ms: 140
+  envelope:
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 120
+- name: cough4
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -14
+  start_ms: 820
+  duration_ms: 140
+  envelope:
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 120
+- name: hiss
+  kind: noise_burst
+  mode: burst
+  color: white
+  gain_db: -22
+  start_ms: 100
+  duration_ms: 900
+  envelope:
+    attack_ms: 100
+    hold_ms: 500
+    release_ms: 300
+  effects:
+  - effect: bandpass
+    hz: 3500
+    q: 0.8
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.25
+- effect: soft_clip
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -8
+notes: 'Winded after the bite, its engine sputters: coughing pops as its turbine winds
+  down.'

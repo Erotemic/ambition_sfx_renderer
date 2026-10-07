@@ -1,0 +1,79 @@
+schema: ambition.sfxir.v1
+id: boss.mockingbird.missile_launch
+duration_ms: 700
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 610097
+  buffer_size: 128
+layers:
+- name: release
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 120
+  envelope:
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 90
+- name: ignite
+  kind: noise_burst
+  mode: metal_hit
+  color: pink
+  gain_db: -14
+  start_ms: 40
+  duration_ms: 160
+  envelope:
+    attack_ms: 1
+    hold_ms: 8
+    release_ms: 120
+- name: rush
+  kind: noise_burst
+  mode: whoosh
+  color: pink
+  gain_db: -6
+  start_ms: 50
+  duration_ms: 620
+  envelope:
+    attack_ms: 30
+    hold_ms: 180
+    release_ms: 380
+  start_hz: 2400
+  end_hz: 600
+  q: 0.75
+- name: motor
+  kind: synth_tone
+  waveform: saw
+  frequency_hz:
+    start: 340
+    end: 180
+    curve: exp
+  gain_db: -17
+  start_ms: 60
+  duration_ms: 560
+  envelope:
+    attack_ms: 20
+    hold_ms: 200
+    release_ms: 320
+  effects:
+  - effect: bandpass
+    hz: 700
+    q: 0.8
+postprocess:
+- effect: highpass
+  cutoff_hz: 30
+- effect: lowpass
+  cutoff_hz: 9000
+- effect: deharsh
+  amount: 0.25
+- effect: soft_clip
+  drive: 0.35
+- effect: fade_edges
+  fade_in_ms: 0.1
+  fade_out_ms: 12
+- effect: normalize_peak
+  target_db: -8
+notes: 'A missile drops off its wingtip and its motor lights: a pop, an ignition crack
+  and a rushing whoosh away.'
