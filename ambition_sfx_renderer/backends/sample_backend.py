@@ -9,13 +9,17 @@ import numpy as np
 from ambition_sfx_renderer.audio import fit_length, resample_audio, stereoize
 from ambition_sfx_renderer.io import read_audio
 from ambition_sfx_renderer.paths import resolve_path
+from ambition_sfx_renderer.public_samples import ensure_public_sample
 
 
 def render_sample_layer(layer: dict[str, Any], context: dict[str, Any]) -> np.ndarray:
-    path_value = layer.get("path") or layer.get("file")
-    if not path_value:
-        raise ValueError(f"sample layer {layer.get('name')} requires path")
-    path = resolve_path(path_value, base_dir=context["base_dir"])
+    if layer.get("public_sample"):
+        path = ensure_public_sample(str(layer["public_sample"]))
+    else:
+        path_value = layer.get("path") or layer.get("file")
+        if not path_value:
+            raise ValueError(f"sample layer {layer.get('name')} requires path or public_sample")
+        path = resolve_path(path_value, base_dir=context["base_dir"])
     audio, sr = read_audio(path, target_sample_rate=context["sample_rate"])
     audio = stereoize(audio, channels=context["channels"])
     pitch = float(layer.get("pitch", 1.0))

@@ -18,6 +18,7 @@ from ambition_sfx_renderer.effects import apply_effects
 from ambition_sfx_renderer.errors import SfxRenderError
 from ambition_sfx_renderer.io import write_audio, write_json
 from ambition_sfx_renderer.layers import render_layer
+from ambition_sfx_renderer.public_samples import load_manifest
 from ambition_sfx_renderer.schema import CueSpec, load_cue
 
 DEFAULT_WAV_MAX_SECONDS = 0.300
@@ -30,6 +31,13 @@ def cue_hash(path: Path) -> str:
     h = hashlib.sha256()
     h.update(data)
     h.update(__version__.encode())
+    # A cue that uses a public sample is stale when the pinned file changes.
+    if b"public_sample" in data:
+        pins = load_manifest()
+        for layer in load_cue(path).layers:
+            sample = pins.get(str(layer.get("public_sample")))
+            if sample is not None:
+                h.update(sample.sha256.encode())
     return h.hexdigest()[:12]
 
 

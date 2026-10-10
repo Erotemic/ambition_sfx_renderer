@@ -1,0 +1,18 @@
+# Public samples: recordings that the renderer downloads and does not make.
+#
+# A cue uses one with a `sample` layer that has `public_sample: <id>`.
+# The audio is not in git. The renderer downloads it into `public_samples/`
+# when it is absent, and it refuses a file whose sha256 is not the one here.
+#
+# Add a sample only when its license permits free use and redistribution.
+# Record the license and the page that states it.
+schema: ambition.public_samples.v1
+samples:
+  wilhelm_scream:
+    url: https://upload.wikimedia.org/wikipedia/commons/d/d9/Wilhelm_Scream.ogg
+    filename: Wilhelm_Scream.ogg
+    sha256: 360097c9715f55abcc26ab73f12f69b730c660fbf019fc63caa685bfa9b6585b
+    license: CC0-1.0
+    license_url: https://creativecommons.org/publicdomain/zero/1.0/
+    source_page: https://commons.wikimedia.org/wiki/File:Wilhelm_Scream.ogg
+    credit: Sheb Wooley (likely), 1951, from the Internet Archive item SSE_Library_VOICES

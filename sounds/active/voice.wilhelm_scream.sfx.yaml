@@ -1,0 +1,16 @@
+schema: ambition.sfxir.v1
+id: voice.wilhelm_scream
+# The Wilhelm scream, a stock film scream from 1951. This cue is a recording
+# and is not synthesized: `sounds/public_samples.yaml` pins its source and its
+# license (CC0). The recipe only trims the silent tail and sets the level.
+duration_ms: 1400.0
+render: {sample_rate: 48000, channels: 2, safety_profile: none}
+layers:
+- name: scream
+  kind: sample
+  public_sample: wilhelm_scream
+  duration_ms: 1400.0
+  envelope: {release_ms: 120.0}
+postprocess:
+- effect: normalize_peak
+  target_db: -6.0

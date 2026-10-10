@@ -80,6 +80,25 @@ ambition-sfx-renderer render-all --jobs auto --force
 ambition-sfx-renderer audit output
 ```
 
+## Public samples
+
+Almost every cue is synthesized. A small number of cues use a free public
+recording, for example the Wilhelm scream. Those recordings are not in git.
+
+`sounds/public_samples.yaml` is the one list. Each entry has the URL, the
+sha256 of the file, the license, and the page that states the license. A
+`sample` layer names an entry with `public_sample: <id>`.
+
+The renderer downloads an absent file into `public_samples/` when a cue needs
+it, and refuses a file with a different sha256. To download all of them before
+a render:
+
+```bash
+uv run python -m ambition_sfx_renderer fetch-samples
+```
+
+Add an entry only when the license permits free use and redistribution.
+
 ## Outputs
 
 Each cue renders into:
@@ -151,7 +170,8 @@ postprocess:
 
 ## Implemented layer kinds
 
-- `sample` — load a WAV/OGG/FLAC layer from disk with `soundfile`.
+- `sample` — load a WAV/OGG/FLAC layer from disk with `soundfile`. Give it
+  `path:` for a local file, or `public_sample: <id>` for a public sample.
 - `synth_tone` — deterministic NumPy oscillator with pitch automation, harmonic stacks, vibrato, tremolo, and stereo detune for layered musical cues.
 - `pyfxr` — render a game-SFX seed with `pyfxr` presets or explicit SFX params.
 - `dawdreamer_faust` — render a Faust DSP patch through DawDreamer.
