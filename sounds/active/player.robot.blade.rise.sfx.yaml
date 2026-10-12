@@ -1,0 +1,78 @@
+schema: ambition.sfxir.v1
+id: player.robot.blade.rise
+duration_ms: 190
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 731903
+  buffer_size: 128
+layers:
+- name: wake
+  kind: noise_burst
+  mode: air_sweep
+  color: white
+  start_hz: 1150
+  end_hz: 7400
+  q: 0.82
+  gain_db: -4.5
+  start_ms: 0
+  duration_ms: 126
+  pan: -0.1
+  envelope:
+    attack_ms: 4
+    hold_ms: 52
+    release_ms: 44
+- name: body
+  kind: noise_burst
+  mode: air_sweep
+  color: white
+  start_hz: 900
+  end_hz: 5200
+  q: 0.62
+  gain_db: -10.5
+  start_ms: 18
+  duration_ms: 160
+  pan: 0.14
+  envelope:
+    attack_ms: 5
+    hold_ms: 60
+    release_ms: 62
+- name: edge_pass
+  kind: noise_burst
+  mode: grains
+  color: white
+  grain_count: 5
+  grain_decay_ms: 3.2
+  spread_ms: 13
+  grain_start_ms: 0
+  gain_db: -14
+  start_ms: 52
+  duration_ms: 24
+  envelope:
+    attack_ms: 0
+    hold_ms: 3
+    release_ms: 18
+  effects:
+  - effect: bandpass
+    center_hz: 4100
+    q: 1.15
+postprocess:
+- effect: highpass
+  cutoff_hz: 115
+- effect: lowpass
+  cutoff_hz: 8200
+- effect: deharsh
+  amount: 0.3
+- effect: compressor
+  threshold_db: -17
+  ratio: 2.2
+  attack_ms: 2
+  release_ms: 45
+- effect: soft_clip
+  drive: 0.28
+- effect: fade_edges
+  fade_in_ms: 0.6
+  fade_out_ms: 18
+- effect: normalize_peak
+  target_db: -4.8
+notes: 'robot blade, the up swing: the air goes up with the blade and stays bright'
