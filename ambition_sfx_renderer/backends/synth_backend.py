@@ -16,7 +16,26 @@ import numpy as np
 from ambition_sfx_renderer.audio import ms_to_samples
 
 
+def _points_curve(points: Any, n: int, *, log: bool) -> np.ndarray:
+    """A curve through ``points`` (``[[u, value], ...]``, ``u`` from 0 to 1
+    across the layer), straight between them; in log space when ``log``, so a
+    glide of pitch is even to the ear."""
+    pts = sorted((float(u), float(v)) for u, v in points)
+    if not pts:
+        raise ValueError("a curve of points needs at least one point")
+    us = np.array([u for u, _ in pts], dtype=np.float64)
+    vs = np.array([v for _, v in pts], dtype=np.float64)
+    x = np.linspace(0.0, 1.0, n, endpoint=False, dtype=np.float64)
+    if log:
+        if np.any(vs <= 0.0):
+            raise ValueError("a pitch curve of points needs positive frequencies")
+        return np.exp(np.interp(x, us, np.log(vs)))
+    return np.interp(x, us, vs)
+
+
 def _frequency_curve(value: Any, n: int) -> np.ndarray:
+    if isinstance(value, dict) and "points" in value:
+        return _points_curve(value["points"], n, log=str(value.get("curve", "exp")).lower() in {"exp", "exponential"})
     if isinstance(value, dict):
         start = float(value.get("start", value.get("value", 440.0)))
         end = float(value.get("end", start))
@@ -100,6 +119,12 @@ def render_synth_layer(layer: dict[str, Any], context: dict[str, Any]) -> np.nda
         phase = float(tremolo.get("phase", 0.0))
         lfo = 0.5 + 0.5 * np.sin(2.0 * np.pi * tremolo_rate * t + phase)
         amplitude_mod = (1.0 - tremolo_depth) + tremolo_depth * lfo
+
+    # An amplitude contour across the layer (``amplitude_points``: ``[[u,
+    # gain], ...]``), on top of the envelope: a voice that swells and fades
+    # within one note.
+    if layer.get("amplitude_points"):
+        amplitude_mod = amplitude_mod * _points_curve(layer["amplitude_points"], n, log=False)
 
     harmonics = list(layer.get("harmonics", []) or [])
     if not harmonics:
