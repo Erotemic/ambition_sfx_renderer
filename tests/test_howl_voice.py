@@ -43,3 +43,38 @@ def test_at_its_peak_the_second_harmonic_is_the_brightest_line() -> None:
 def test_a_short_howl_is_as_long_as_it_is_asked() -> None:
     # A slow drift's smoothing window is longer than this layer.
     assert render_howl(500, SR, LAYER).shape == (500,)
+
+
+DESCRIBED = {
+    "mode": "howl",
+    "seed": 9,
+    "howl": {"pitch_hz": 650, "yelp_s": 0.4, "rise_s": 0.12, "hold_s": 1.2, "sag_semitones": 0.8, "fall_s": 1.2,
+             "fall_semitones": 3.6, "droop_s": 0.3, "bright_db": -9, "dark_db": 15},
+}
+
+
+def _pitch_and_h2(audio: np.ndarray, t: float) -> tuple[float, float]:
+    n = 8192
+    i = int(t * SR)
+    spec = np.abs(np.fft.rfft(audio[i : i + n] * np.hanning(n)))
+    freq = np.fft.rfftfreq(n, 1 / SR)
+    band = (freq > 300) & (freq < 900)
+    f0 = float(freq[band][np.argmax(spec[band])])
+    level = lambda hz: float(spec[(freq > hz - 25) & (freq < hz + 25)].max())  # noqa: E731
+    return f0, 20 * np.log10(level(2 * f0) / level(f0))
+
+
+def test_a_described_howl_holds_its_pitch_then_falls_and_darkens() -> None:
+    from ambition_sfx_renderer.backends.howl_voice import described_howl_seconds
+
+    seconds = described_howl_seconds(DESCRIBED["howl"])
+    audio = render_howl(int(seconds * SR), SR, DESCRIBED)
+    assert np.array_equal(audio, render_howl(int(seconds * SR), SR, DESCRIBED))
+    # In the hold: on its pitch (it sags by the end), near a pure tone.
+    f0, h2 = _pitch_and_h2(audio, 0.4 + 0.3)
+    assert abs(1200 * np.log2(f0 / 650.0)) < 60 and h2 < -25
+    # Late in the fall: about 0.8 + 3.6 semitones down, and the 2nd harmonic
+    # has grown.
+    f0_late, h2_late = _pitch_and_h2(audio, 0.4 + 0.12 + 1.2 + 1.0)
+    assert -5.2 < 12 * np.log2(f0_late / 650.0) < -3.0
+    assert h2_late > h2 + 15

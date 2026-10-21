@@ -86,6 +86,8 @@ def _resonance(f: np.ndarray, centre: np.ndarray, bandwidth: float) -> np.ndarra
 
 
 def render_howl(n: int, sr: int, layer: dict[str, Any]) -> np.ndarray:
+    if "howl" in layer:
+        return render_described_howl(n, sr, layer)
     rng = np.random.default_rng(int(layer.get("seed", 0)))
     f0 = _log_curve(n, layer["f0_hz"])
     amp = _curve(n, layer.get("amp", [[0, 1], [1, 1]]))
@@ -137,4 +139,132 @@ def render_howl(n: int, sr: int, layer: dict[str, Any]) -> np.ndarray:
         breath_level = breath_level * _curve(n, layer["breath_curve"])
 
     out = (voice + sub + breath * pulse * breath_level) * amp * (1.0 + shimmer)
+    return out.astype(np.float32)
+
+
+# ── A howl from its description ──────────────────────────────────────────────
+#
+# A howl, said in a dozen numbers a person can read. The shape is the one
+# every wolf's howl has (Jon's spectrogram and the reference, 2026-10-21):
+#
+#   yelp  -> a short rough start in two voices, a fifth apart, noisy;
+#   rise  -> up onto the held note;
+#   hold  -> the held note, near a pure tone, sagging a little;
+#   fall  -> the pitch falls, the voice darkens (its 2nd harmonic grows)
+#            and it grows quieter;
+#   droop -> the voice gives out.
+#
+#     mode: howl
+#     seed: 851
+#     howl:
+#       pitch_hz: 650            # the held note
+#       yelp_s: 0.5              # 0 for no yelp
+#       yelp_low: 0.66           # the yelp's second voice, as a part of the pitch
+#       yelp_noise_db: -14       # the yelp's breath noise, against the voice
+#       rise_s: 0.12
+#       hold_s: 1.8
+#       sag_semitones: 0.8       # down over the hold
+#       fall_s: 1.5
+#       fall_semitones: 3.6
+#       fall_db: -25             # quieter by the end of the fall
+#       droop_s: 0.3
+#       droop_semitones: 1.6
+#       bright_db: -9            # the 2nd harmonic while it holds (on top of
+#       dark_db: 15              #   the voice's tilt), and after it darkens
+#       jitter_cents: 15         # RMS, fast: never a slow wobble
+#       shimmer: 0.12
+#       breath: 0.05
+
+
+def _semis(hz: float, semitones: float) -> float:
+    return hz * 2.0 ** (semitones / 12.0)
+
+
+def _at(segments, t: float) -> float:
+    """Piecewise straight: `segments` is [(t, value), ...] in seconds."""
+    ts, vs = zip(*segments)
+    return float(np.interp(t, ts, vs))
+
+
+def described_howl_seconds(h: dict[str, Any]) -> float:
+    """How long the described howl is, from its first sound to its end."""
+    yelp = float(h.get("yelp_s", 0.5))
+    return yelp + float(h.get("rise_s", 0.12)) + float(h.get("hold_s", 1.8)) + float(h.get("fall_s", 1.5)) + float(h.get("droop_s", 0.3))
+
+
+def render_described_howl(n: int, sr: int, layer: dict[str, Any]) -> np.ndarray:
+    h = dict(layer["howl"])
+    pitch = float(h.get("pitch_hz", 650.0))
+    k = pitch / 650.0
+    yelp = float(h.get("yelp_s", 0.5))
+    rise, hold = float(h.get("rise_s", 0.12)), float(h.get("hold_s", 1.8))
+    fall, droop = float(h.get("fall_s", 1.5)), float(h.get("droop_s", 0.3))
+    seed = int(layer.get("seed", 0))
+    out = np.zeros(n)
+
+    def place(voice: dict[str, Any], start_s: float, dur_s: float, gain_db: float = 0.0) -> None:
+        i = int(start_s * sr)
+        m = max(1, min(n - i, int(dur_s * sr)))
+        if i >= n:
+            return
+        out[i:i + m] += render_howl(m, sr, voice).astype(np.float64) * 10.0 ** (gain_db / 20.0)
+
+    # The held voice: from the end of the yelp to the end.
+    t0 = max(0.0, yelp - 0.05)
+    end = t0 + rise + hold + fall + droop
+    peak_t, sag_t, fall_t = t0 + rise, t0 + rise + hold, t0 + rise + hold + fall
+    sagged = _semis(pitch, -float(h.get("sag_semitones", 0.8)))
+    fallen = _semis(sagged, -float(h.get("fall_semitones", 3.6)))
+    drooped = _semis(fallen, -float(h.get("droop_semitones", 1.6)))
+    pitch_path = [(t0, pitch * (0.92 if yelp > 0 else 0.83)), (peak_t, pitch), (sag_t, sagged),
+                  (sag_t + 0.35 * fall, _semis(sagged, -0.25 * float(h.get("fall_semitones", 3.6)))), (fall_t, fallen), (end, drooped)]
+    fall_db = float(h.get("fall_db", -25.0))
+    loud_path = [(t0, -6.0), (t0 + 0.1, 0.0), (sag_t, -1.0), (sag_t + 0.2 * fall, -11.0 * fall_db / -25.0), (fall_t, fall_db),
+                 (fall_t + 0.6 * droop, fall_db - 14.0), (end, -80.0)]
+    bright, dark = float(h.get("bright_db", -9.0)), float(h.get("dark_db", 15.0))
+    span = end - t0
+    frac = lambda t: round((t - t0) / span, 5)
+    pts = 40
+    times = [t0 + span * j / (pts - 1) for j in range(pts)]
+    held = {
+        "seed": seed,
+        "f0_hz": [[frac(t), round(_at(pitch_path, t), 2)] for t in sorted({*times, *(t for t, _ in pitch_path)})],
+        "amp": [[frac(t), round(10 ** (_at(loud_path, t) / 20.0), 5)] for t in sorted({*times, *(t for t, _ in loud_path)})],
+        "mouth": [[0, 0.5], [1, 0.5]], "harmonics": 5, "tilt_db_per_octave": -14.0,
+        # One resonance on the held note: it is near a pure tone.
+        "formants": [[pitch, pitch, 600.0 * k, 1.0]], "floor": 0.0006,
+        "harmonic_db": {"2": [[0, bright], [frac(sag_t), bright], [frac(sag_t + 0.35 * fall), dark], [1, dark]],
+                        "3": [[0, -18.0], [1, -18.0]]},
+        # Calibrated: `jitter_cents` 15 measures ~15 cents RMS on the held note.
+        "jitter": float(h.get("jitter_cents", 15.0)) / 1283.0, "jitter_hz": 90, "drift_cents": 0.0,
+        "shimmer": float(h.get("shimmer", 0.12)), "shimmer_hz": 24,
+        "breath": float(h.get("breath", 0.05)),
+        "breath_curve": [[0, 1], [frac(sag_t + 0.2 * fall), 1], [frac(sag_t + 0.5 * fall), 3], [1, 5]],
+        "onset_ms": 1, "onset_rough": 0.0,
+    }
+    place(held, t0, span)
+
+    if yelp > 0:
+        rough = {"jitter": 0.02, "jitter_hz": 90, "drift_cents": 3, "shimmer": 0.25, "shimmer_hz": 30,
+                 "mouth": [[0, 0.6], [1, 0.6]], "harmonics": 8, "tilt_db_per_octave": -9.0,
+                 "formants": [[800 * k, 800 * k, 420 * k, 1.0]], "amp": [[0, 0], [0.12, 1], [0.8, 0.9], [1, 0]]}
+        # The first voice: on the pitch, near pure, mostly breath.
+        hi_s = 0.64 * yelp
+        place(dict(rough, seed=seed + 1, f0_hz=[[0, 0.86 * pitch], [0.3, 1.015 * pitch], [1, pitch]], floor=0.0005,
+                   harmonic_db={"2": [[0, -30], [1, -30]], "3": [[0, -30], [1, -30]]}, breath=0.25,
+                   onset_ms=hi_s * 600.0, onset_rough=0.5), 0.0, hi_s)
+        # The second voice, under it, rich, gliding up into the held note.
+        low = float(h.get("yelp_low", 0.66))
+        place(dict(rough, seed=seed + 2, f0_hz=[[0, low * pitch], [0.6, 0.985 * low * pitch], [1, 0.91 * pitch]], floor=0.01,
+                   harmonic_db={"2": [[0, 6], [1, 6]], "3": [[0, 6], [1, 6]]}, breath=0.12,
+                   onset_ms=0.6 * yelp * 600.0, onset_rough=0.5), 0.46 * yelp, 0.6 * yelp, gain_db=-2.0)
+        # Its breath: a blob of noise under ~1.2 kHz (for this pitch).
+        rng = np.random.default_rng(seed + 3)
+        i, m = int(0.02 * yelp * sr), int(0.76 * yelp * sr)
+        m = max(1, min(n - i, m))
+        sos = signal.butter(4, [max(40.0, 330.0 * k) / (0.5 * sr), min(0.45 * sr, 1250.0 * k) / (0.5 * sr)], btype="band", output="sos")
+        air = signal.sosfilt(sos, rng.standard_normal(m))
+        air /= max(1e-9, float(np.max(np.abs(air))))
+        env = np.minimum(1.0, np.minimum(np.arange(m) / max(1, 0.05 * m), (m - np.arange(m)) / max(1, 0.4 * m)))
+        out[i:i + m] += air * env * 10.0 ** (float(h.get("yelp_noise_db", -14.0)) / 20.0) * 0.5
     return out.astype(np.float32)

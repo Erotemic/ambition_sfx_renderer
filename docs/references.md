@@ -11,10 +11,14 @@ in full, whether or not its license asks for it.
   <https://freesound.org/people/mokasza/sounds/810171/>, licensed
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The uploader
   states that it was made with an AI model (ElevenLabs) and that no real
-  recording was used. The reference for the Inugami's howl (2026-10-21):
-  its pitch contour, harmonic levels, jitter, shimmer, breath and envelope
-  were measured (the game repo's `scripts/howl_measure.py`) and the recipe
-  was tuned to them (`scripts/inugami_sfx_candidates.py`, the `howl` mode).
+  recording was used. The reference for the Inugami's howl (2026-10-21).
+  Measuring it (the game repo's `scripts/howl_measure.py`) taught the shape
+  of a howl, which the `howl` mode's description states: a rough yelp in
+  two voices, a near-pure held note that sags, a fall in which the 2nd
+  harmonic grows, a droop, fast jitter and a little shimmer. No data from
+  it is in a recipe (Jon: "I don't want to extract raw data and reuse it
+  from the sample"); a recipe is a dozen named numbers, and the recording
+  is what the result is checked against.
   The file is the one Jon downloaded, at the game repo's
   `untracked/sfx-candidates/810171__mokasza__lone-wolf-howling.mp3`.
 
