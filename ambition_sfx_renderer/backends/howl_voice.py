@@ -39,6 +39,16 @@ Layer keys (curves are `[[fraction, value], ...]` over the layer):
     breath: 0.06
     onset_ms: 180
     onset_rough: 0.35          # the subharmonic's level at the start
+    harmonic_db:               # optional: a level curve (dB) for a harmonic,
+      "2": [[0, -35], [0.6, -35], [0.9, -7]]   # added to its formant shape
+    breath_curve: [[0, 1], [1, 1]]  # optional: scales `breath` over the layer
+
+A reference howl (2026-10-21, Jon's pick: freesound 810171 by mokasza,
+CC BY 4.0, an AI howl) is near a pure tone: its 2nd harmonic is 32-40 dB
+under f0 while it holds, and grows to -7 dB as it falls. What makes it a
+wolf there is the fine motion: pitch jitter of ~14 cents RMS that is FAST
+(15-120 Hz), not a slow wobble (Jon of a slow one: "it just wobbles"), and
+a shimmer of ~11% at 8-40 Hz.
 """
 
 from __future__ import annotations
@@ -66,7 +76,8 @@ def _walk(rng: np.random.Generator, n: int, rate_hz: float, sr: int) -> np.ndarr
     t = np.linspace(0, k - 1, n)
     # Cubic-ish smoothing: interpolate, then a short moving average.
     x = np.interp(t, np.arange(k), pts)
-    win = max(1, int(sr / rate_hz / 2))
+    # No longer than the layer: a longer window would lengthen the result.
+    win = max(1, min(n, int(sr / rate_hz / 2)))
     return np.convolve(x, np.ones(win) / win, mode="same")
 
 
@@ -91,18 +102,21 @@ def render_howl(n: int, sr: int, layer: dict[str, Any]) -> np.ndarray:
     centres = [(shut + (opened - shut) * mouth, bw, g) for shut, opened, bw, g in formants]
     tilt = float(layer.get("tilt_db_per_octave", -6.0))
     floor = float(layer.get("floor", 0.04))
+    harmonic_db = {str(key): value for key, value in (layer.get("harmonic_db") or {}).items()}
     voice = np.zeros(n)
     for k in range(1, int(layer.get("harmonics", 10)) + 1):
         fk = k * f0
         shape = floor + sum(g * _resonance(fk, c, bw) for c, bw, g in centres)
         gain = shape * 10.0 ** (tilt * np.log2(k) / 20.0)
+        if str(k) in harmonic_db:
+            gain = gain * 10.0 ** (_curve(n, harmonic_db[str(k)]) / 20.0)
         # Above the band the ear gives a howl, nothing: no harmonic past 6 kHz.
         gain = np.where(fk < 6000.0, gain, 0.0)
         voice += gain * np.sin(k * phase + rng.uniform(0.0, 2.0 * np.pi))
     voice /= max(1e-9, float(np.max(np.abs(voice))))
 
     # A rough onset: a subharmonic (period doubling) and more breath, fading.
-    onset = max(1, int(float(layer.get("onset_ms", 180.0)) * 0.001 * sr))
+    onset = max(1, min(n, int(float(layer.get("onset_ms", 180.0)) * 0.001 * sr)))
     rough = np.zeros(n)
     rough[:onset] = np.linspace(1.0, 0.0, onset) ** 2
     sub = np.sin(0.5 * phase + 0.3) * float(layer.get("onset_rough", 0.35)) * rough
@@ -113,11 +127,14 @@ def render_howl(n: int, sr: int, layer: dict[str, Any]) -> np.ndarray:
     for c, bw, g in centres:
         mid = float(np.median(c))
         lo, hi = max(40.0, mid - bw), min(0.45 * sr, mid + bw)
-        b, a = signal.butter(2, [lo / (0.5 * sr), hi / (0.5 * sr)], btype="band")
-        breath += g * signal.lfilter(b, a, noise)
+        # 4th order: a breath that is loud (a yelp) stays in its band.
+        sos = signal.butter(4, [lo / (0.5 * sr), hi / (0.5 * sr)], btype="band", output="sos")
+        breath += g * signal.sosfilt(sos, noise)
     breath /= max(1e-9, float(np.max(np.abs(breath))))
     pulse = 0.55 + 0.45 * np.cos(phase)
     breath_level = float(layer.get("breath", 0.06)) * (1.0 + 2.5 * rough)
+    if layer.get("breath_curve"):
+        breath_level = breath_level * _curve(n, layer["breath_curve"])
 
     out = (voice + sub + breath * pulse * breath_level) * amp * (1.0 + shimmer)
     return out.astype(np.float32)

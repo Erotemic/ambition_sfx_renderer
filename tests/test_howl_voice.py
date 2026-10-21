@@ -38,3 +38,8 @@ def test_at_its_peak_the_second_harmonic_is_the_brightest_line() -> None:
     f0 = float(freq[band][np.argmax(spec[band])])
     assert level(2 * f0) > level(f0) > level(3 * f0)
     assert 20 * np.log10(level(2 * f0) / level(3 * f0)) > 10.0
+
+
+def test_a_short_howl_is_as_long_as_it_is_asked() -> None:
+    # A slow drift's smoothing window is longer than this layer.
+    assert render_howl(500, SR, LAYER).shape == (500,)

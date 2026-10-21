@@ -82,8 +82,12 @@ ambition-sfx-renderer audit output
 
 ## Public samples
 
-Almost every cue is synthesized. A small number of cues use a free public
-recording, for example the Wilhelm scream. Those recordings are not in git.
+Every cue is synthesized from its recipe: the game's sounds, like its art,
+are made by a program from a description (Jon, 2026-10-21). A recording is
+a REFERENCE that a recipe is matched to by ear and by measurement, not a
+sound the game plays (`docs/references.md`). The exception is a joke whose
+point is the famous recording itself, such as the Wilhelm scream. Those
+recordings are not in git.
 
 `sounds/public_samples.yaml` is the one list. Each entry has the URL, the
 sha256 of the file, the license, and the page that states the license. A
