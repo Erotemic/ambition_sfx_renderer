@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.metadata
 import json
 import os
 import shlex
@@ -20,17 +21,37 @@ from ambition_sfx_renderer.io import write_audio, write_json
 from ambition_sfx_renderer.layers import render_layer
 from ambition_sfx_renderer.public_samples import load_manifest
 from ambition_sfx_renderer.schema import CueSpec, load_cue
+from ambition_sfx_renderer.paths import package_root, resolve_path
 
 DEFAULT_WAV_MAX_SECONDS = 0.300
 DEFAULT_SAFETY_PROFILE = "game_sfx_v2"
 FormatPolicy = Literal["auto", "both", "wav", "ogg"]
 
 
+def renderer_fingerprint() -> str:
+    """Identify renderer code and installed audio dependencies."""
+    h = hashlib.sha256()
+    h.update(__version__.encode())
+    root = package_root()
+    for package in ("ambition_sfx_renderer", "ambition_sfx_renderer_gpl"):
+        for source in sorted((root / package).rglob("*.py")):
+            h.update(source.relative_to(root).as_posix().encode())
+            h.update(source.read_bytes())
+    for name in ("numpy", "scipy", "PyYAML", "soundfile", "pedalboard", "dawdreamer", "pyfxr", "pyo"):
+        try:
+            version = importlib.metadata.version(name)
+        except importlib.metadata.PackageNotFoundError:
+            version = "absent"
+        h.update(f"{name}:{version}".encode())
+    import soundfile
+    h.update(soundfile.__libsndfile_version__.encode())
+    return h.hexdigest()
+
+
 def cue_hash(path: Path) -> str:
     data = path.read_bytes()
-    h = hashlib.sha256()
-    h.update(data)
-    h.update(__version__.encode())
+    h = hashlib.sha256(data)
+    h.update(renderer_fingerprint().encode())
     # A cue that uses a public sample is stale when the pinned file changes.
     if b"public_sample" in data:
         pins = load_manifest()
@@ -38,6 +59,24 @@ def cue_hash(path: Path) -> str:
             sample = pins.get(str(layer.get("public_sample")))
             if sample is not None:
                 h.update(sample.sha256.encode())
+    def resources(node):
+        if isinstance(node, dict):
+            for key, value in sorted(node.items()):
+                if key in {"path", "file", "plugin", "preset", "state", "dsp", "dsp_path"} and isinstance(value, str):
+                    resource = resolve_path(value, base_dir=path.parent)
+                    members = sorted(resource.rglob("*")) if resource.is_dir() else [resource]
+                    for member in members:
+                        if member.is_file():
+                            h.update(str(member).encode())
+                            h.update(member.read_bytes())
+                        elif member == resource:
+                            h.update(f"missing:{member}".encode())
+                else:
+                    resources(value)
+        elif isinstance(node, list):
+            for value in node:
+                resources(value)
+    resources(load_cue(path).raw)
     return h.hexdigest()[:12]
 
 
