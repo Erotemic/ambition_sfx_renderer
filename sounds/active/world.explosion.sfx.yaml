@@ -17,8 +17,8 @@ layers:
     attack_ms: 0
     hold_ms: 8
     release_ms: 62
-  filter:
-    kind: highpass
+  effects:
+  - effect: highpass
     cutoff_hz: 900
 - name: fireball_body
   kind: noise_burst
@@ -30,8 +30,8 @@ layers:
     attack_ms: 0
     hold_ms: 28
     release_ms: 170
-  filter:
-    kind: lowpass
+  effects:
+  - effect: lowpass
     cutoff_hz: 520
 - name: debris_rattle
   kind: noise_burst
@@ -43,8 +43,8 @@ layers:
     attack_ms: 0
     hold_ms: 16
     release_ms: 230
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     center_hz: 1550
     q: 1.2
 - name: smoke_tail
@@ -57,8 +57,8 @@ layers:
     attack_ms: 0
     hold_ms: 20
     release_ms: 320
-  filter:
-    kind: lowpass
+  effects:
+  - effect: lowpass
     cutoff_hz: 880
 postprocess:
 - effect: highpass

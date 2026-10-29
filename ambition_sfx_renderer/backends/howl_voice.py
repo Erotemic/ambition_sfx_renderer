@@ -57,6 +57,7 @@ from typing import Any
 
 import numpy as np
 from scipy import signal
+from scipy.ndimage import uniform_filter1d
 
 
 def _curve(n: int, points) -> np.ndarray:
@@ -70,15 +71,15 @@ def _log_curve(n: int, points) -> np.ndarray:
 
 
 def _walk(rng: np.random.Generator, n: int, rate_hz: float, sr: int) -> np.ndarray:
-    """A random walk smoothed to `rate_hz`, unit spread."""
+    """Smooth interpolated random values with a centered mean."""
     k = max(2, int(n * rate_hz / sr) + 2)
     pts = rng.standard_normal(k)
     t = np.linspace(0, k - 1, n)
     # Cubic-ish smoothing: interpolate, then a short moving average.
     x = np.interp(t, np.arange(k), pts)
-    # No longer than the layer: a longer window would lengthen the result.
+    # A wider window would reduce every sample with zero padding.
     win = max(1, min(n, int(sr / rate_hz / 2)))
-    return np.convolve(x, np.ones(win) / win, mode="same")
+    return uniform_filter1d(x, size=win, mode="constant", cval=0.0)
 
 
 def _resonance(f: np.ndarray, centre: np.ndarray, bandwidth: float) -> np.ndarray:

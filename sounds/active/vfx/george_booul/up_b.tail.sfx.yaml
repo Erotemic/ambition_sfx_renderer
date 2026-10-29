@@ -20,8 +20,8 @@ layers:
     attack_ms: 10
     hold_ms: 140
     release_ms: 450
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 1050
     q: 0.5
 - name: logic_fallaway

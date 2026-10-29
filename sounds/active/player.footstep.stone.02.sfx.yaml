@@ -17,8 +17,8 @@ layers:
     attack_ms: 0
     hold_ms: 2
     release_ms: 18
-  filter:
-    kind: lowpass
+  effects:
+  - effect: lowpass
     cutoff_hz: 520
 - name: surface_texture
   kind: noise_burst
@@ -30,8 +30,8 @@ layers:
     attack_ms: 0
     hold_ms: 1
     release_ms: 24
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 950.0
     q: 0.55
 postprocess:

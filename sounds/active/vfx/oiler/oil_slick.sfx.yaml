@@ -20,10 +20,9 @@ layers:
     attack_ms: 20
     hold_ms: 50
     release_ms: 410
-  filter:
-    kind: lowpass
+  effects:
+  - effect: lowpass
     hz: 700
-    q: 0.7
 - name: settle
   kind: noise_burst
   mode: wet_impact

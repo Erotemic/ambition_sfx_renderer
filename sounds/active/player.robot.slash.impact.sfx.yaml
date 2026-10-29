@@ -27,8 +27,8 @@ layers:
   spread_ms: 17
   gain_db: -13.5
   duration_ms: 44
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 2650
     q: 0.86
 postprocess:

@@ -17,8 +17,8 @@ layers:
     attack_ms: 8
     hold_ms: 20
     release_ms: 180
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 520
     q: 0.4
 - name: latch_click
@@ -31,8 +31,8 @@ layers:
     attack_ms: 0
     hold_ms: 1
     release_ms: 10
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 1200
     q: 0.9
 - name: reward_hint

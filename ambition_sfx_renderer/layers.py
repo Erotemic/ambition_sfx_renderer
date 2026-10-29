@@ -56,27 +56,6 @@ def render_layer(layer: dict[str, Any], context: dict[str, Any]) -> np.ndarray:
     audio = apply_envelope(audio, sample_rate, layer.get("envelope"))
     audio = apply_gain(audio, gain_db=layer.get("gain_db"), gain=layer.get("gain"))
     audio = apply_pan(audio, pan=layer.get("pan"), channels=channels)
-    if layer.get("filter"):
-        # ⛔⛔ `filter:` ON A LAYER HAS NEVER DONE ANYTHING. Only `effects:` is
-        # applied, and 360 blocks across 210 of the 465 shipped recipes are
-        # authored against this key -- every one of them a band-limit somebody
-        # meant and did not get. It went unnoticed because a cue is judged by
-        # ear and then compensated for with gains and postprocess, so the
-        # missing filter was tuned around rather than found.
-        #
-        # ⛔ HONOURING IT SILENTLY WOULD BE WORSE. Those 210 cues were balanced
-        # WITH it inert; making it live re-tunes all of them at once, which is
-        # a large unreviewed change to shipped audio. So it is reported, loudly
-        # and by name, and migrating a cue to `effects:` stays a deliberate act.
-        import warnings
-
-        warnings.warn(
-            f"layer {layer.get('name', '?')!r}: `filter:` is not applied and never has been"
-            " -- use `effects: [- effect: lowpass/highpass/bandpass ...]`."
-            " This band-limit is NOT in the rendered audio.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
     if layer.get("effects"):
         audio = apply_effects(audio, sample_rate, list(layer.get("effects") or []), context)
     return audio.astype(np.float32)

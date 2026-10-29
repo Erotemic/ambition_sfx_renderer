@@ -17,8 +17,8 @@ layers:
     attack_ms: 10
     hold_ms: 60
     release_ms: 390
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 950
     q: 0.35
 - name: gate_slam
@@ -31,8 +31,8 @@ layers:
     attack_ms: 0
     hold_ms: 1
     release_ms: 10
-  filter:
-    kind: lowpass
+  effects:
+  - effect: lowpass
     cutoff_hz: 560
 postprocess:
 - effect: highpass

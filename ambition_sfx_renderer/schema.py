@@ -75,6 +75,8 @@ def validate(data: dict[str, Any], path: Path) -> None:
     for idx, layer in enumerate(layers):
         if not isinstance(layer, dict):
             raise SchemaError(f"{path}: layer {idx} must be a mapping")
+        if "filter" in layer:
+            raise SchemaError(f"{path}: layer {idx} uses unsupported filter; use an effects chain")
         if not layer.get("kind"):
             raise SchemaError(f"{path}: layer {idx} is missing kind")
         if not layer.get("name"):
@@ -129,4 +131,10 @@ def iter_cue_files(root: Path | None = None, *, group: str = "active") -> list[P
     if not d.exists():
         d = root
     paths = {p.resolve() for p in [*d.rglob("*.sfx.yaml"), *d.rglob("*.yaml")] if p.is_file()}
+    seen: dict[str, Path] = {}
+    for path in sorted(paths):
+        cue_id = load_cue(path).cue_id
+        if cue_id in seen:
+            raise SchemaError(f"duplicate cue ID {cue_id!r}: {seen[cue_id]} and {path}")
+        seen[cue_id] = path
     return sorted(paths)

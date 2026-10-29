@@ -17,8 +17,8 @@ layers:
     attack_ms: 0
     hold_ms: 2
     release_ms: 6
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 1200
     q: 0.8
 - name: upward_mouth_ring

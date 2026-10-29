@@ -17,8 +17,8 @@ layers:
     attack_ms: 100
     hold_ms: 300
     release_ms: 650
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 900
     q: 0.25
 postprocess:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
 from ambition_sfx_renderer.backends.howl_voice import render_howl
 
@@ -78,3 +79,17 @@ def test_a_described_howl_holds_its_pitch_then_falls_and_darkens() -> None:
     f0_late, h2_late = _pitch_and_h2(audio, 0.4 + 0.12 + 1.2 + 1.0)
     assert -5.2 < 12 * np.log2(f0_late / 650.0) < -3.0
     assert h2_late > h2 + 15
+
+
+@pytest.mark.parametrize("n, rate, sr", [(1024, 5, 1000), (1024, 8, 1000), (31, 0.01, 1000), (1, 30, 48000)])
+def test_walk_smoothing_is_a_centered_zero_padded_mean(n, rate, sr):
+    from ambition_sfx_renderer.backends.howl_voice import _walk
+
+    rng = np.random.default_rng(27)
+    count = max(2, int(n * rate / sr) + 2)
+    values = rng.standard_normal(count)
+    interpolated = np.interp(np.linspace(0, count - 1, n), np.arange(count), values)
+    window = max(1, min(n, int(sr / rate / 2)))
+    reference = np.convolve(interpolated, np.ones(window) / window, mode="same")
+    np.testing.assert_allclose(_walk(np.random.default_rng(27), n, rate, sr), reference,
+                               rtol=1e-12, atol=1e-12)

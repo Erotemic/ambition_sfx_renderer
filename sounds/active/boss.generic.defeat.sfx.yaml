@@ -17,8 +17,8 @@ layers:
     attack_ms: 0
     hold_ms: 20
     release_ms: 190
-  filter:
-    kind: lowpass
+  effects:
+  - effect: lowpass
     cutoff_hz: 620
 - name: defeat_drop
   kind: dawdreamer_faust
@@ -46,8 +46,8 @@ layers:
     attack_ms: 20
     hold_ms: 1
     release_ms: 820
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 900
     q: 0.35
 postprocess:

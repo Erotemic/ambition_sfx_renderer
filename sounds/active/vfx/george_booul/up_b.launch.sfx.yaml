@@ -70,8 +70,8 @@ layers:
     attack_ms: 0
     hold_ms: 4
     release_ms: 86
-  filter:
-    kind: lowpass
+  effects:
+  - effect: lowpass
     hz: 600
 postprocess:
 - effect: highpass

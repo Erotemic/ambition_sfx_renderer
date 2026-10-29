@@ -59,3 +59,33 @@ def test_expanded_namespaced_cues_are_discoverable():
     assert "hazard.wind.gust_loop" in ids
     assert find_cue("player.jump") is not None
     assert find_cue("world.platform.loop") is not None
+
+
+def test_duplicate_ids_name_both_sources_before_rendering(tmp_path):
+    import pytest
+    from ambition_sfx_renderer.errors import SchemaError
+    from ambition_sfx_renderer.schema import iter_cue_files
+
+    active = tmp_path / "active"
+    active.mkdir()
+    paths = [active / "first.sfx.yaml", active / "second.sfx.yaml"]
+    for path in paths:
+        path.write_text("schema: ambition.sfxir.v1\nid: fixture.hit\nduration_ms: 20\nlayers: [{kind: noise_burst}]\n")
+    with pytest.raises(SchemaError) as refused:
+        iter_cue_files(tmp_path)
+    assert "fixture.hit" in str(refused.value)
+    assert all(str(path) in str(refused.value) for path in paths)
+
+
+def test_an_unsupported_layer_filter_names_the_source_and_effects_api(tmp_path):
+    import pytest
+    from ambition_sfx_renderer.errors import SchemaError
+
+    path = tmp_path / "filtered.sfx.yaml"
+    path.write_text("schema: ambition.sfxir.v1\nid: fixture.hit\nduration_ms: 20\n"
+                    "layers: [{kind: noise_burst, filter: {kind: lowpass, hz: 500}}]\n")
+    with pytest.raises(SchemaError) as refused:
+        load_cue(path)
+    assert str(path) in str(refused.value)
+    assert "layer 0" in str(refused.value)
+    assert "filter" in str(refused.value) and "effects" in str(refused.value)
