@@ -1,0 +1,276 @@
+schema: ambition.sfxir.v1
+id: hit.slash.kill
+duration_ms: 300
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 5801
+  buffer_size: 128
+  safety_profile: none
+layers:
+- name: crack
+  kind: noise_burst
+  mode: burst
+  seed: 5802
+  color: white
+  gain_db: -2
+  start_ms: 0.0
+  duration_ms: 17
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 2.25
+    release_ms: 9
+  effects:
+  - effect: highpass
+    cutoff_hz: 2400
+    order: 3
+  - effect: lowpass
+    cutoff_hz: 14000
+    order: 2
+  - effect: bandpass
+    center_hz: 5797
+    q: 0.35
+- name: bite
+  kind: noise_burst
+  mode: blade_impact
+  seed: 5803
+  gain_db: 2
+  start_ms: 0
+  duration_ms: 160
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 8
+    release_ms: 140
+  effects: []
+- name: steel
+  kind: synth_tone
+  waveform: sine
+  frequency_hz:
+    points:
+    - - 0
+      - 1300
+    - - 1
+      - 1293.5
+    curve: exp
+  amplitude_points:
+  - - 0.0
+    - 1.0
+  - - 0.004
+    - 0.9895
+  - - 0.0063
+    - 0.9835
+  - - 0.01
+    - 0.9739
+  - - 0.0159
+    - 0.959
+  - - 0.0252
+    - 0.9358
+  - - 0.0399
+    - 0.9003
+  - - 0.0632
+    - 0.8467
+  - - 0.1002
+    - 0.7682
+  - - 0.1587
+    - 0.6585
+  - - 0.2515
+    - 0.5159
+  - - 0.3984
+    - 0.3505
+  - - 0.6312
+    - 0.1899
+  - - 1.0
+    - 0.072
+  gain_db: 2
+  start_ms: 2
+  duration_ms: 280
+  pan: 0.0
+  envelope:
+    attack_ms: 0.6
+    hold_ms: 0
+    release_ms: 6
+  harmonics:
+  - ratio: 1.0
+    gain_db: 0
+  - ratio: 1.6154
+    gain_db: -3
+  - ratio: 2.6154
+    gain_db: -8
+  - ratio: 4.0
+    gain_db: -13
+  - ratio: 5.6923
+    gain_db: -19
+  seed: 5804
+  stereo_spread_cents: 2
+- name: thump
+  kind: synth_tone
+  waveform: sine
+  frequency_hz:
+    points:
+    - - 0
+      - 125
+    - - 0.158
+      - 77.5
+    - - 0.45
+      - 48
+    - - 1
+      - 44.2
+    curve: exp
+  amplitude_points:
+  - - 0.0
+    - 1.0
+  - - 0.004
+    - 0.9868
+  - - 0.0063
+    - 0.9791
+  - - 0.01
+    - 0.9671
+  - - 0.0159
+    - 0.9484
+  - - 0.0252
+    - 0.9194
+  - - 0.0399
+    - 0.8754
+  - - 0.0632
+    - 0.8099
+  - - 0.1002
+    - 0.7161
+  - - 0.1587
+    - 0.5891
+  - - 0.2515
+    - 0.4324
+  - - 0.3984
+    - 0.265
+  - - 0.6312
+    - 0.122
+  - - 1.0
+    - 0.0357
+  gain_db: -13
+  start_ms: 1
+  duration_ms: 180
+  pan: 0.0
+  envelope:
+    attack_ms: 0.6
+    hold_ms: 0
+    release_ms: 6
+  harmonics:
+  - ratio: 1.0
+    gain_db: 0
+  - ratio: 2.0
+    gain_db: -9.0
+  - ratio: 3.0
+    gain_db: -17.0
+  effects:
+  - effect: distortion
+    drive_db: 8
+  - effect: lowpass
+    cutoff_hz: 900
+    order: 2
+- name: boom
+  kind: synth_tone
+  waveform: sine
+  frequency_hz:
+    points:
+    - - 0
+      - 56
+    - - 0.3
+      - 41.0
+    - - 1
+      - 30
+    curve: exp
+  amplitude_points:
+  - - 0.0
+    - 1.0
+  - - 0.004
+    - 0.99
+  - - 0.0063
+    - 0.9843
+  - - 0.01
+    - 0.9752
+  - - 0.0159
+    - 0.961
+  - - 0.0252
+    - 0.9389
+  - - 0.0399
+    - 0.905
+  - - 0.0632
+    - 0.8538
+  - - 0.1002
+    - 0.7784
+  - - 0.1587
+    - 0.6724
+  - - 0.2515
+    - 0.5333
+  - - 0.3984
+    - 0.3693
+  - - 0.6312
+    - 0.2064
+  - - 1.0
+    - 0.0821
+  gain_db: -22
+  start_ms: 3
+  duration_ms: 250
+  pan: 0.0
+  envelope:
+    attack_ms: 0.6
+    hold_ms: 0
+    release_ms: 6
+  effects:
+  - effect: distortion
+    drive_db: 12
+  - effect: lowpass
+    cutoff_hz: 260
+    order: 2
+- name: tail
+  kind: noise_burst
+  mode: air_sweep
+  seed: 5805
+  color: pink
+  start_hz: 3600
+  end_hz: 400
+  q: 0.55
+  gain_db: -3
+  start_ms: 30
+  duration_ms: 220
+  pan: 0.0
+  envelope:
+    attack_ms: 6
+    hold_ms: 40
+    release_ms: 170
+  effects: []
+postprocess:
+- effect: highpass
+  cutoff_hz: 28
+  order: 3
+- effect: lowpass
+  cutoff_hz: 13000
+  order: 2
+- effect: compressor
+  threshold_db: -13
+  ratio: 2.4
+  attack_ms: 1.0
+  release_ms: 70
+- effect: reverb
+  room_size: 0.22
+  damping: 0.6
+  wet_level: 0.08
+  dry_level: 1.0
+  width: 1.0
+- effect: soft_clip
+  drive: 0.45
+  mix: 0.5
+- effect: normalize_peak
+  target_db: 0.0
+- effect: limiter
+  threshold_db: -3.5
+  release_ms: 40
+- effect: fade_edges
+  in_ms: 0.1
+  out_ms: 26
+- effect: normalize_peak
+  target_db: -6.0
+notes: 'Smash feel hit tier or swing, hit.slash.kill: the kill cut: heavy plus a sub
+  boom, a bright crack, a long five-partial steel ring, a noise tail. Candidate a_ring
+  of scripts/smash_feel_candidates.py (same layers and seed).'

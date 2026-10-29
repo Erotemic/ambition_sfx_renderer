@@ -1,0 +1,71 @@
+schema: ambition.sfxir.v1
+id: hit.impact.light
+duration_ms: 70
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 5101
+  buffer_size: 128
+  safety_profile: none
+layers:
+- name: crack
+  kind: noise_burst
+  mode: burst
+  seed: 5102
+  color: white
+  gain_db: -4
+  start_ms: 0.0
+  duration_ms: 13
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 1.25
+    release_ms: 5
+  effects:
+  - effect: highpass
+    cutoff_hz: 1400
+    order: 3
+  - effect: lowpass
+    cutoff_hz: 7000
+    order: 2
+  - effect: bandpass
+    center_hz: 3130
+    q: 0.35
+- name: slap
+  kind: noise_burst
+  mode: burst
+  seed: 5103
+  color: pink
+  gain_db: -12
+  start_ms: 1
+  duration_ms: 34
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 3
+    release_ms: 26
+  effects:
+  - effect: bandpass
+    center_hz: 950
+    q: 0.9
+  - effect: lowpass
+    cutoff_hz: 3400
+    order: 2
+postprocess:
+- effect: highpass
+  cutoff_hz: 120
+  order: 3
+- effect: lowpass
+  cutoff_hz: 8000
+  order: 2
+- effect: soft_clip
+  drive: 0.25
+  mix: 0.5
+- effect: fade_edges
+  in_ms: 0.1
+  out_ms: 8
+- effect: normalize_peak
+  target_db: -11.0
+notes: 'Smash feel hit tier or swing, hit.impact.light: a dry snap: a 5 ms crack and
+  a short pink slap around 950 Hz, no low end. Candidate a_snap of scripts/smash_feel_candidates.py
+  (same layers and seed).'

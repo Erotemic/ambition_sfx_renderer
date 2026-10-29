@@ -1,0 +1,154 @@
+schema: ambition.sfxir.v1
+id: hit.slash.mid
+duration_ms: 115
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 5601
+  buffer_size: 128
+  safety_profile: none
+layers:
+- name: crack
+  kind: noise_burst
+  mode: burst
+  seed: 5602
+  color: white
+  gain_db: -9
+  start_ms: 0.0
+  duration_ms: 13
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 1.25
+    release_ms: 5
+  effects:
+  - effect: highpass
+    cutoff_hz: 2000
+    order: 3
+  - effect: lowpass
+    cutoff_hz: 10000
+    order: 2
+  - effect: bandpass
+    center_hz: 4472
+    q: 0.35
+- name: bite
+  kind: noise_burst
+  mode: blade_impact
+  seed: 5603
+  gain_db: 2
+  start_ms: 0
+  duration_ms: 95
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 6
+    release_ms: 80
+  effects: []
+- name: steel
+  kind: synth_tone
+  waveform: sine
+  frequency_hz:
+    points:
+    - - 0
+      - 2300
+    - - 1
+      - 2288.5
+    curve: exp
+  amplitude_points:
+  - - 0.0
+    - 1.0
+  - - 0.004
+    - 0.9858
+  - - 0.0063
+    - 0.9776
+  - - 0.01
+    - 0.9648
+  - - 0.0159
+    - 0.9448
+  - - 0.0252
+    - 0.9139
+  - - 0.0399
+    - 0.8671
+  - - 0.0632
+    - 0.7978
+  - - 0.1002
+    - 0.6992
+  - - 0.1587
+    - 0.5673
+  - - 0.2515
+    - 0.4073
+  - - 0.3984
+    - 0.241
+  - - 0.6312
+    - 0.1049
+  - - 1.0
+    - 0.0281
+  gain_db: -7
+  start_ms: 1
+  duration_ms: 80
+  pan: 0.0
+  envelope:
+    attack_ms: 0.6
+    hold_ms: 0
+    release_ms: 6
+  harmonics:
+  - ratio: 1.0
+    gain_db: 0
+  - ratio: 1.5217
+    gain_db: -5
+  - ratio: 2.2609
+    gain_db: -10
+  seed: 5604
+  stereo_spread_cents: 2
+- name: body
+  kind: noise_burst
+  mode: thud
+  seed: 5606
+  color: brown
+  gain_db: -14
+  start_ms: 1
+  duration_ms: 70
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 14.0
+  effects:
+  - effect: lowpass
+    cutoff_hz: 600
+    order: 2
+- name: edge
+  kind: noise_burst
+  mode: air_sweep
+  seed: 5605
+  color: white
+  start_hz: 4400
+  end_hz: 1200
+  q: 0.7
+  gain_db: -14
+  start_ms: 0
+  duration_ms: 40
+  pan: 0.0
+  envelope:
+    attack_ms: 1
+    hold_ms: 10
+    release_ms: 28
+  effects: []
+postprocess:
+- effect: highpass
+  cutoff_hz: 110
+  order: 3
+- effect: lowpass
+  cutoff_hz: 11000
+  order: 2
+- effect: soft_clip
+  drive: 0.3
+  mix: 0.5
+- effect: fade_edges
+  in_ms: 0.1
+  out_ms: 10
+- effect: normalize_peak
+  target_db: -9.0
+notes: 'Smash feel hit tier or swing, hit.slash.mid: a bite: the blade_impact mode
+  (body, crack, bite grains, drag) with a short steel ring. Candidate a_bite of scripts/smash_feel_candidates.py
+  (same layers and seed).'
