@@ -1,0 +1,99 @@
+# The Oni Leader points his sword at you: a low barked two-beat command over a faint ring of the blade.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.oni_leader.notice
+duration_ms: 520
+render: {sample_rate: 48000, channels: 2, seed: 11338064, buffer_size: 128, final_peak_db: -11.15}
+layers:
+- name: command
+  kind: noise_burst
+  mode: creature
+  start_ms: 0
+  duration_ms: 480
+  gain_db: 0.0
+  voices:
+  - start_ms: 0
+    duration_ms: 160
+    level: 1.0
+    f0_hz:
+    - [0, 110]
+    - [1, 125]
+    jaw:
+    - [0, 0.3]
+    - [0.3, 0.9]
+    - [1, 0.4]
+    amp: &id001
+    - [0, 0.0]
+    - [0.06, 1.0]
+    - [0.6, 0.7]
+    - [1, 0.0]
+    doubling:
+    - [0, 0.4]
+    - [1, 0.4]
+    spacing_hz: 950
+    f1_hz: [420, 760]
+    breath: 0.35
+    jitter: 0.06
+    tilt_hz: 1800
+    flutter: 0.1
+  - start_ms: 200
+    duration_ms: 260
+    level: 1.0
+    f0_hz:
+    - [0, 120]
+    - [0.3, 105]
+    - [1, 85]
+    jaw:
+    - [0, 0.3]
+    - [0.3, 0.8]
+    - [1, 0.3]
+    amp: *id001
+    doubling:
+    - [0, 0.5]
+    - [1, 0.5]
+    spacing_hz: 950
+    f1_hz: [400, 740]
+    breath: 0.4
+    jitter: 0.06
+    tilt_hz: 1800
+    flutter: 0.1
+  finish:
+    shape_db:
+    - [0, 0.0]
+    - [0.75, 0.0]
+    - [1, -40.0]
+    saturate: 1.4
+    room_s: 0.18
+    room_mix: 0.1
+    room_seed: 7
+    cut_ms: 12
+    peak_db: -6.0
+  seed: 5988899
+- name: point
+  kind: synth_tone
+  waveform: sine
+  gain_db: -26
+  start_ms: 220
+  duration_ms: 300
+  frequency_hz:
+    points:
+    - [0, 2400]
+    - [1, 2390]
+    curve: exp
+  envelope: {attack_ms: 2, hold_ms: 1, release_ms: 280}
+  effects: []
+  noise_amount: 0.0
+  harmonics:
+  - {ratio: 1, gain_db: 0}
+  - {ratio: 1.52, gain_db: -8}
+  seed: 4503375
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -11.15}
+notes: 'The Oni Leader points his sword at you: a low barked two-beat command over a faint ring of the blade. Enemy
+  beat cue (notice), levelled to -22.0 dBFS loudest 100 ms RMS.'
