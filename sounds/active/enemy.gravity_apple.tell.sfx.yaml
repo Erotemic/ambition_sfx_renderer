@@ -1,0 +1,115 @@
+# Gravity apple hangs over you, orbits flaring: a smug 'mm-hm' over a rising 'wooOM' hum.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.gravity_apple.tell
+duration_ms: 460
+render: {sample_rate: 48000, channels: 2, seed: 4763190, buffer_size: 128, final_peak_db: -14.12}
+layers:
+- name: mm_hm
+  kind: noise_burst
+  mode: creature
+  start_ms: 0
+  duration_ms: 280
+  gain_db: 0
+  voices:
+  - start_ms: 0
+    duration_ms: 110
+    level: 1.0
+    f0_hz:
+    - [0, 200]
+    - [1, 185]
+    jaw:
+    - [0, 0.02]
+    - [1, 0.02]
+    amp: &id001
+    - [0, 0.0]
+    - [0.06, 1.0]
+    - [0.6, 0.7]
+    - [1, 0.0]
+    doubling:
+    - [0, 0.0]
+    - [1, 0.0]
+    spacing_hz: 1300
+    f1_hz: [250, 300]
+    breath: 0.25
+    jitter: 0.06
+    tilt_hz: 1800
+    flutter: 0.1
+  - start_ms: 140
+    duration_ms: 130
+    level: 1.0
+    f0_hz:
+    - [0, 210]
+    - [1, 270]
+    jaw:
+    - [0, 0.02]
+    - [1, 0.03]
+    amp: *id001
+    doubling:
+    - [0, 0.0]
+    - [1, 0.0]
+    spacing_hz: 1300
+    f1_hz: [250, 300]
+    breath: 0.25
+    jitter: 0.06
+    tilt_hz: 1800
+    flutter: 0.1
+  finish:
+    shape_db:
+    - [0, 0.0]
+    - [0.9, 0.0]
+    - [1, -40.0]
+    saturate: 1.4
+    room_s: 0.18
+    room_mix: 0.1
+    room_seed: 7
+    cut_ms: 12
+    peak_db: -6.0
+  seed: 10288572
+- name: woom
+  kind: synth_tone
+  waveform: sine
+  gain_db: -10
+  start_ms: 0
+  duration_ms: 450
+  frequency_hz:
+    points:
+    - [0, 80]
+    - [0.7, 190]
+    - [1, 230]
+    curve: exp
+  envelope: {attack_ms: 60, hold_ms: 1, release_ms: 60}
+  effects: []
+  noise_amount: 0.0
+  harmonics:
+  - {ratio: 1, gain_db: 0}
+  - {ratio: 2, gain_db: -8}
+  - {ratio: 3, gain_db: -16}
+  tremolo: {rate_hz: 9, depth: 0.35}
+  seed: 12346856
+- name: shimmer
+  kind: synth_tone
+  waveform: sine
+  gain_db: -26
+  start_ms: 120
+  duration_ms: 330
+  frequency_hz:
+    points:
+    - [0, 900]
+    - [1, 1500]
+    curve: exp
+  envelope: {attack_ms: 120, hold_ms: 1, release_ms: 60}
+  effects: []
+  noise_amount: 0.0
+  tremolo: {rate_hz: 14, depth: 0.5}
+  seed: 9241278
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -14.12}
+notes: 'Gravity apple hangs over you, orbits flaring: a smug ''mm-hm'' over a rising ''wooOM'' hum. Enemy beat cue
+  (tell), levelled to -23.0 dBFS loudest 100 ms RMS.'
