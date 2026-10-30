@@ -1,0 +1,54 @@
+# The club lands: a heavy wooden thud.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.fascist_clubman.hit
+duration_ms: 250
+render: {sample_rate: 48000, channels: 2, seed: 8560702, buffer_size: 128, final_peak_db: -7.23}
+layers:
+- name: thud
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -3
+  start_ms: 0
+  duration_ms: 220
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 170}
+  effects:
+  - {effect: bandpass, center_hz: 180, q: 0.5}
+  seed: 5025779
+- name: wood
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -8
+  start_ms: 0
+  duration_ms: 30
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 26}
+  effects:
+  - {effect: bandpass, center_hz: 900, q: 1.0}
+  grain_count: 1
+  grain_decay_ms: 5.0
+  spread_ms: 3
+  seed: 5421377
+- name: flesh
+  kind: noise_burst
+  mode: flesh_deep
+  color: pink
+  gain_db: -14
+  start_ms: 4
+  duration_ms: 180
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 130}
+  effects: []
+  seed: 6959669
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -7.23}
+notes: 'The club lands: a heavy wooden thud. Enemy beat cue (hit), levelled to -21.5 dBFS loudest 100 ms RMS.'

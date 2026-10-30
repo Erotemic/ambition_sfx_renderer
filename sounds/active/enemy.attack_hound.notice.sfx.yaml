@@ -1,0 +1,85 @@
+# The attack hound sees you: a growl and one bark.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.attack_hound.notice
+duration_ms: 400
+render: {sample_rate: 48000, channels: 2, seed: 3122286, buffer_size: 128, final_peak_db: -12.55}
+layers:
+- name: growl_bark
+  kind: noise_burst
+  mode: creature
+  start_ms: 0
+  duration_ms: 400
+  gain_db: 0.0
+  voices:
+  - start_ms: 0
+    duration_ms: 220
+    level: 1.0
+    f0_hz:
+    - [0, 105]
+    - [1, 115]
+    jaw:
+    - [0, 0.2]
+    - [1, 0.4]
+    amp:
+    - [0, 0.0]
+    - [0.3, 0.8]
+    - [0.7, 1.0]
+    - [1, 0.0]
+    doubling:
+    - [0, 0.9]
+    - [1, 0.9]
+    spacing_hz: 650
+    f1_hz: [350, 700]
+    breath: 0.5
+    jitter: 0.15
+    tilt_hz: 1800
+    flutter: 0.1
+  - start_ms: 210
+    duration_ms: 160
+    level: 1.0
+    f0_hz:
+    - [0, 480]
+    - [0.3, 640]
+    - [1, 380]
+    jaw:
+    - [0, 0.1]
+    - [0.15, 1.0]
+    - [0.7, 0.6]
+    - [1, 0.2]
+    amp:
+    - [0, 0.0]
+    - [0.06, 1.0]
+    - [0.6, 0.7]
+    - [1, 0.0]
+    doubling:
+    - [0, 0.4]
+    - [1, 0.4]
+    spacing_hz: 650
+    f1_hz: [450, 900]
+    breath: 0.35
+    jitter: 0.06
+    tilt_hz: 3200
+    flutter: 0.1
+  finish:
+    shape_db:
+    - [0, 0.0]
+    - [0.85, 0.0]
+    - [1, -40.0]
+    saturate: 1.4
+    room_s: 0.18
+    room_mix: 0.1
+    room_seed: 7
+    cut_ms: 12
+    peak_db: -6.0
+  seed: 10905308
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -12.55}
+notes: 'The attack hound sees you: a growl and one bark. Enemy beat cue (notice), levelled to -22.0 dBFS loudest
+  100 ms RMS.'

@@ -1,0 +1,71 @@
+# Cassowary winds up: a low hiss as its dagger claw scrapes stone.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.cassowary.tell
+duration_ms: 330
+render: {sample_rate: 48000, channels: 2, seed: 1225579, buffer_size: 128, final_peak_db: -11.43}
+layers:
+- name: hiss
+  kind: noise_burst
+  mode: burst
+  color: pink
+  gain_db: -10
+  start_ms: 0
+  duration_ms: 280
+  pan: 0.0
+  envelope: {attack_ms: 20, hold_ms: 1, release_ms: 140}
+  effects:
+  - {effect: bandpass, center_hz: 2600, q: 0.7}
+  seed: 14299761
+- name: claw_a
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -11
+  start_ms: 40
+  duration_ms: 22
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 18}
+  effects:
+  - {effect: bandpass, center_hz: 3000, q: 1.2}
+  grain_count: 1
+  grain_decay_ms: 5.0
+  spread_ms: 3
+  seed: 8688354
+- name: claw_b
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -12
+  start_ms: 120
+  duration_ms: 22
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 18}
+  effects:
+  - {effect: bandpass, center_hz: 2800, q: 1.2}
+  grain_count: 1
+  grain_decay_ms: 5.0
+  spread_ms: 3
+  seed: 15799660
+- name: scrape
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -11
+  start_ms: 150
+  duration_ms: 160
+  pan: 0.0
+  envelope: {attack_ms: 2, hold_ms: 1, release_ms: 90}
+  effects:
+  - {effect: bandpass, center_hz: 1800, q: 0.7}
+  seed: 8823715
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -11.43}
+notes: 'Cassowary winds up: a low hiss as its dagger claw scrapes stone. Enemy beat cue (tell), levelled to -23.0
+  dBFS loudest 100 ms RMS.'

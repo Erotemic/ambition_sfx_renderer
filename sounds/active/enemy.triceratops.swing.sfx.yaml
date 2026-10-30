@@ -1,0 +1,66 @@
+# Triceratops charges: a low rumbling rush and two heavy footfalls.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.triceratops.swing
+duration_ms: 540
+render: {sample_rate: 48000, channels: 2, seed: 10686628, buffer_size: 128, final_peak_db: -14.27}
+layers:
+- name: charge
+  kind: noise_burst
+  mode: air_sweep
+  start_hz: 600
+  end_hz: 120
+  q: 0.45
+  gain_db: -3
+  start_ms: 0
+  duration_ms: 500
+  pan: 0.0
+  envelope: {attack_ms: 40, hold_ms: 1, release_ms: 220}
+  effects: []
+  seed: 995160
+- name: rumble
+  kind: noise_burst
+  mode: burst
+  color: brown
+  gain_db: -8
+  start_ms: 0
+  duration_ms: 520
+  pan: 0.0
+  envelope: {attack_ms: 50, hold_ms: 1, release_ms: 200}
+  effects:
+  - {effect: lowpass, cutoff_hz: 180}
+  seed: 13928323
+- name: hoof_a
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -10
+  start_ms: 60
+  duration_ms: 90
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 70}
+  effects:
+  - {effect: lowpass, cutoff_hz: 300}
+  seed: 5031367
+- name: hoof_b
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -10
+  start_ms: 230
+  duration_ms: 90
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 70}
+  effects:
+  - {effect: lowpass, cutoff_hz: 300}
+  seed: 233255
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -14.27}
+notes: 'Triceratops charges: a low rumbling rush and two heavy footfalls. Enemy beat cue (swing), levelled to -24.5
+  dBFS loudest 100 ms RMS.'

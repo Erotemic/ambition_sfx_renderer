@@ -1,0 +1,48 @@
+# Owl sees you: a short 'hoo-HOO'.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.owl.notice
+duration_ms: 420
+render: {sample_rate: 48000, channels: 2, seed: 5349898, buffer_size: 128, final_peak_db: -18.47}
+layers:
+- name: hoo
+  kind: synth_tone
+  waveform: sine
+  gain_db: -10
+  start_ms: 0
+  duration_ms: 130
+  frequency_hz:
+    points:
+    - [0, 340]
+    - [1, 320]
+    curve: exp
+  envelope: {attack_ms: 25, hold_ms: 1, release_ms: 70}
+  effects: []
+  noise_amount: 0.12
+  seed: 13044367
+- name: HOO
+  kind: synth_tone
+  waveform: sine
+  gain_db: -8
+  start_ms: 170
+  duration_ms: 220
+  frequency_hz:
+    points:
+    - [0, 400]
+    - [0.3, 410]
+    - [1, 350]
+    curve: exp
+  envelope: {attack_ms: 25, hold_ms: 1, release_ms: 120}
+  effects: []
+  noise_amount: 0.12
+  vibrato: {rate_hz: 7, depth_cents: 12}
+  seed: 16428391
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -18.47}
+notes: 'Owl sees you: a short ''hoo-HOO''. Enemy beat cue (notice), levelled to -22.0 dBFS loudest 100 ms RMS.'

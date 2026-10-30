@@ -1,0 +1,85 @@
+# Parrot hangs before its dive: two wing snaps and a short 'ak'.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.parrot.tell
+duration_ms: 220
+render: {sample_rate: 48000, channels: 2, seed: 12151286, buffer_size: 128, final_peak_db: -12.17}
+layers:
+- name: flare_a
+  kind: noise_burst
+  mode: burst
+  color: pink
+  gain_db: -6
+  start_ms: 0
+  duration_ms: 50
+  pan: 0.0
+  envelope: {attack_ms: 2, hold_ms: 1, release_ms: 40}
+  effects:
+  - {effect: bandpass, center_hz: 900, q: 0.7}
+  seed: 7859235
+- name: flare_b
+  kind: noise_burst
+  mode: burst
+  color: pink
+  gain_db: -7
+  start_ms: 65
+  duration_ms: 50
+  pan: 0.0
+  envelope: {attack_ms: 2, hold_ms: 1, release_ms: 40}
+  effects:
+  - {effect: bandpass, center_hz: 1000, q: 0.7}
+  seed: 11578493
+- name: ak
+  kind: noise_burst
+  mode: creature
+  start_ms: 90
+  duration_ms: 120
+  gain_db: -4
+  voices:
+  - start_ms: 0
+    duration_ms: 110
+    level: 1.0
+    f0_hz:
+    - [0, 1100]
+    - [1, 900]
+    jaw:
+    - [0, 0.1]
+    - [0.15, 1.0]
+    - [0.7, 0.6]
+    - [1, 0.2]
+    amp:
+    - [0, 0.0]
+    - [0.06, 1.0]
+    - [0.6, 0.7]
+    - [1, 0.0]
+    doubling:
+    - [0, 0.8]
+    - [1, 0.8]
+    spacing_hz: 1800
+    f1_hz: [900, 1600]
+    breath: 0.3
+    jitter: 0.15
+    tilt_hz: 4000
+    flutter: 0.1
+  finish:
+    shape_db:
+    - [0, 0.0]
+    - [0.75, 0.0]
+    - [1, -40.0]
+    saturate: 1.4
+    room_s: 0.18
+    room_mix: 0.1
+    room_seed: 7
+    cut_ms: 12
+    peak_db: -6.0
+  seed: 4945305
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6200}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -12.17}
+notes: 'Parrot hangs before its dive: two wing snaps and a short ''ak''. Enemy beat cue (tell), levelled to -23.0
+  dBFS loudest 100 ms RMS.'

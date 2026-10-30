@@ -1,0 +1,54 @@
+# Kiwi sees you: a shrill two-note 'kee-wee' whistle.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.kiwi.notice
+duration_ms: 330
+render: {sample_rate: 48000, channels: 2, seed: 11281333, buffer_size: 128, final_peak_db: -16.92}
+layers:
+- name: kee
+  kind: synth_tone
+  waveform: sine
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 140
+  frequency_hz:
+    points:
+    - [0, 1800]
+    - [1, 2500]
+    curve: exp
+  envelope: {attack_ms: 10, hold_ms: 1, release_ms: 60}
+  effects: []
+  noise_amount: 0.08
+  harmonics:
+  - {ratio: 1, gain_db: 0}
+  - {ratio: 2, gain_db: -14}
+  seed: 13795137
+- name: wee
+  kind: synth_tone
+  waveform: sine
+  gain_db: -12
+  start_ms: 170
+  duration_ms: 140
+  frequency_hz:
+    points:
+    - [0, 2000]
+    - [0.4, 2800]
+    - [1, 2400]
+    curve: exp
+  envelope: {attack_ms: 10, hold_ms: 1, release_ms: 70}
+  effects: []
+  noise_amount: 0.08
+  harmonics:
+  - {ratio: 1, gain_db: 0}
+  - {ratio: 2, gain_db: -14}
+  seed: 6353237
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6200}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -16.92}
+notes: 'Kiwi sees you: a shrill two-note ''kee-wee'' whistle. Enemy beat cue (notice), levelled to -22.0 dBFS loudest
+  100 ms RMS.'
