@@ -1,0 +1,80 @@
+# The Decomposing Specter telegraphs its slash: a sharp, rattling inhale as
+# teal energy gathers in its raised claw (a rising hum, its bones creaking).
+# Authored 2026-10-31. An enemy beat cue (tell).
+schema: ambition.sfxir.v1
+id: enemy.decomposing_specter.tell
+duration_ms: 480
+render: {sample_rate: 48000, channels: 2, seed: 3143101, buffer_size: 128}
+layers:
+- name: rasp
+  kind: noise_burst
+  mode: creature
+  start_ms: 0
+  duration_ms: 400
+  gain_db: -2.0
+  voices:
+  - start_ms: 0
+    duration_ms: 380
+    level: 1.0
+    f0_hz:
+    - [0, 140]
+    - [1, 190]
+    jaw:
+    - [0, 0.2]
+    - [1, 0.8]
+    amp:
+    - [0, 0.0]
+    - [0.6, 1.0]
+    - [1, 0.2]
+    doubling:
+    - [0, 0.9]
+    - [1, 0.9]
+    spacing_hz: 1400
+    f1_hz: [500, 900]
+    breath: 0.9
+    jitter: 0.3
+    tilt_hz: 2500
+    flutter: 0.2
+  finish:
+    shape_db:
+    - [0, 0.0]
+    - [0.85, 0.0]
+    - [1, -40.0]
+    saturate: 1.5
+    room_s: 0.2
+    room_mix: 0.1
+    room_seed: 19
+    cut_ms: 10
+    peak_db: -6.0
+  seed: 3143102
+- name: gather
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -22
+  start_ms: 60
+  duration_ms: 400
+  parameters:
+    /AmbitionTone/freq: {start: 300.0, end: 900.0, curve: exp}
+    /AmbitionTone/gain: -20
+  envelope: {attack_ms: 320, hold_ms: 30, release_ms: 50}
+- name: creak
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -14
+  start_ms: 0
+  duration_ms: 360
+  envelope: {attack_ms: 1, hold_ms: 260, release_ms: 100}
+  effects:
+  - {effect: bandpass, center_hz: 1500, q: 2.5}
+  grain_count: 18
+  grain_decay_ms: 4.0
+  seed: 3143103
+postprocess:
+- {effect: highpass, cutoff_hz: 60}
+- {effect: lowpass, cutoff_hz: 8000}
+- {effect: deharsh, amount: 0.25}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 6}
+- {effect: normalize_peak, target_db: -12}
+notes: The Decomposing Specter gathers its slash (tell cue).
