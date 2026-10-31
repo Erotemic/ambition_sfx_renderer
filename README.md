@@ -172,6 +172,25 @@ postprocess:
     target_db: -3.0
 ```
 
+## Looping cues
+
+A cue with a `loop:` block renders a seamless loop (`world.wormhole.hum`):
+
+```yaml
+duration_ms: 5000          # the loop's length: what plays and repeats
+loop:
+  preroll_ms: 500          # rendered before the loop; layers settle in
+  crossfade_ms: 500        # rendered after it, folded into its head
+  postroll_ms: 100         # after that; layer releases, never heard
+  normalize_peak_db: -18   # optional, applied after the fold
+```
+
+Layers are laid out on the whole render (`start_ms` counts from its start).
+The loop is the `duration_ms` after the preroll, with the crossfade that
+follows it laid over its head at equal power, so its last sample runs on into
+its first. Give every slow motion a whole number of cycles in `duration_ms`.
+The manifest records the block, and `ambition_sfx_pack` flags the entry LOOPING.
+
 ## Implemented layer kinds
 
 - `sample` — load a WAV/OGG/FLAC layer from disk with `soundfile`. Give it

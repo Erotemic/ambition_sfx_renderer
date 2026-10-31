@@ -31,6 +31,35 @@ class CueSpec:
         return float(self.raw.get("duration_ms", 100.0)) / 1000.0
 
     @property
+    def loop(self) -> dict[str, float] | None:
+        """A seamless loop (``loop:`` in the YAML), or None.
+
+        ``duration_ms`` is then the loop's length, the part that plays and
+        repeats. The layers are laid out on a longer render: ``preroll_ms``
+        before the loop (layers settle in), ``crossfade_ms`` after it (folded
+        into its head so its end runs on into its start) and ``postroll_ms``
+        after that (layer releases, never heard). Layer ``start_ms`` counts
+        from the start of that render.
+        """
+        raw = self.raw.get("loop")
+        if raw is None:
+            return None
+        return {
+            "preroll_ms": float(raw.get("preroll_ms", 0.0)),
+            "crossfade_ms": float(raw["crossfade_ms"]),
+            "postroll_ms": float(raw.get("postroll_ms", 0.0)),
+            "normalize_peak_db": None if raw.get("normalize_peak_db") is None else float(raw["normalize_peak_db"]),
+        }
+
+    @property
+    def render_seconds(self) -> float:
+        """Length of the rendered timeline: the cue, or a loop's whole render."""
+        loop = self.loop
+        if loop is None:
+            return self.duration_seconds
+        return self.duration_seconds + (loop["preroll_ms"] + loop["crossfade_ms"] + loop["postroll_ms"]) / 1000.0
+
+    @property
     def sample_rate(self) -> int:
         return int(self.raw.get("render", {}).get("sample_rate", 48000))
 
@@ -69,6 +98,20 @@ def validate(data: dict[str, Any], path: Path) -> None:
         raise SchemaError(f"{path}: field 'id' must be a non-empty string")
     if "duration_ms" not in data and "duration_seconds" not in data:
         raise SchemaError(f"{path}: one of duration_ms or duration_seconds is required")
+    loop = data.get("loop")
+    if loop is not None:
+        if not isinstance(loop, dict) or "crossfade_ms" not in loop:
+            raise SchemaError(f"{path}: 'loop' must be a mapping with crossfade_ms")
+        unknown = set(loop) - {"preroll_ms", "crossfade_ms", "postroll_ms", "normalize_peak_db"}
+        if unknown:
+            raise SchemaError(f"{path}: 'loop' has unknown keys {sorted(unknown)}")
+        length_ms = float(data.get("duration_ms", float(data.get("duration_seconds", 0.0)) * 1000.0))
+        crossfade = float(loop["crossfade_ms"])
+        if not 0.0 < crossfade <= length_ms:
+            raise SchemaError(f"{path}: loop.crossfade_ms must be > 0 and <= the loop's duration")
+        for key in ("preroll_ms", "postroll_ms"):
+            if float(loop.get(key, 0.0)) < 0.0:
+                raise SchemaError(f"{path}: loop.{key} must be >= 0")
     layers = data.get("layers")
     if not isinstance(layers, list) or not layers:
         raise SchemaError(f"{path}: field 'layers' must be a non-empty list")

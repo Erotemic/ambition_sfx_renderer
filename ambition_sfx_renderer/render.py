@@ -146,18 +146,47 @@ def default_tone_safety_effects(spec: CueSpec) -> list[dict[str, Any]]:
     ]
 
 
+def fold_loop(mix: np.ndarray, sample_rate: int, duration_seconds: float, loop: dict[str, Any]) -> np.ndarray:
+    """Cut a seamless loop out of its whole render.
+
+    The loop is the ``duration_seconds`` after the preroll. The crossfade that
+    follows it in the render is laid over its head with equal-power gains
+    (two uncorrelated textures keep their level), so the loop's last sample
+    runs on into its first exactly as the render ran on, and its head is the
+    render's own material from the preroll's end on. Every motion in the
+    layers should make whole cycles in the loop's length, so the material
+    joined is in phase.
+    """
+    pre = ms_to_samples(loop["preroll_ms"], sample_rate)
+    length = seconds_to_samples(duration_seconds, sample_rate)
+    fade = ms_to_samples(loop["crossfade_ms"], sample_rate)
+    if pre + length + fade > mix.shape[1]:
+        raise SfxRenderError("a loop's render is shorter than its preroll, length and crossfade")
+    out = mix[:, pre : pre + length].copy()
+    u = np.linspace(0.0, 1.0, fade, endpoint=False)[None, :]
+    out[:, :fade] = mix[:, pre : pre + fade] * np.sin(0.5 * np.pi * u) + mix[
+        :, pre + length : pre + length + fade
+    ] * np.cos(0.5 * np.pi * u)
+    if loop.get("normalize_peak_db") is not None:
+        peak = np.abs(out).max()
+        if peak > 0.0:
+            out = out * (np.float32(10.0 ** (float(loop["normalize_peak_db"]) / 20.0)) / peak)
+    return out.astype(np.float32)
+
+
 def render_cue(spec: CueSpec) -> tuple[np.ndarray, dict[str, Any]]:
     raw = spec.raw
     sample_rate = spec.sample_rate
     channels = spec.channels
     duration_seconds = spec.duration_seconds
-    n_samples = seconds_to_samples(duration_seconds, sample_rate)
+    # A loop's layers are laid out on its whole render (`CueSpec.loop`).
+    n_samples = seconds_to_samples(spec.render_seconds, sample_rate)
     mix = np.zeros((channels, n_samples), dtype=np.float32)
     context: dict[str, Any] = {
         "cue_id": spec.cue_id,
         "sample_rate": sample_rate,
         "channels": channels,
-        "duration_seconds": duration_seconds,
+        "duration_seconds": spec.render_seconds,
         "seed": spec.seed,
         "base_dir": spec.path.parent,
         "yaml_path": spec.path,
@@ -187,6 +216,8 @@ def render_cue(spec: CueSpec) -> tuple[np.ndarray, dict[str, Any]]:
     final_safety = default_tone_safety_effects(spec)
     if final_safety:
         mix = apply_effects(mix, sample_rate, final_safety, context)
+    if spec.loop is not None:
+        mix = fold_loop(mix, sample_rate, duration_seconds, spec.loop)
     stats = audit_stats(mix)
     report: dict[str, Any] = {
         "id": spec.cue_id,
@@ -198,6 +229,7 @@ def render_cue(spec: CueSpec) -> tuple[np.ndarray, dict[str, Any]]:
         "channels": channels,
         "duration_seconds": duration_seconds,
         "layers": layer_reports,
+        "loop": spec.loop,
         "final_safety": default_tone_safety_effects(spec),
         **stats,
     }

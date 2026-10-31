@@ -1,0 +1,566 @@
+schema: ambition.sfxir.v1
+id: world.wormhole.open
+duration_ms: 1400
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 2101
+  buffer_size: 128
+  safety_profile: none
+layers:
+- name: roar.build
+  kind: noise_burst
+  mode: air_sweep
+  seed: 2102
+  color: white
+  start_hz: 120
+  end_hz: 700
+  q: 0.6
+  gain_db: -2
+  start_ms: 0
+  duration_ms: 470
+  pan: 0.0
+  envelope:
+    attack_ms: 410
+    hold_ms: 0
+    release_ms: 20
+  effects: []
+- name: rush.build
+  kind: noise_burst
+  mode: air_sweep
+  seed: 2103
+  color: white
+  start_hz: 400
+  end_hz: 3200
+  q: 0.7
+  gain_db: -6
+  start_ms: 0
+  duration_ms: 470
+  pan: 0.0
+  envelope:
+    attack_ms: 420
+    hold_ms: 0
+    release_ms: 20
+  effects: []
+- name: hiss.build
+  kind: noise_burst
+  mode: air_sweep
+  seed: 2104
+  color: white
+  start_hz: 3000
+  end_hz: 10000
+  q: 0.8
+  gain_db: -12
+  start_ms: 120
+  duration_ms: 350
+  pan: 0.0
+  envelope:
+    attack_ms: 300
+    hold_ms: 0
+    release_ms: 10
+  effects: []
+- name: sub.rumble
+  kind: noise_burst
+  mode: burst
+  seed: 2105
+  color: brown
+  gain_db: 0
+  start_ms: 0
+  duration_ms: 1400
+  pan: 0.0
+  envelope:
+    attack_ms: 380
+    hold_ms: 100
+    release_ms: 900
+  effects:
+  - effect: highpass
+    cutoff_hz: 24
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 80
+    order: 4
+- name: sub.thump
+  kind: noise_burst
+  mode: thud
+  seed: 2106
+  color: brown
+  gain_db: 0
+  start_ms: 450
+  duration_ms: 420
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 40
+  effects:
+  - effect: highpass
+    cutoff_hz: 26
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 140
+    order: 4
+- name: roar.bloom
+  kind: noise_burst
+  mode: burst
+  seed: 2107
+  color: brown
+  gain_db: 0
+  start_ms: 450
+  duration_ms: 900
+  pan: 0.0
+  envelope:
+    attack_ms: 3
+    hold_ms: 60
+    release_ms: 830
+  effects:
+  - effect: highpass
+    cutoff_hz: 60
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1000
+    order: 2
+  - effect: chorus
+    rate_hz: 0.8
+    depth: 0.7
+    centre_delay_ms: 4.0
+    feedback: 0.25
+    mix: 0.5
+- name: rush.bloom
+  kind: noise_burst
+  mode: burst
+  seed: 2108
+  color: pink
+  gain_db: -5
+  start_ms: 450
+  duration_ms: 950
+  pan: 0.0
+  envelope:
+    attack_ms: 3
+    hold_ms: 40
+    release_ms: 900
+  effects:
+  - effect: highpass
+    cutoff_hz: 300
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 3500
+    order: 2
+  - effect: chorus
+    rate_hz: 1.3
+    depth: 0.6
+    centre_delay_ms: 2.5
+    feedback: 0.2
+    mix: 0.5
+- name: hiss.bloom.L
+  kind: noise_burst
+  mode: burst
+  seed: 2109
+  color: pink
+  gain_db: -12
+  start_ms: 450
+  duration_ms: 700
+  pan: -0.85
+  envelope:
+    attack_ms: 2
+    hold_ms: 20
+    release_ms: 670
+  effects:
+  - effect: highpass
+    cutoff_hz: 3000
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 12000
+    order: 2
+- name: hiss.bloom.R
+  kind: noise_burst
+  mode: burst
+  seed: 2110
+  color: pink
+  gain_db: -12
+  start_ms: 450
+  duration_ms: 700
+  pan: 0.85
+  envelope:
+    attack_ms: 2
+    hold_ms: 20
+    release_ms: 670
+  effects:
+  - effect: highpass
+    cutoff_hz: 3000
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 12000
+    order: 2
+- name: swirl.tail.00
+  kind: noise_burst
+  mode: burst
+  seed: 2120
+  color: pink
+  gain_db: -9.2188
+  start_ms: 530
+  duration_ms: 69.6
+  pan: 0.707
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 865
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 3459
+    order: 2
+- name: swirl.tail.01
+  kind: noise_burst
+  mode: burst
+  seed: 2121
+  color: pink
+  gain_db: -9.6562
+  start_ms: 576.8
+  duration_ms: 69.6
+  pan: 0.596
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 798
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 3193
+    order: 2
+- name: swirl.tail.02
+  kind: noise_burst
+  mode: burst
+  seed: 2122
+  color: pink
+  gain_db: -10.0938
+  start_ms: 631.1
+  duration_ms: 69.6
+  pan: -0.344
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 737
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2947
+    order: 2
+- name: swirl.tail.03
+  kind: noise_burst
+  mode: burst
+  seed: 2123
+  color: pink
+  gain_db: -10.5312
+  start_ms: 685.5
+  duration_ms: 69.6
+  pan: -0.849
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 680
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2720
+    order: 2
+- name: swirl.tail.04
+  kind: noise_burst
+  mode: burst
+  seed: 2124
+  color: pink
+  gain_db: -10.9688
+  start_ms: 739.9
+  duration_ms: 69.6
+  pan: -0.473
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 628
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2511
+    order: 2
+- name: swirl.tail.05
+  kind: noise_burst
+  mode: burst
+  seed: 2125
+  color: pink
+  gain_db: -11.4062
+  start_ms: 794.3
+  duration_ms: 69.6
+  pan: 0.333
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 579
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2318
+    order: 2
+- name: swirl.tail.06
+  kind: noise_burst
+  mode: burst
+  seed: 2126
+  color: pink
+  gain_db: -11.8438
+  start_ms: 848.6
+  duration_ms: 69.6
+  pan: 0.831
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 535
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2139
+    order: 2
+- name: swirl.tail.07
+  kind: noise_burst
+  mode: burst
+  seed: 2127
+  color: pink
+  gain_db: -12.2812
+  start_ms: 903.0
+  duration_ms: 69.6
+  pan: 0.642
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 494
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1975
+    order: 2
+- name: swirl.tail.08
+  kind: noise_burst
+  mode: burst
+  seed: 2128
+  color: pink
+  gain_db: -12.7188
+  start_ms: 957.4
+  duration_ms: 69.6
+  pan: -0.039
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 456
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1823
+    order: 2
+- name: swirl.tail.09
+  kind: noise_burst
+  mode: burst
+  seed: 2129
+  color: pink
+  gain_db: -13.1562
+  start_ms: 1011.8
+  duration_ms: 69.6
+  pan: -0.68
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 421
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1683
+    order: 2
+- name: swirl.tail.10
+  kind: noise_burst
+  mode: burst
+  seed: 2130
+  color: pink
+  gain_db: -13.5938
+  start_ms: 1066.1
+  duration_ms: 69.6
+  pan: -0.83
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 388
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1553
+    order: 2
+- name: swirl.tail.11
+  kind: noise_burst
+  mode: burst
+  seed: 2131
+  color: pink
+  gain_db: -14.0312
+  start_ms: 1120.5
+  duration_ms: 69.6
+  pan: -0.412
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 358
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1434
+    order: 2
+- name: swirl.tail.12
+  kind: noise_burst
+  mode: burst
+  seed: 2132
+  color: pink
+  gain_db: -14.4688
+  start_ms: 1174.9
+  duration_ms: 69.6
+  pan: 0.273
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 331
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1323
+    order: 2
+- name: swirl.tail.13
+  kind: noise_burst
+  mode: burst
+  seed: 2133
+  color: pink
+  gain_db: -14.9062
+  start_ms: 1229.3
+  duration_ms: 69.6
+  pan: 0.774
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 305
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1222
+    order: 2
+- name: swirl.tail.14
+  kind: noise_burst
+  mode: burst
+  seed: 2134
+  color: pink
+  gain_db: -15.3438
+  start_ms: 1283.6
+  duration_ms: 69.6
+  pan: 0.789
+  envelope:
+    attack_ms: 31.32
+    hold_ms: 0
+    release_ms: 31.32
+  effects:
+  - effect: highpass
+    cutoff_hz: 282
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1128
+    order: 2
+- name: swirl.tail.15
+  kind: noise_burst
+  mode: burst
+  seed: 2135
+  color: pink
+  gain_db: -15.7812
+  start_ms: 1338.0
+  duration_ms: 62.0
+  pan: 0.326
+  envelope:
+    attack_ms: 27.8944
+    hold_ms: 0
+    release_ms: 27.8944
+  effects:
+  - effect: highpass
+    cutoff_hz: 260
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1041
+    order: 2
+- name: crackle.debris
+  kind: noise_burst
+  mode: grains
+  seed: 2140
+  color: white
+  gain_db: -10
+  start_ms: 390
+  duration_ms: 900
+  pan: 0.0
+  envelope:
+    attack_ms: 10
+    hold_ms: 200
+    release_ms: 650
+  effects:
+  - effect: highpass
+    cutoff_hz: 1800
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 11000
+    order: 2
+  grain_count: 45
+  grain_decay_ms: 2.0
+  grain_start_ms: 0
+postprocess:
+- effect: highpass
+  cutoff_hz: 26
+  order: 3
+- effect: lowpass
+  cutoff_hz: 14000
+  order: 2
+- effect: compressor
+  threshold_db: -20
+  ratio: 2.5
+  attack_ms: 4.0
+  release_ms: 120
+- effect: reverb
+  room_size: 0.5
+  damping: 0.6
+  wet_level: 0.15
+  dry_level: 1.0
+  width: 1.0
+- effect: highpass
+  cutoff_hz: 20
+  order: 2
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 160
+- effect: normalize_peak
+  target_db: -9.0
+notes: 'A gate''s wormhole opening (the membrane''s 640 ms opening row): three noise
+  bands (a low roar, a mid rush, a high hiss) rise together for 450 ms and bloom into
+  a flanged whoosh over an unpitched boom, then debris crackle and a fluttering swirl
+  circle left-right as it dies away. Noise only, no pitched layer.'

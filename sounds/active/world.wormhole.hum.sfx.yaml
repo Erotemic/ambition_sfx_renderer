@@ -1,0 +1,2200 @@
+schema: ambition.sfxir.v1
+id: world.wormhole.hum
+duration_ms: 5000
+loop:
+  preroll_ms: 500
+  crossfade_ms: 500
+  postroll_ms: 100
+  normalize_peak_db: -18.0
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 4101
+  buffer_size: 128
+  safety_profile: none
+layers:
+- name: bed.pressure
+  kind: noise_burst
+  mode: burst
+  seed: 4102
+  color: brown
+  gain_db: -6
+  start_ms: 0
+  duration_ms: 6100
+  pan: 0.0
+  envelope:
+    attack_ms: 400.0
+    hold_ms: 0
+    release_ms: 60.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 24
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 90
+    order: 4
+- name: bed.hum.00
+  kind: noise_burst
+  mode: burst
+  seed: 4110
+  color: pink
+  gain_db: -6.0
+  start_ms: 0.0
+  duration_ms: 760.0
+  pan: 0.058
+  envelope:
+    attack_ms: 342.0
+    hold_ms: 0
+    release_ms: 342.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 76
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 303
+    order: 2
+- name: bed.hum.01
+  kind: noise_burst
+  mode: burst
+  seed: 4111
+  color: pink
+  gain_db: -6.0
+  start_ms: 370.0
+  duration_ms: 760.0
+  pan: 0.058
+  envelope:
+    attack_ms: 342.0
+    hold_ms: 0
+    release_ms: 342.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 84
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 338
+    order: 2
+- name: bed.hum.02
+  kind: noise_burst
+  mode: burst
+  seed: 4112
+  color: pink
+  gain_db: -6.0
+  start_ms: 870.0
+  duration_ms: 760.0
+  pan: 0.058
+  envelope:
+    attack_ms: 342.0
+    hold_ms: 0
+    release_ms: 342.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 92
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 368
+    order: 2
+- name: bed.hum.03
+  kind: noise_burst
+  mode: burst
+  seed: 4113
+  color: pink
+  gain_db: -6.0
+  start_ms: 1370.0
+  duration_ms: 760.0
+  pan: 0.058
+  envelope:
+    attack_ms: 342.0
+    hold_ms: 0
+    release_ms: 342.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 95
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 381
+    order: 2
+- name: bed.hum.04
+  kind: noise_burst
+  mode: burst
+  seed: 4114
+  color: pink
+  gain_db: -6.0
+  start_ms: 1870.0
+  duration_ms: 760.0
+  pan: 0.058
+  envelope:
+    attack_ms: 342.0
+    hold_ms: 0
+    release_ms: 342.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 92
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 368
+    order: 2
+- name: bed.hum.05
+  kind: noise_burst
+  mode: burst
+  seed: 4115
+  color: pink
+  gain_db: -6.0
+  start_ms: 2370.0
+  duration_ms: 760.0
+  pan: 0.058
+  envelope:
+    attack_ms: 342.0
+    hold_ms: 0
+    release_ms: 342.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 84
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 338
+    order: 2
+- name: bed.hum.06
+  kind: noise_burst
+  mode: burst
+  seed: 4116
+  color: pink
+  gain_db: -6.0
+  start_ms: 2870.0
+  duration_ms: 760.0
+  pan: 0.058
+  envelope:
+    attack_ms: 342.0
+    hold_ms: 0
+    release_ms: 342.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 76
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 303
+    order: 2
+- name: bed.hum.07
+  kind: noise_burst
+  mode: burst
+  seed: 4117
+  color: pink
+  gain_db: -6.0
+  start_ms: 3370.0
+  duration_ms: 760.0
+  pan: 0.058
+  envelope:
+    attack_ms: 342.0
+    hold_ms: 0
+    release_ms: 342.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 70
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 278
+    order: 2
+- name: bed.hum.08
+  kind: noise_burst
+  mode: burst
+  seed: 4118
+  color: pink
+  gain_db: -6.0
+  start_ms: 3870.0
+  duration_ms: 760.0
+  pan: 0.058
+  envelope:
+    attack_ms: 342.0
+    hold_ms: 0
+    release_ms: 342.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 67
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 269
+    order: 2
+- name: bed.hum.09
+  kind: noise_burst
+  mode: burst
+  seed: 4119
+  color: pink
+  gain_db: -6.0
+  start_ms: 4370.0
+  duration_ms: 760.0
+  pan: 0.058
+  envelope:
+    attack_ms: 342.0
+    hold_ms: 0
+    release_ms: 342.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 70
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 278
+    order: 2
+- name: bed.hum.10
+  kind: noise_burst
+  mode: burst
+  seed: 4120
+  color: pink
+  gain_db: -6.0
+  start_ms: 4870.0
+  duration_ms: 760.0
+  pan: 0.058
+  envelope:
+    attack_ms: 342.0
+    hold_ms: 0
+    release_ms: 342.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 76
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 303
+    order: 2
+- name: bed.hum.11
+  kind: noise_burst
+  mode: burst
+  seed: 4121
+  color: pink
+  gain_db: -6.0
+  start_ms: 5370.0
+  duration_ms: 730.0
+  pan: 0.058
+  envelope:
+    attack_ms: 328.5
+    hold_ms: 0
+    release_ms: 328.5
+  effects:
+  - effect: highpass
+    cutoff_hz: 84
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 338
+    order: 2
+- name: bubbles.burble.000
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4200
+  color: white
+  start_hz: 847
+  end_hz: 1374
+  q: 0.9
+  gain_db: -13.1
+  start_ms: 199.5
+  duration_ms: 88.7
+  pan: -0.439
+  envelope:
+    attack_ms: 26.6213
+    hold_ms: 0
+    release_ms: 53.2426
+  effects:
+  - effect: lowpass
+    cutoff_hz: 4123
+    order: 2
+- name: bubbles.burble.001
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4201
+  color: white
+  start_hz: 526
+  end_hz: 932
+  q: 0.9
+  gain_db: -17.9
+  start_ms: 268.8
+  duration_ms: 44.9
+  pan: 0.184
+  envelope:
+    attack_ms: 13.4766
+    hold_ms: 0
+    release_ms: 26.9531
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2795
+    order: 2
+- name: bubbles.burble.002
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4202
+  color: white
+  start_hz: 455
+  end_hz: 654
+  q: 0.9
+  gain_db: -14.4
+  start_ms: 310.3
+  duration_ms: 100.7
+  pan: 0.255
+  envelope:
+    attack_ms: 30.2044
+    hold_ms: 0
+    release_ms: 60.4089
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1961
+    order: 2
+- name: bubbles.burble.003
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4203
+  color: white
+  start_hz: 657
+  end_hz: 1229
+  q: 0.9
+  gain_db: -13.2
+  start_ms: 344.5
+  duration_ms: 107.6
+  pan: -0.058
+  envelope:
+    attack_ms: 32.2907
+    hold_ms: 0
+    release_ms: 64.5814
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3688
+    order: 2
+- name: bubbles.burble.004
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4204
+  color: white
+  start_hz: 273
+  end_hz: 468
+  q: 0.9
+  gain_db: -14.5
+  start_ms: 480.2
+  duration_ms: 97.9
+  pan: -0.165
+  envelope:
+    attack_ms: 29.356
+    hold_ms: 0
+    release_ms: 58.712
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1404
+    order: 2
+- name: bubbles.burble.005
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4205
+  color: white
+  start_hz: 331
+  end_hz: 648
+  q: 0.9
+  gain_db: -11.9
+  start_ms: 568.9
+  duration_ms: 56.1
+  pan: -0.094
+  envelope:
+    attack_ms: 16.833
+    hold_ms: 0
+    release_ms: 33.6659
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1944
+    order: 2
+- name: bubbles.burble.006
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4206
+  color: white
+  start_hz: 878
+  end_hz: 1464
+  q: 0.9
+  gain_db: -17.3
+  start_ms: 618.7
+  duration_ms: 92.2
+  pan: 0.421
+  envelope:
+    attack_ms: 27.6674
+    hold_ms: 0
+    release_ms: 55.3348
+  effects:
+  - effect: lowpass
+    cutoff_hz: 4391
+    order: 2
+- name: bubbles.burble.007
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4207
+  color: white
+  start_hz: 658
+  end_hz: 1194
+  q: 0.9
+  gain_db: -16.7
+  start_ms: 742.0
+  duration_ms: 49.7
+  pan: 0.179
+  envelope:
+    attack_ms: 14.9129
+    hold_ms: 0
+    release_ms: 29.8258
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3581
+    order: 2
+- name: bubbles.burble.008
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4208
+  color: white
+  start_hz: 281
+  end_hz: 468
+  q: 0.9
+  gain_db: -10.4
+  start_ms: 765.3
+  duration_ms: 95.2
+  pan: -0.078
+  envelope:
+    attack_ms: 28.5704
+    hold_ms: 0
+    release_ms: 57.1408
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1404
+    order: 2
+- name: bubbles.burble.009
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4209
+  color: white
+  start_hz: 527
+  end_hz: 767
+  q: 0.9
+  gain_db: -15.3
+  start_ms: 862.6
+  duration_ms: 59.8
+  pan: 0.291
+  envelope:
+    attack_ms: 17.9272
+    hold_ms: 0
+    release_ms: 35.8544
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2300
+    order: 2
+- name: bubbles.burble.010
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4210
+  color: white
+  start_hz: 394
+  end_hz: 808
+  q: 0.9
+  gain_db: -10.1
+  start_ms: 927.9
+  duration_ms: 106.9
+  pan: -0.41
+  envelope:
+    attack_ms: 32.0781
+    hold_ms: 0
+    release_ms: 64.1561
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2425
+    order: 2
+- name: bubbles.burble.011
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4211
+  color: white
+  start_hz: 288
+  end_hz: 504
+  q: 0.9
+  gain_db: -17.0
+  start_ms: 964.0
+  duration_ms: 71.9
+  pan: -0.394
+  envelope:
+    attack_ms: 21.5837
+    hold_ms: 0
+    release_ms: 43.1674
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1512
+    order: 2
+- name: bubbles.burble.012
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4212
+  color: white
+  start_hz: 364
+  end_hz: 725
+  q: 0.9
+  gain_db: -17.2
+  start_ms: 1021.4
+  duration_ms: 87.9
+  pan: 0.273
+  envelope:
+    attack_ms: 26.3834
+    hold_ms: 0
+    release_ms: 52.7669
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2174
+    order: 2
+- name: bubbles.burble.013
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4213
+  color: white
+  start_hz: 488
+  end_hz: 744
+  q: 0.9
+  gain_db: -12.0
+  start_ms: 1342.4
+  duration_ms: 84.0
+  pan: 0.386
+  envelope:
+    attack_ms: 25.2096
+    hold_ms: 0
+    release_ms: 50.4192
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2233
+    order: 2
+- name: bubbles.burble.014
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4214
+  color: white
+  start_hz: 679
+  end_hz: 1302
+  q: 0.9
+  gain_db: -13.7
+  start_ms: 1474.2
+  duration_ms: 69.0
+  pan: 0.421
+  envelope:
+    attack_ms: 20.6932
+    hold_ms: 0
+    release_ms: 41.3863
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3905
+    order: 2
+- name: bubbles.burble.015
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4215
+  color: white
+  start_hz: 346
+  end_hz: 693
+  q: 0.9
+  gain_db: -18.2
+  start_ms: 1488.5
+  duration_ms: 63.2
+  pan: -0.277
+  envelope:
+    attack_ms: 18.9736
+    hold_ms: 0
+    release_ms: 37.9472
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2078
+    order: 2
+- name: bubbles.burble.016
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4216
+  color: white
+  start_hz: 691
+  end_hz: 1062
+  q: 0.9
+  gain_db: -11.1
+  start_ms: 1634.7
+  duration_ms: 86.2
+  pan: 0.386
+  envelope:
+    attack_ms: 25.8724
+    hold_ms: 0
+    release_ms: 51.7449
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3185
+    order: 2
+- name: bubbles.burble.017
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4217
+  color: white
+  start_hz: 301
+  end_hz: 467
+  q: 0.9
+  gain_db: -18.7
+  start_ms: 1708.6
+  duration_ms: 97.7
+  pan: -0.227
+  envelope:
+    attack_ms: 29.2959
+    hold_ms: 0
+    release_ms: 58.5918
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1401
+    order: 2
+- name: bubbles.burble.018
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4218
+  color: white
+  start_hz: 344
+  end_hz: 681
+  q: 0.9
+  gain_db: -11.8
+  start_ms: 1897.2
+  duration_ms: 53.3
+  pan: 0.09
+  envelope:
+    attack_ms: 15.983
+    hold_ms: 0
+    release_ms: 31.966
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2042
+    order: 2
+- name: bubbles.burble.019
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4219
+  color: white
+  start_hz: 413
+  end_hz: 789
+  q: 0.9
+  gain_db: -15.6
+  start_ms: 1931.1
+  duration_ms: 81.9
+  pan: -0.082
+  envelope:
+    attack_ms: 24.5697
+    hold_ms: 0
+    release_ms: 49.1394
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2367
+    order: 2
+- name: bubbles.burble.020
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4220
+  color: white
+  start_hz: 553
+  end_hz: 935
+  q: 0.9
+  gain_db: -13.0
+  start_ms: 1989.8
+  duration_ms: 55.1
+  pan: 0.392
+  envelope:
+    attack_ms: 16.5331
+    hold_ms: 0
+    release_ms: 33.0662
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2804
+    order: 2
+- name: bubbles.burble.021
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4221
+  color: white
+  start_hz: 863
+  end_hz: 1574
+  q: 0.9
+  gain_db: -16.9
+  start_ms: 1995.7
+  duration_ms: 99.1
+  pan: 0.305
+  envelope:
+    attack_ms: 29.7294
+    hold_ms: 0
+    release_ms: 59.4589
+  effects:
+  - effect: lowpass
+    cutoff_hz: 4721
+    order: 2
+- name: bubbles.burble.022
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4222
+  color: white
+  start_hz: 588
+  end_hz: 1194
+  q: 0.9
+  gain_db: -18.2
+  start_ms: 2052.2
+  duration_ms: 56.5
+  pan: -0.381
+  envelope:
+    attack_ms: 16.9494
+    hold_ms: 0
+    release_ms: 33.8988
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3582
+    order: 2
+- name: bubbles.burble.023
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4223
+  color: white
+  start_hz: 505
+  end_hz: 909
+  q: 0.9
+  gain_db: -10.2
+  start_ms: 2060.2
+  duration_ms: 79.1
+  pan: 0.006
+  envelope:
+    attack_ms: 23.7175
+    hold_ms: 0
+    release_ms: 47.435
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2726
+    order: 2
+- name: bubbles.burble.024
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4224
+  color: white
+  start_hz: 336
+  end_hz: 511
+  q: 0.9
+  gain_db: -14.1
+  start_ms: 2072.8
+  duration_ms: 41.1
+  pan: -0.062
+  envelope:
+    attack_ms: 12.3306
+    hold_ms: 0
+    release_ms: 24.6613
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1534
+    order: 2
+- name: bubbles.burble.025
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4225
+  color: white
+  start_hz: 270
+  end_hz: 511
+  q: 0.9
+  gain_db: -16.8
+  start_ms: 2184.5
+  duration_ms: 54.7
+  pan: -0.076
+  envelope:
+    attack_ms: 16.4136
+    hold_ms: 0
+    release_ms: 32.8271
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1532
+    order: 2
+- name: bubbles.burble.026
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4226
+  color: white
+  start_hz: 263
+  end_hz: 432
+  q: 0.9
+  gain_db: -16.7
+  start_ms: 2316.4
+  duration_ms: 84.9
+  pan: 0.194
+  envelope:
+    attack_ms: 25.4683
+    hold_ms: 0
+    release_ms: 50.9367
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1295
+    order: 2
+- name: bubbles.burble.027
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4227
+  color: white
+  start_hz: 251
+  end_hz: 403
+  q: 0.9
+  gain_db: -14.4
+  start_ms: 2440.4
+  duration_ms: 56.6
+  pan: -0.203
+  envelope:
+    attack_ms: 16.985
+    hold_ms: 0
+    release_ms: 33.9699
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1210
+    order: 2
+- name: bubbles.burble.028
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4228
+  color: white
+  start_hz: 507
+  end_hz: 912
+  q: 0.9
+  gain_db: -15.1
+  start_ms: 2528.5
+  duration_ms: 69.8
+  pan: -0.188
+  envelope:
+    attack_ms: 20.9252
+    hold_ms: 0
+    release_ms: 41.8504
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2735
+    order: 2
+- name: bubbles.burble.029
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4229
+  color: white
+  start_hz: 642
+  end_hz: 1218
+  q: 0.9
+  gain_db: -12.3
+  start_ms: 3012.2
+  duration_ms: 59.6
+  pan: 0.016
+  envelope:
+    attack_ms: 17.8677
+    hold_ms: 0
+    release_ms: 35.7354
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3655
+    order: 2
+- name: bubbles.burble.030
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4230
+  color: white
+  start_hz: 613
+  end_hz: 838
+  q: 0.9
+  gain_db: -14.3
+  start_ms: 3248.0
+  duration_ms: 57.6
+  pan: -0.353
+  envelope:
+    attack_ms: 17.275
+    hold_ms: 0
+    release_ms: 34.55
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2514
+    order: 2
+- name: bubbles.burble.031
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4231
+  color: white
+  start_hz: 636
+  end_hz: 1213
+  q: 0.9
+  gain_db: -12.8
+  start_ms: 3281.7
+  duration_ms: 100.8
+  pan: 0.111
+  envelope:
+    attack_ms: 30.2269
+    hold_ms: 0
+    release_ms: 60.4538
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3639
+    order: 2
+- name: bubbles.burble.032
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4232
+  color: white
+  start_hz: 466
+  end_hz: 769
+  q: 0.9
+  gain_db: -12.7
+  start_ms: 3337.5
+  duration_ms: 86.5
+  pan: -0.289
+  envelope:
+    attack_ms: 25.9564
+    hold_ms: 0
+    release_ms: 51.9129
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2308
+    order: 2
+- name: bubbles.burble.033
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4233
+  color: white
+  start_hz: 283
+  end_hz: 396
+  q: 0.9
+  gain_db: -10.7
+  start_ms: 3437.6
+  duration_ms: 102.8
+  pan: 0.134
+  envelope:
+    attack_ms: 30.828
+    hold_ms: 0
+    release_ms: 61.6561
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1187
+    order: 2
+- name: bubbles.burble.034
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4234
+  color: white
+  start_hz: 266
+  end_hz: 383
+  q: 0.9
+  gain_db: -12.8
+  start_ms: 3499.7
+  duration_ms: 70.5
+  pan: 0.013
+  envelope:
+    attack_ms: 21.1565
+    hold_ms: 0
+    release_ms: 42.3131
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1148
+    order: 2
+- name: bubbles.burble.035
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4235
+  color: white
+  start_hz: 312
+  end_hz: 620
+  q: 0.9
+  gain_db: -10.8
+  start_ms: 3548.7
+  duration_ms: 74.4
+  pan: -0.335
+  envelope:
+    attack_ms: 22.3304
+    hold_ms: 0
+    release_ms: 44.6608
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1859
+    order: 2
+- name: bubbles.burble.036
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4236
+  color: white
+  start_hz: 432
+  end_hz: 633
+  q: 0.9
+  gain_db: -15.2
+  start_ms: 3662.4
+  duration_ms: 62.9
+  pan: -0.175
+  envelope:
+    attack_ms: 18.8596
+    hold_ms: 0
+    release_ms: 37.7192
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1900
+    order: 2
+- name: bubbles.burble.037
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4237
+  color: white
+  start_hz: 510
+  end_hz: 926
+  q: 0.9
+  gain_db: -14.6
+  start_ms: 3668.6
+  duration_ms: 71.3
+  pan: -0.195
+  envelope:
+    attack_ms: 21.3888
+    hold_ms: 0
+    release_ms: 42.7775
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2779
+    order: 2
+- name: bubbles.burble.038
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4238
+  color: white
+  start_hz: 269
+  end_hz: 468
+  q: 0.9
+  gain_db: -17.0
+  start_ms: 3803.5
+  duration_ms: 106.8
+  pan: -0.062
+  envelope:
+    attack_ms: 32.0387
+    hold_ms: 0
+    release_ms: 64.0775
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1404
+    order: 2
+- name: bubbles.burble.039
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4239
+  color: white
+  start_hz: 584
+  end_hz: 895
+  q: 0.9
+  gain_db: -12.9
+  start_ms: 4177.0
+  duration_ms: 73.8
+  pan: -0.364
+  envelope:
+    attack_ms: 22.131
+    hold_ms: 0
+    release_ms: 44.262
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2686
+    order: 2
+- name: bubbles.burble.040
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4240
+  color: white
+  start_hz: 276
+  end_hz: 406
+  q: 0.9
+  gain_db: -13.6
+  start_ms: 4255.9
+  duration_ms: 98.3
+  pan: 0.145
+  envelope:
+    attack_ms: 29.4987
+    hold_ms: 0
+    release_ms: 58.9973
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1217
+    order: 2
+- name: bubbles.burble.041
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4241
+  color: white
+  start_hz: 680
+  end_hz: 1385
+  q: 0.9
+  gain_db: -12.5
+  start_ms: 4283.2
+  duration_ms: 48.6
+  pan: -0.552
+  envelope:
+    attack_ms: 14.573
+    hold_ms: 0
+    release_ms: 29.146
+  effects:
+  - effect: lowpass
+    cutoff_hz: 4155
+    order: 2
+- name: bubbles.burble.042
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4242
+  color: white
+  start_hz: 760
+  end_hz: 1443
+  q: 0.9
+  gain_db: -14.8
+  start_ms: 4314.3
+  duration_ms: 109.5
+  pan: 0.118
+  envelope:
+    attack_ms: 32.8607
+    hold_ms: 0
+    release_ms: 65.7214
+  effects:
+  - effect: lowpass
+    cutoff_hz: 4330
+    order: 2
+- name: bubbles.burble.043
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4243
+  color: white
+  start_hz: 297
+  end_hz: 538
+  q: 0.9
+  gain_db: -15.2
+  start_ms: 4505.1
+  duration_ms: 47.0
+  pan: -0.54
+  envelope:
+    attack_ms: 14.1031
+    hold_ms: 0
+    release_ms: 28.2061
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1615
+    order: 2
+- name: bubbles.burble.044
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4244
+  color: white
+  start_hz: 609
+  end_hz: 1134
+  q: 0.9
+  gain_db: -10.7
+  start_ms: 4506.0
+  duration_ms: 106.1
+  pan: -0.407
+  envelope:
+    attack_ms: 31.8364
+    hold_ms: 0
+    release_ms: 63.6729
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3403
+    order: 2
+- name: bubbles.burble.045
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4245
+  color: white
+  start_hz: 827
+  end_hz: 1093
+  q: 0.9
+  gain_db: -16.3
+  start_ms: 4523.1
+  duration_ms: 105.5
+  pan: 0.086
+  envelope:
+    attack_ms: 31.6631
+    hold_ms: 0
+    release_ms: 63.3262
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3280
+    order: 2
+- name: bubbles.burble.046
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4246
+  color: white
+  start_hz: 345
+  end_hz: 625
+  q: 0.9
+  gain_db: -16.3
+  start_ms: 4590.6
+  duration_ms: 108.4
+  pan: 0.212
+  envelope:
+    attack_ms: 32.5304
+    hold_ms: 0
+    release_ms: 65.0609
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1876
+    order: 2
+- name: bubbles.burble.047
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4247
+  color: white
+  start_hz: 781
+  end_hz: 1457
+  q: 0.9
+  gain_db: -16.7
+  start_ms: 4650.7
+  duration_ms: 63.7
+  pan: 0.282
+  envelope:
+    attack_ms: 19.1098
+    hold_ms: 0
+    release_ms: 38.2195
+  effects:
+  - effect: lowpass
+    cutoff_hz: 4370
+    order: 2
+- name: bubbles.burble.048
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4248
+  color: white
+  start_hz: 506
+  end_hz: 759
+  q: 0.9
+  gain_db: -12.1
+  start_ms: 4760.9
+  duration_ms: 46.1
+  pan: -0.104
+  envelope:
+    attack_ms: 13.8161
+    hold_ms: 0
+    release_ms: 27.6322
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2277
+    order: 2
+- name: bubbles.burble.049
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4249
+  color: white
+  start_hz: 577
+  end_hz: 764
+  q: 0.9
+  gain_db: -16.7
+  start_ms: 4871.0
+  duration_ms: 67.3
+  pan: 0.242
+  envelope:
+    attack_ms: 20.1843
+    hold_ms: 0
+    release_ms: 40.3686
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2292
+    order: 2
+- name: bubbles.burble.050
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4250
+  color: white
+  start_hz: 626
+  end_hz: 1138
+  q: 0.9
+  gain_db: -15.9
+  start_ms: 4900.9
+  duration_ms: 67.8
+  pan: -0.413
+  envelope:
+    attack_ms: 20.3392
+    hold_ms: 0
+    release_ms: 40.6783
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3414
+    order: 2
+- name: bubbles.burble.051
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4251
+  color: white
+  start_hz: 779
+  end_hz: 1485
+  q: 0.9
+  gain_db: -11.6
+  start_ms: 4901.8
+  duration_ms: 90.5
+  pan: -0.58
+  envelope:
+    attack_ms: 27.1518
+    hold_ms: 0
+    release_ms: 54.3036
+  effects:
+  - effect: lowpass
+    cutoff_hz: 4455
+    order: 2
+- name: bubbles.burble.052
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4252
+  color: white
+  start_hz: 882
+  end_hz: 1550
+  q: 0.9
+  gain_db: -15.4
+  start_ms: 4932.7
+  duration_ms: 105.5
+  pan: 0.235
+  envelope:
+    attack_ms: 31.6584
+    hold_ms: 0
+    release_ms: 63.3168
+  effects:
+  - effect: lowpass
+    cutoff_hz: 4650
+    order: 2
+- name: bubbles.burble.053
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4253
+  color: white
+  start_hz: 306
+  end_hz: 460
+  q: 0.9
+  gain_db: -18.2
+  start_ms: 5001.0
+  duration_ms: 82.9
+  pan: -0.358
+  envelope:
+    attack_ms: 24.8763
+    hold_ms: 0
+    release_ms: 49.7525
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1381
+    order: 2
+- name: bubbles.burble.054
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4254
+  color: white
+  start_hz: 478
+  end_hz: 993
+  q: 0.9
+  gain_db: -11.6
+  start_ms: 5012.5
+  duration_ms: 89.2
+  pan: -0.536
+  envelope:
+    attack_ms: 26.7561
+    hold_ms: 0
+    release_ms: 53.5123
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2980
+    order: 2
+- name: bubbles.burble.055
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4255
+  color: white
+  start_hz: 723
+  end_hz: 1096
+  q: 0.9
+  gain_db: -17.8
+  start_ms: 5071.8
+  duration_ms: 68.8
+  pan: -0.359
+  envelope:
+    attack_ms: 20.6481
+    hold_ms: 0
+    release_ms: 41.2961
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3287
+    order: 2
+- name: bubbles.burble.056
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4256
+  color: white
+  start_hz: 528
+  end_hz: 976
+  q: 0.9
+  gain_db: -14.8
+  start_ms: 5075.3
+  duration_ms: 82.4
+  pan: -0.577
+  envelope:
+    attack_ms: 24.7268
+    hold_ms: 0
+    release_ms: 49.4535
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2927
+    order: 2
+- name: bubbles.burble.057
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4257
+  color: white
+  start_hz: 427
+  end_hz: 832
+  q: 0.9
+  gain_db: -14.9
+  start_ms: 5173.4
+  duration_ms: 108.5
+  pan: 0.407
+  envelope:
+    attack_ms: 32.5472
+    hold_ms: 0
+    release_ms: 65.0944
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2497
+    order: 2
+- name: bubbles.burble.058
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4258
+  color: white
+  start_hz: 320
+  end_hz: 669
+  q: 0.9
+  gain_db: -19.0
+  start_ms: 5182.7
+  duration_ms: 83.5
+  pan: -0.119
+  envelope:
+    attack_ms: 25.0459
+    hold_ms: 0
+    release_ms: 50.0919
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2007
+    order: 2
+- name: bubbles.burble.059
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4259
+  color: white
+  start_hz: 314
+  end_hz: 614
+  q: 0.9
+  gain_db: -11.0
+  start_ms: 5197.0
+  duration_ms: 80.0
+  pan: 0.488
+  envelope:
+    attack_ms: 23.9922
+    hold_ms: 0
+    release_ms: 47.9843
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1843
+    order: 2
+- name: bubbles.burble.060
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4260
+  color: white
+  start_hz: 445
+  end_hz: 895
+  q: 0.9
+  gain_db: -17.3
+  start_ms: 5232.6
+  duration_ms: 95.8
+  pan: -0.463
+  envelope:
+    attack_ms: 28.747
+    hold_ms: 0
+    release_ms: 57.494
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2685
+    order: 2
+- name: bubbles.burble.061
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4261
+  color: white
+  start_hz: 680
+  end_hz: 1228
+  q: 0.9
+  gain_db: -14.3
+  start_ms: 5242.2
+  duration_ms: 52.8
+  pan: 0.596
+  envelope:
+    attack_ms: 15.8485
+    hold_ms: 0
+    release_ms: 31.6971
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3684
+    order: 2
+- name: bubbles.burble.062
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4262
+  color: white
+  start_hz: 826
+  end_hz: 1170
+  q: 0.9
+  gain_db: -17.3
+  start_ms: 5283.4
+  duration_ms: 104.5
+  pan: 0.369
+  envelope:
+    attack_ms: 31.3555
+    hold_ms: 0
+    release_ms: 62.711
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3510
+    order: 2
+- name: bubbles.burble.063
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4263
+  color: white
+  start_hz: 549
+  end_hz: 1086
+  q: 0.9
+  gain_db: -12.8
+  start_ms: 5431.2
+  duration_ms: 79.1
+  pan: 0.118
+  envelope:
+    attack_ms: 23.7191
+    hold_ms: 0
+    release_ms: 47.4382
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3258
+    order: 2
+- name: bubbles.burble.064
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4264
+  color: white
+  start_hz: 601
+  end_hz: 924
+  q: 0.9
+  gain_db: -11.5
+  start_ms: 5458.2
+  duration_ms: 53.8
+  pan: -0.289
+  envelope:
+    attack_ms: 16.1314
+    hold_ms: 0
+    release_ms: 32.2628
+  effects:
+  - effect: lowpass
+    cutoff_hz: 2771
+    order: 2
+- name: bubbles.burble.065
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4265
+  color: white
+  start_hz: 527
+  end_hz: 1047
+  q: 0.9
+  gain_db: -10.3
+  start_ms: 5465.1
+  duration_ms: 108.7
+  pan: 0.239
+  envelope:
+    attack_ms: 32.6221
+    hold_ms: 0
+    release_ms: 65.2442
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3142
+    order: 2
+- name: bubbles.burble.066
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4266
+  color: white
+  start_hz: 283
+  end_hz: 416
+  q: 0.9
+  gain_db: -10.1
+  start_ms: 5619.9
+  duration_ms: 88.5
+  pan: -0.158
+  envelope:
+    attack_ms: 26.5598
+    hold_ms: 0
+    release_ms: 53.1196
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1248
+    order: 2
+- name: bubbles.burble.067
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4267
+  color: white
+  start_hz: 611
+  end_hz: 1185
+  q: 0.9
+  gain_db: -10.6
+  start_ms: 5746.7
+  duration_ms: 107.1
+  pan: 0.033
+  envelope:
+    attack_ms: 32.1386
+    hold_ms: 0
+    release_ms: 64.2772
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3556
+    order: 2
+- name: bubbles.burble.068
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4268
+  color: white
+  start_hz: 714
+  end_hz: 1177
+  q: 0.9
+  gain_db: -14.2
+  start_ms: 5748.7
+  duration_ms: 51.2
+  pan: 0.392
+  envelope:
+    attack_ms: 15.3616
+    hold_ms: 0
+    release_ms: 30.7232
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3532
+    order: 2
+- name: bubbles.burble.069
+  kind: noise_burst
+  mode: air_sweep
+  seed: 4269
+  color: white
+  start_hz: 330
+  end_hz: 536
+  q: 0.9
+  gain_db: -17.9
+  start_ms: 5856.4
+  duration_ms: 93.1
+  pan: -0.348
+  envelope:
+    attack_ms: 27.9217
+    hold_ms: 0
+    release_ms: 55.8434
+  effects:
+  - effect: lowpass
+    cutoff_hz: 1608
+    order: 2
+- name: swirl.drift.00
+  kind: noise_burst
+  mode: burst
+  seed: 4300
+  color: pink
+  gain_db: -11.0
+  start_ms: 0.0
+  duration_ms: 365.0
+  pan: -0.413
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 621
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2484
+    order: 2
+- name: swirl.drift.01
+  kind: noise_burst
+  mode: burst
+  seed: 4301
+  color: pink
+  gain_db: -11.0
+  start_ms: 192.5
+  duration_ms: 365.0
+  pan: 0.069
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 703
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2811
+    order: 2
+- name: swirl.drift.02
+  kind: noise_burst
+  mode: burst
+  seed: 4302
+  color: pink
+  gain_db: -11.0
+  start_ms: 442.5
+  duration_ms: 365.0
+  pan: 0.524
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 800
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 3202
+    order: 2
+- name: swirl.drift.03
+  kind: noise_burst
+  mode: burst
+  seed: 4303
+  color: pink
+  gain_db: -11.0
+  start_ms: 692.5
+  duration_ms: 365.0
+  pan: 0.779
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 906
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 3623
+    order: 2
+- name: swirl.drift.04
+  kind: noise_burst
+  mode: burst
+  seed: 4304
+  color: pink
+  gain_db: -11.0
+  start_ms: 942.5
+  duration_ms: 365.0
+  pan: 0.737
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 1006
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 4026
+    order: 2
+- name: swirl.drift.05
+  kind: noise_burst
+  mode: burst
+  seed: 4305
+  color: pink
+  gain_db: -11.0
+  start_ms: 1192.5
+  duration_ms: 365.0
+  pan: 0.413
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 1086
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 4346
+    order: 2
+- name: swirl.drift.06
+  kind: noise_burst
+  mode: burst
+  seed: 4306
+  color: pink
+  gain_db: -11.0
+  start_ms: 1442.5
+  duration_ms: 365.0
+  pan: -0.069
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 1131
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 4524
+    order: 2
+- name: swirl.drift.07
+  kind: noise_burst
+  mode: burst
+  seed: 4307
+  color: pink
+  gain_db: -11.0
+  start_ms: 1692.5
+  duration_ms: 365.0
+  pan: -0.524
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 1131
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 4524
+    order: 2
+- name: swirl.drift.08
+  kind: noise_burst
+  mode: burst
+  seed: 4308
+  color: pink
+  gain_db: -11.0
+  start_ms: 1942.5
+  duration_ms: 365.0
+  pan: -0.779
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 1086
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 4346
+    order: 2
+- name: swirl.drift.09
+  kind: noise_burst
+  mode: burst
+  seed: 4309
+  color: pink
+  gain_db: -11.0
+  start_ms: 2192.5
+  duration_ms: 365.0
+  pan: -0.737
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 1006
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 4026
+    order: 2
+- name: swirl.drift.10
+  kind: noise_burst
+  mode: burst
+  seed: 4310
+  color: pink
+  gain_db: -11.0
+  start_ms: 2442.5
+  duration_ms: 365.0
+  pan: -0.413
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 906
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 3623
+    order: 2
+- name: swirl.drift.11
+  kind: noise_burst
+  mode: burst
+  seed: 4311
+  color: pink
+  gain_db: -11.0
+  start_ms: 2692.5
+  duration_ms: 365.0
+  pan: 0.069
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 800
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 3202
+    order: 2
+- name: swirl.drift.12
+  kind: noise_burst
+  mode: burst
+  seed: 4312
+  color: pink
+  gain_db: -11.0
+  start_ms: 2942.5
+  duration_ms: 365.0
+  pan: 0.524
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 703
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2811
+    order: 2
+- name: swirl.drift.13
+  kind: noise_burst
+  mode: burst
+  seed: 4313
+  color: pink
+  gain_db: -11.0
+  start_ms: 3192.5
+  duration_ms: 365.0
+  pan: 0.779
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 621
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2484
+    order: 2
+- name: swirl.drift.14
+  kind: noise_burst
+  mode: burst
+  seed: 4314
+  color: pink
+  gain_db: -11.0
+  start_ms: 3442.5
+  duration_ms: 365.0
+  pan: 0.737
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 559
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2236
+    order: 2
+- name: swirl.drift.15
+  kind: noise_burst
+  mode: burst
+  seed: 4315
+  color: pink
+  gain_db: -11.0
+  start_ms: 3692.5
+  duration_ms: 365.0
+  pan: 0.413
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 518
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2071
+    order: 2
+- name: swirl.drift.16
+  kind: noise_burst
+  mode: burst
+  seed: 4316
+  color: pink
+  gain_db: -11.0
+  start_ms: 3942.5
+  duration_ms: 365.0
+  pan: -0.069
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 497
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1989
+    order: 2
+- name: swirl.drift.17
+  kind: noise_burst
+  mode: burst
+  seed: 4317
+  color: pink
+  gain_db: -11.0
+  start_ms: 4192.5
+  duration_ms: 365.0
+  pan: -0.524
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 497
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1989
+    order: 2
+- name: swirl.drift.18
+  kind: noise_burst
+  mode: burst
+  seed: 4318
+  color: pink
+  gain_db: -11.0
+  start_ms: 4442.5
+  duration_ms: 365.0
+  pan: -0.779
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 518
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2071
+    order: 2
+- name: swirl.drift.19
+  kind: noise_burst
+  mode: burst
+  seed: 4319
+  color: pink
+  gain_db: -11.0
+  start_ms: 4692.5
+  duration_ms: 365.0
+  pan: -0.737
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 559
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2236
+    order: 2
+- name: swirl.drift.20
+  kind: noise_burst
+  mode: burst
+  seed: 4320
+  color: pink
+  gain_db: -11.0
+  start_ms: 4942.5
+  duration_ms: 365.0
+  pan: -0.413
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 621
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2484
+    order: 2
+- name: swirl.drift.21
+  kind: noise_burst
+  mode: burst
+  seed: 4321
+  color: pink
+  gain_db: -11.0
+  start_ms: 5192.5
+  duration_ms: 365.0
+  pan: 0.069
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 703
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2811
+    order: 2
+- name: swirl.drift.22
+  kind: noise_burst
+  mode: burst
+  seed: 4322
+  color: pink
+  gain_db: -11.0
+  start_ms: 5442.5
+  duration_ms: 365.0
+  pan: 0.524
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 800
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 3202
+    order: 2
+- name: swirl.drift.23
+  kind: noise_burst
+  mode: burst
+  seed: 4323
+  color: pink
+  gain_db: -11.0
+  start_ms: 5692.5
+  duration_ms: 365.0
+  pan: 0.779
+  envelope:
+    attack_ms: 164.25
+    hold_ms: 0
+    release_ms: 164.25
+  effects:
+  - effect: highpass
+    cutoff_hz: 906
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 3623
+    order: 2
+- name: crackle.faint
+  kind: noise_burst
+  mode: grains
+  seed: 4400
+  color: white
+  gain_db: -18
+  start_ms: 0
+  duration_ms: 6100
+  pan: 0.0
+  envelope:
+    attack_ms: 400.0
+    hold_ms: 0
+    release_ms: 60.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 3000
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 11000
+    order: 2
+  grain_count: 30
+  grain_decay_ms: 1.2
+  grain_start_ms: 0
+postprocess:
+- effect: highpass
+  cutoff_hz: 26
+  order: 3
+- effect: lowpass
+  cutoff_hz: 12000
+  order: 2
+- effect: reverb
+  room_size: 0.6
+  damping: 0.6
+  wet_level: 0.18
+  dry_level: 1.0
+  width: 1.0
+- effect: highpass
+  cutoff_hz: 20
+  order: 2
+- effect: normalize_peak
+  target_db: -18.0
+notes: 'An open wormhole''s hum, looped while it stays open: a low throbbing pressure
+  bed and a steady simmer of unpitched burbles (noise blobs whose band slides upward),
+  a slow left-right swirl and faint crackle. Every slow motion makes whole cycles
+  in the 5 s loop.'
