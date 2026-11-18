@@ -1,0 +1,99 @@
+schema: ambition.sfxir.v1
+id: ability.eye_laser.ignite
+duration_ms: 460
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 7341
+  buffer_size: 128
+  safety_profile: none
+layers:
+# The visor charging: a short rising whine before the beam leaves it.
+- name: spin_up
+  kind: synth_tone
+  waveform: sine
+  frequency_hz:
+    start: 480
+    end: 1700
+    curve: exp
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 90
+  envelope:
+    attack_ms: 2
+    hold_ms: 50
+    release_ms: 38
+# The beam itself: a low buzzing hum, held while the first ray stands.
+- name: beam_hum
+  kind: synth_tone
+  waveform: soft_saw
+  frequency_hz:
+    start: 104
+    end: 118
+    curve: lin
+  gain_db: -11
+  start_ms: 40
+  duration_ms: 420
+  envelope:
+    attack_ms: 12
+    hold_ms: 220
+    release_ms: 188
+  effects:
+  - effect: bandpass
+    center_hz: 900
+    q: 0.7
+# A thin high whine riding on the hum, like a tube under load.
+- name: beam_whine
+  kind: synth_tone
+  waveform: sine
+  frequency_hz:
+    start: 2650
+    end: 2450
+    curve: lin
+  gain_db: -24
+  start_ms: 50
+  duration_ms: 400
+  envelope:
+    attack_ms: 20
+    hold_ms: 200
+    release_ms: 180
+# A few sparks where the beam meets the air.
+- name: sparks
+  kind: noise_burst
+  mode: grains
+  color: white
+  grain_count: 10
+  grain_decay_ms: 0.8
+  spread_ms: 300
+  grain_start_ms: 0
+  gain_db: -17
+  start_ms: 60
+  duration_ms: 360
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 140
+    release_ms: 220
+  effects:
+  - effect: bandpass
+    center_hz: 5200
+    q: 0.8
+postprocess:
+- effect: highpass
+  cutoff_hz: 40
+- effect: lowpass
+  cutoff_hz: 14000
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.2
+  attack_ms: 3
+  release_ms: 90
+- effect: fade_edges
+  fade_in_ms: 0.5
+  fade_out_ms: 40
+- effect: normalize_peak
+  target_db: -5.0
+notes: 'the robot''s eye laser lighting: a short rising charge, then a low
+  buzzing beam hum with a thin whine and a few sparks. Its own cue, not the
+  Wolfenstein boss''s arc (boss.wolfenstein.zap), which it borrowed until
+  2026-11-10.'

@@ -1,0 +1,92 @@
+# The Gram Reaper notices you: a deep spectral moan rising out of a whisper,
+# a cold ring off its scythe, a low swell of pressure under it all.
+# Authored 2026-10-31 (Jon: spooky sfx for the hotel's characters, noticing,
+# telegraphs, attacking, getting hurt). An enemy beat cue (notice).
+schema: ambition.sfxir.v1
+id: enemy.gram_reaper.notice
+duration_ms: 1400
+render: {sample_rate: 48000, channels: 2, seed: 3141001, buffer_size: 128}
+layers:
+- name: moan
+  kind: noise_burst
+  mode: creature
+  start_ms: 80
+  duration_ms: 1250
+  gain_db: 0.0
+  voices:
+  - start_ms: 0
+    duration_ms: 1200
+    level: 1.0
+    f0_hz:
+    - [0, 58]
+    - [0.4, 74]
+    - [1, 50]
+    jaw:
+    - [0, 0.1]
+    - [0.4, 0.6]
+    - [1, 0.2]
+    amp:
+    - [0, 0.0]
+    - [0.35, 0.9]
+    - [0.7, 1.0]
+    - [1, 0.0]
+    doubling:
+    - [0, 0.6]
+    - [1, 0.9]
+    spacing_hz: 900
+    f1_hz: [320, 620]
+    breath: 0.75
+    jitter: 0.1
+    tilt_hz: 1200
+    flutter: 0.25
+  finish:
+    shape_db:
+    - [0, 0.0]
+    - [0.8, 0.0]
+    - [1, -40.0]
+    saturate: 1.2
+    room_s: 0.9
+    room_mix: 0.35
+    room_seed: 11
+    cut_ms: 20
+    peak_db: -6.0
+  seed: 3141002
+- name: whisper
+  kind: noise_burst
+  color: pink
+  gain_db: -16
+  start_ms: 0
+  duration_ms: 1300
+  pan: -0.3
+  envelope: {attack_ms: 300, hold_ms: 400, release_ms: 500}
+  effects:
+  - {effect: bandpass, center_hz: 3200, q: 1.4}
+  seed: 3141003
+- name: scythe_ring
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -24
+  start_ms: 120
+  duration_ms: 1100
+  parameters:
+    /AmbitionTone/freq: {start: 1870.0, end: 1830.0, curve: linear}
+    /AmbitionTone/gain: -22
+  envelope: {attack_ms: 4, hold_ms: 0, release_ms: 1050}
+- name: pressure
+  kind: noise_burst
+  color: brown
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 1200
+  envelope: {attack_ms: 500, hold_ms: 200, release_ms: 500}
+  effects:
+  - {effect: lowpass, cutoff_hz: 140}
+  seed: 3141004
+postprocess:
+- {effect: highpass, cutoff_hz: 30}
+- {effect: lowpass, cutoff_hz: 7000}
+- {effect: deharsh, amount: 0.25}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 20}
+- {effect: normalize_peak, target_db: -10}
+notes: The Gram Reaper notices you (boss notice cue).

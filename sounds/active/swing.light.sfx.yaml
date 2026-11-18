@@ -1,0 +1,62 @@
+schema: ambition.sfxir.v1
+id: swing.light
+duration_ms: 90
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 5901
+  buffer_size: 128
+  safety_profile: none
+layers:
+- name: air
+  kind: noise_burst
+  mode: air_sweep
+  seed: 5902
+  color: white
+  start_hz: 5600
+  end_hz: 900
+  q: 0.8
+  gain_db: -3
+  start_ms: 0
+  duration_ms: 88
+  pan: 0.0
+  envelope:
+    attack_ms: 8
+    hold_ms: 30
+    release_ms: 46
+  effects: []
+- name: close
+  kind: noise_burst
+  mode: air_sweep
+  seed: 5903
+  color: pink
+  start_hz: 2800
+  end_hz: 500
+  q: 0.65
+  gain_db: -11
+  start_ms: 6
+  duration_ms: 70
+  pan: 0.1
+  envelope:
+    attack_ms: 6
+    hold_ms: 26
+    release_ms: 36
+  effects: []
+postprocess:
+- effect: highpass
+  cutoff_hz: 160
+  order: 3
+- effect: lowpass
+  cutoff_hz: 9000
+  order: 2
+- effect: soft_clip
+  drive: 0.2
+  mix: 0.5
+- effect: fade_edges
+  in_ms: 0.1
+  out_ms: 10
+- effect: normalize_peak
+  target_db: -10.5
+notes: 'Smash feel hit tier or swing, swing.light: an airy whoosh: white air from
+  5.6 kHz to 900 Hz, a quieter pink wake under it. Candidate a_airy of scripts/smash_feel_candidates.py
+  (same layers and seed).'

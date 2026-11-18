@@ -17,8 +17,8 @@ layers:
     attack_ms: 0
     hold_ms: 6
     release_ms: 58
-  filter:
-    kind: lowpass
+  effects:
+  - effect: lowpass
     cutoff_hz: 640
 - name: latch
   kind: noise_burst
@@ -30,8 +30,8 @@ layers:
     attack_ms: 0
     hold_ms: 1
     release_ms: 10
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 1300
     q: 0.8
 postprocess:

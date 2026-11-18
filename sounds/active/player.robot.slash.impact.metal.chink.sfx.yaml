@@ -28,8 +28,8 @@ layers:
   gain_db: -12
   duration_ms: 25
   pan: 0.12
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 5100
     q: 1.25
 postprocess:

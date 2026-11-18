@@ -20,8 +20,8 @@ layers:
     attack_ms: 0
     hold_ms: 5
     release_ms: 169
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 1350
     q: 1.1
 - name: hot_grit

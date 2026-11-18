@@ -80,6 +80,29 @@ ambition-sfx-renderer render-all --jobs auto --force
 ambition-sfx-renderer audit output
 ```
 
+## Public samples
+
+Every cue is synthesized from its recipe: the game's sounds, like its art,
+are made by a program from a description (Jon, 2026-10-21). A recording is
+a REFERENCE that a recipe is matched to by ear and by measurement, not a
+sound the game plays (`docs/references.md`). The exception is a joke whose
+point is the famous recording itself, such as the Wilhelm scream. Those
+recordings are not in git.
+
+`sounds/public_samples.yaml` is the one list. Each entry has the URL, the
+sha256 of the file, the license, and the page that states the license. A
+`sample` layer names an entry with `public_sample: <id>`.
+
+The renderer downloads an absent file into `public_samples/` when a cue needs
+it, and refuses a file with a different sha256. To download all of them before
+a render:
+
+```bash
+uv run python -m ambition_sfx_renderer fetch-samples
+```
+
+Add an entry only when the license permits free use and redistribution.
+
 ## Outputs
 
 Each cue renders into:
@@ -149,9 +172,29 @@ postprocess:
     target_db: -3.0
 ```
 
+## Looping cues
+
+A cue with a `loop:` block renders a seamless loop (`world.wormhole.hum`):
+
+```yaml
+duration_ms: 5000          # the loop's length: what plays and repeats
+loop:
+  preroll_ms: 500          # rendered before the loop; layers settle in
+  crossfade_ms: 500        # rendered after it, folded into its head
+  postroll_ms: 100         # after that; layer releases, never heard
+  normalize_peak_db: -18   # optional, applied after the fold
+```
+
+Layers are laid out on the whole render (`start_ms` counts from its start).
+The loop is the `duration_ms` after the preroll, with the crossfade that
+follows it laid over its head at equal power, so its last sample runs on into
+its first. Give every slow motion a whole number of cycles in `duration_ms`.
+The manifest records the block, and `ambition_sfx_pack` flags the entry LOOPING.
+
 ## Implemented layer kinds
 
-- `sample` — load a WAV/OGG/FLAC layer from disk with `soundfile`.
+- `sample` — load a WAV/OGG/FLAC layer from disk with `soundfile`. Give it
+  `path:` for a local file, or `public_sample: <id>` for a public sample.
 - `synth_tone` — deterministic NumPy oscillator with pitch automation, harmonic stacks, vibrato, tremolo, and stereo detune for layered musical cues.
 - `pyfxr` — render a game-SFX seed with `pyfxr` presets or explicit SFX params.
 - `dawdreamer_faust` — render a Faust DSP patch through DawDreamer.

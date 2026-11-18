@@ -17,8 +17,8 @@ layers:
     attack_ms: 1
     hold_ms: 8
     release_ms: 95
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 1100
     q: 0.45
 - name: low_body_drop

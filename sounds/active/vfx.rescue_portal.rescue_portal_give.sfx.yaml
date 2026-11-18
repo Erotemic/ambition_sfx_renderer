@@ -1,0 +1,433 @@
+schema: ambition.sfxir.v1
+id: vfx.rescue_portal.rescue_portal_give
+duration_ms: 588
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 9102
+  buffer_size: 128
+  safety_profile: none
+layers:
+- name: whump.start
+  kind: noise_burst
+  mode: thud
+  seed: 3312
+  color: brown
+  gain_db: -5
+  start_ms: 0
+  duration_ms: 150
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 0
+    release_ms: 30.0
+  effects:
+  - effect: highpass
+    cutoff_hz: 26
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 150
+    order: 4
+- name: swirl.out.00
+  kind: noise_burst
+  mode: burst
+  seed: 3320
+  color: pink
+  gain_db: -4.1786
+  start_ms: 30
+  duration_ms: 49.8
+  pan: 0.111
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 189
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 756
+    order: 2
+- name: swirl.out.01
+  kind: noise_burst
+  mode: burst
+  seed: 3321
+  color: pink
+  gain_db: -4.5357
+  start_ms: 60.8
+  duration_ms: 49.8
+  pan: -0.158
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 220
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 881
+    order: 2
+- name: swirl.out.02
+  kind: noise_burst
+  mode: burst
+  seed: 3322
+  color: pink
+  gain_db: -4.8929
+  start_ms: 98.0
+  duration_ms: 49.8
+  pan: -0.161
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 257
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1027
+    order: 2
+- name: swirl.out.03
+  kind: noise_burst
+  mode: burst
+  seed: 3323
+  color: pink
+  gain_db: -5.25
+  start_ms: 135.1
+  duration_ms: 49.8
+  pan: 0.164
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 299
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1198
+    order: 2
+- name: swirl.out.04
+  kind: noise_burst
+  mode: burst
+  seed: 3324
+  color: pink
+  gain_db: -5.6071
+  start_ms: 172.3
+  duration_ms: 49.8
+  pan: 0.371
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 349
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1396
+    order: 2
+- name: swirl.out.05
+  kind: noise_burst
+  mode: burst
+  seed: 3325
+  color: pink
+  gain_db: -5.9643
+  start_ms: 209.4
+  duration_ms: 49.8
+  pan: 0.192
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 407
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1628
+    order: 2
+- name: swirl.out.06
+  kind: noise_burst
+  mode: burst
+  seed: 3326
+  color: pink
+  gain_db: -6.3214
+  start_ms: 246.5
+  duration_ms: 49.8
+  pan: -0.232
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 475
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 1898
+    order: 2
+- name: swirl.out.07
+  kind: noise_burst
+  mode: burst
+  seed: 3327
+  color: pink
+  gain_db: -6.6786
+  start_ms: 283.7
+  duration_ms: 49.8
+  pan: -0.545
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 553
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2213
+    order: 2
+- name: swirl.out.08
+  kind: noise_burst
+  mode: burst
+  seed: 3328
+  color: pink
+  gain_db: -7.0357
+  start_ms: 320.8
+  duration_ms: 49.8
+  pan: -0.491
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 645
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 2580
+    order: 2
+- name: swirl.out.09
+  kind: noise_burst
+  mode: burst
+  seed: 3329
+  color: pink
+  gain_db: -7.3929
+  start_ms: 358.0
+  duration_ms: 49.8
+  pan: -0.08
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 752
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 3008
+    order: 2
+- name: swirl.out.10
+  kind: noise_burst
+  mode: burst
+  seed: 3330
+  color: pink
+  gain_db: -7.75
+  start_ms: 395.1
+  duration_ms: 49.8
+  pan: 0.447
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 877
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 3507
+    order: 2
+- name: swirl.out.11
+  kind: noise_burst
+  mode: burst
+  seed: 3331
+  color: pink
+  gain_db: -8.1071
+  start_ms: 432.3
+  duration_ms: 49.8
+  pan: 0.786
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 1022
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 4088
+    order: 2
+- name: swirl.out.12
+  kind: noise_burst
+  mode: burst
+  seed: 3332
+  color: pink
+  gain_db: -8.4643
+  start_ms: 469.4
+  duration_ms: 49.8
+  pan: 0.738
+  envelope:
+    attack_ms: 22.3971
+    hold_ms: 0
+    release_ms: 22.3971
+  effects:
+  - effect: highpass
+    cutoff_hz: 1192
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 4766
+    order: 2
+- name: swirl.out.13
+  kind: noise_burst
+  mode: burst
+  seed: 3333
+  color: pink
+  gain_db: -8.8214
+  start_ms: 506.5
+  duration_ms: 43.5
+  pan: 0.306
+  envelope:
+    attack_ms: 19.5557
+    hold_ms: 0
+    release_ms: 19.5557
+  effects:
+  - effect: highpass
+    cutoff_hz: 1389
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 5557
+    order: 2
+- name: hiss.up
+  kind: noise_burst
+  mode: air_sweep
+  seed: 3313
+  color: white
+  start_hz: 1500
+  end_hz: 9000
+  q: 0.8
+  gain_db: -13
+  start_ms: 150
+  duration_ms: 400
+  pan: 0.0
+  envelope:
+    attack_ms: 220
+    hold_ms: 40
+    release_ms: 140
+  effects: []
+- name: sub.release
+  kind: noise_burst
+  mode: burst
+  seed: 3314
+  color: brown
+  gain_db: -4
+  start_ms: 0
+  duration_ms: 320
+  pan: 0.0
+  envelope:
+    attack_ms: 5
+    hold_ms: 40
+    release_ms: 270
+  effects:
+  - effect: highpass
+    cutoff_hz: 24
+    order: 2
+  - effect: lowpass
+    cutoff_hz: 80
+    order: 4
+- name: release.chime.lo
+  kind: synth_tone
+  waveform: sine
+  frequency_hz:
+    points:
+    - - 0
+      - 880
+    - - 1
+      - 880
+    curve: linear
+  amplitude_points:
+  - - 0
+    - 1
+  - - 0.25
+    - 0.8
+  - - 1
+    - 0
+  gain_db: -15
+  start_ms: 300
+  duration_ms: 260
+  pan: 0.0
+  envelope:
+    attack_ms: 3.0
+    hold_ms: 0
+    release_ms: 120.0
+  harmonics:
+  - ratio: 1
+    gain_db: 0
+  - ratio: 2
+    gain_db: -14
+  - ratio: 3
+    gain_db: -20
+- name: release.chime.hi
+  kind: synth_tone
+  waveform: sine
+  frequency_hz:
+    points:
+    - - 0
+      - 1318.5
+    - - 1
+      - 1318.5
+    curve: linear
+  amplitude_points:
+  - - 0
+    - 1
+  - - 0.25
+    - 0.8
+  - - 1
+    - 0
+  gain_db: -17
+  start_ms: 380
+  duration_ms: 200
+  pan: 0.15
+  envelope:
+    attack_ms: 3.0
+    hold_ms: 0
+    release_ms: 110.0
+  harmonics:
+  - ratio: 1
+    gain_db: 0
+  - ratio: 2
+    gain_db: -14
+postprocess:
+- effect: highpass
+  cutoff_hz: 26
+  order: 3
+- effect: lowpass
+  cutoff_hz: 14000
+  order: 2
+- effect: reverb
+  room_size: 0.35
+  damping: 0.6
+  wet_level: 0.12
+  dry_level: 1.0
+  width: 1.0
+- effect: highpass
+  cutoff_hz: 20
+  order: 2
+- effect: fade_edges
+  in_ms: 0.2
+  out_ms: 140
+- effect: normalize_peak
+  target_db: -10.0
+notes: 'The gate network''s rescue door gives a body back (the effect row rescue_portal_give, 14 x 42
+  ms): the wormhole''s release (world.wormhole.exit) with a bright two-note chime as the light lets it
+  out. The pair of vfx.rescue_portal.rescue_portal_take.'

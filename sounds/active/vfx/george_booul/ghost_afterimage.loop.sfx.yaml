@@ -20,8 +20,8 @@ layers:
     attack_ms: 18
     hold_ms: 300
     release_ms: 190
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 1500
     q: 0.55
 - name: haunt_hum

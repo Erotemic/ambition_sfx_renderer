@@ -48,8 +48,8 @@ layers:
   gain_db: -15
   start_ms: 72
   duration_ms: 24
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 3300
     q: 1.15
   envelope:

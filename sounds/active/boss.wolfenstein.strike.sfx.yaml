@@ -1,0 +1,95 @@
+schema: ambition.sfxir.v1
+id: boss.wolfenstein.strike
+duration_ms: 2000
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 811
+  buffer_size: 128
+  safety_profile: none
+layers:
+- name: crack
+  kind: noise_burst
+  mode: grains
+  color: white
+  grain_count: 6
+  grain_decay_ms: 1.4
+  spread_ms: 18
+  grain_start_ms: 0
+  gain_db: 0.0
+  start_ms: 0
+  duration_ms: 70
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 28.0
+    release_ms: 42.0
+  effects:
+  - effect: bandpass
+    center_hz: 3400
+    q: 0.45
+- name: tear
+  kind: noise_burst
+  mode: burst
+  color: pink
+  gain_db: -7
+  start_ms: 0
+  duration_ms: 320
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 30
+    release_ms: 280
+  effects:
+  - effect: bandpass
+    center_hz: 2400
+    q: 0.5
+- name: clap
+  kind: noise_burst
+  mode: burst
+  color: white
+  gain_db: -3
+  start_ms: 25
+  duration_ms: 140
+  pan: 0.0
+  envelope:
+    attack_ms: 0
+    hold_ms: 10
+    release_ms: 125
+  effects:
+  - effect: lowpass
+    cutoff_hz: 3600
+  - effect: highpass
+    cutoff_hz: 120
+- name: rumble
+  kind: noise_burst
+  mode: burst
+  color: brown
+  gain_db: -5
+  start_ms: 60
+  duration_ms: 1940
+  pan: 0.0
+  envelope:
+    attack_ms: 30
+    hold_ms: 200
+    release_ms: 1600
+  effects:
+  - effect: lowpass
+    cutoff_hz: 380
+postprocess:
+- effect: highpass
+  cutoff_hz: 40
+- effect: lowpass
+  cutoff_hz: 14000
+- effect: compressor
+  threshold_db: -18
+  ratio: 2.4
+  attack_ms: 2
+  release_ms: 80
+- effect: fade_edges
+  fade_in_ms: 0.5
+  fade_out_ms: 30
+- effect: normalize_peak
+  target_db: -4.0
+notes: 'lightning that strikes: the crack, a tearing clap, a long rumble; for effect
+  and impact. Chosen 2026-10-18 from scripts/wolfenstein_lightning_candidates.py (strike/a_close_clap).'

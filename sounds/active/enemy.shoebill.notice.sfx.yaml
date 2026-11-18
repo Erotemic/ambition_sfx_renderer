@@ -1,0 +1,194 @@
+# Shoebill sees you: a fast clatter of its bill.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.shoebill.notice
+duration_ms: 420
+render: {sample_rate: 48000, channels: 2, seed: 16662747, buffer_size: 128, final_peak_db: -6.0}
+layers:
+- name: clack_0
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -6
+  start_ms: 0
+  duration_ms: 18
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 14}
+  effects:
+  - {effect: bandpass, center_hz: 1440.0, q: 1.4}
+  grain_count: 1
+  grain_decay_ms: 4.0
+  spread_ms: 3
+  seed: 423041
+- name: clack_1
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -8
+  start_ms: 32
+  duration_ms: 18
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 14}
+  effects:
+  - {effect: bandpass, center_hz: 1500.0, q: 1.4}
+  grain_count: 1
+  grain_decay_ms: 4.0
+  spread_ms: 3
+  seed: 16271713
+- name: clack_2
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -6
+  start_ms: 64
+  duration_ms: 18
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 14}
+  effects:
+  - {effect: bandpass, center_hz: 1560.0, q: 1.4}
+  grain_count: 1
+  grain_decay_ms: 4.0
+  spread_ms: 3
+  seed: 746789
+- name: clack_3
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -8
+  start_ms: 96
+  duration_ms: 18
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 14}
+  effects:
+  - {effect: bandpass, center_hz: 1440.0, q: 1.4}
+  grain_count: 1
+  grain_decay_ms: 4.0
+  spread_ms: 3
+  seed: 3068885
+- name: clack_4
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -6
+  start_ms: 130
+  duration_ms: 18
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 14}
+  effects:
+  - {effect: bandpass, center_hz: 1500.0, q: 1.4}
+  grain_count: 1
+  grain_decay_ms: 4.0
+  spread_ms: 3
+  seed: 6191391
+- name: clack_5
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -8
+  start_ms: 162
+  duration_ms: 18
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 14}
+  effects:
+  - {effect: bandpass, center_hz: 1560.0, q: 1.4}
+  grain_count: 1
+  grain_decay_ms: 4.0
+  spread_ms: 3
+  seed: 8215924
+- name: clack_6
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -6
+  start_ms: 196
+  duration_ms: 18
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 14}
+  effects:
+  - {effect: bandpass, center_hz: 1440.0, q: 1.4}
+  grain_count: 1
+  grain_decay_ms: 4.0
+  spread_ms: 3
+  seed: 8480059
+- name: clack_7
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -8
+  start_ms: 230
+  duration_ms: 18
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 14}
+  effects:
+  - {effect: bandpass, center_hz: 1500.0, q: 1.4}
+  grain_count: 1
+  grain_decay_ms: 4.0
+  spread_ms: 3
+  seed: 8395678
+- name: clack_8
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -6
+  start_ms: 266
+  duration_ms: 18
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 14}
+  effects:
+  - {effect: bandpass, center_hz: 1560.0, q: 1.4}
+  grain_count: 1
+  grain_decay_ms: 4.0
+  spread_ms: 3
+  seed: 11180816
+- name: clack_9
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -8
+  start_ms: 302
+  duration_ms: 18
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 14}
+  effects:
+  - {effect: bandpass, center_hz: 1440.0, q: 1.4}
+  grain_count: 1
+  grain_decay_ms: 4.0
+  spread_ms: 3
+  seed: 4077260
+- name: clack_10
+  kind: noise_burst
+  mode: grains
+  color: pink
+  gain_db: -6
+  start_ms: 340
+  duration_ms: 18
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 14}
+  effects:
+  - {effect: bandpass, center_hz: 1500.0, q: 1.4}
+  grain_count: 1
+  grain_decay_ms: 4.0
+  spread_ms: 3
+  seed: 5905721
+- name: body
+  kind: noise_burst
+  mode: burst
+  color: brown
+  gain_db: -20
+  start_ms: 0
+  duration_ms: 380
+  pan: 0.0
+  envelope: {attack_ms: 10, hold_ms: 1, release_ms: 200}
+  effects:
+  - {effect: bandpass, center_hz: 500, q: 0.6}
+  seed: 3563328
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -6.0}
+notes: 'Shoebill sees you: a fast clatter of its bill. Enemy beat cue (notice), levelled to -22.0 dBFS loudest 100
+  ms RMS.'

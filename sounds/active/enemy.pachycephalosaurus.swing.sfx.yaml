@@ -1,0 +1,42 @@
+# Pachy charges: a heavy head-down rush of air.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.pachycephalosaurus.swing
+duration_ms: 420
+render: {sample_rate: 48000, channels: 2, seed: 9725266, buffer_size: 128, final_peak_db: -13.94}
+layers:
+- name: rush
+  kind: noise_burst
+  mode: air_sweep
+  start_hz: 900
+  end_hz: 160
+  q: 0.5
+  gain_db: -4
+  start_ms: 0
+  duration_ms: 400
+  pan: 0.0
+  envelope: {attack_ms: 30, hold_ms: 1, release_ms: 160}
+  effects: []
+  seed: 4125210
+- name: rumble
+  kind: noise_burst
+  mode: burst
+  color: brown
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 380
+  pan: 0.0
+  envelope: {attack_ms: 40, hold_ms: 1, release_ms: 160}
+  effects:
+  - {effect: lowpass, cutoff_hz: 220}
+  seed: 11714859
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -13.94}
+notes: 'Pachy charges: a heavy head-down rush of air. Enemy beat cue (swing), levelled to -24.5 dBFS loudest 100
+  ms RMS.'

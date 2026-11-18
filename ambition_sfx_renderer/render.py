@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.metadata
 import json
 import os
 import shlex
@@ -18,18 +19,64 @@ from ambition_sfx_renderer.effects import apply_effects
 from ambition_sfx_renderer.errors import SfxRenderError
 from ambition_sfx_renderer.io import write_audio, write_json
 from ambition_sfx_renderer.layers import render_layer
+from ambition_sfx_renderer.public_samples import load_manifest
 from ambition_sfx_renderer.schema import CueSpec, load_cue
+from ambition_sfx_renderer.paths import package_root, resolve_path
 
 DEFAULT_WAV_MAX_SECONDS = 0.300
 DEFAULT_SAFETY_PROFILE = "game_sfx_v2"
 FormatPolicy = Literal["auto", "both", "wav", "ogg"]
 
 
+def renderer_fingerprint() -> str:
+    """Identify renderer code and installed audio dependencies."""
+    h = hashlib.sha256()
+    h.update(__version__.encode())
+    root = package_root()
+    for package in ("ambition_sfx_renderer", "ambition_sfx_renderer_gpl"):
+        for source in sorted((root / package).rglob("*.py")):
+            h.update(source.relative_to(root).as_posix().encode())
+            h.update(source.read_bytes())
+    for name in ("numpy", "scipy", "PyYAML", "soundfile", "pedalboard", "dawdreamer", "pyfxr", "pyo"):
+        try:
+            version = importlib.metadata.version(name)
+        except importlib.metadata.PackageNotFoundError:
+            version = "absent"
+        h.update(f"{name}:{version}".encode())
+    import soundfile
+    h.update(soundfile.__libsndfile_version__.encode())
+    return h.hexdigest()
+
+
 def cue_hash(path: Path) -> str:
     data = path.read_bytes()
-    h = hashlib.sha256()
-    h.update(data)
-    h.update(__version__.encode())
+    h = hashlib.sha256(data)
+    h.update(renderer_fingerprint().encode())
+    # A cue that uses a public sample is stale when the pinned file changes.
+    if b"public_sample" in data:
+        pins = load_manifest()
+        for layer in load_cue(path).layers:
+            sample = pins.get(str(layer.get("public_sample")))
+            if sample is not None:
+                h.update(sample.sha256.encode())
+    def resources(node):
+        if isinstance(node, dict):
+            for key, value in sorted(node.items()):
+                if key in {"path", "file", "plugin", "preset", "state", "dsp", "dsp_path"} and isinstance(value, str):
+                    resource = resolve_path(value, base_dir=path.parent)
+                    members = sorted(resource.rglob("*")) if resource.is_dir() else [resource]
+                    for member in members:
+                        if member.is_file():
+                            h.update(str(member).encode())
+                            h.update(member.read_bytes())
+                        elif member == resource:
+                            h.update(f"missing:{member}".encode())
+                else:
+                    resources(value)
+        elif isinstance(node, list):
+            for value in node:
+                resources(value)
+    resources(load_cue(path).raw)
     return h.hexdigest()[:12]
 
 
@@ -99,18 +146,47 @@ def default_tone_safety_effects(spec: CueSpec) -> list[dict[str, Any]]:
     ]
 
 
+def fold_loop(mix: np.ndarray, sample_rate: int, duration_seconds: float, loop: dict[str, Any]) -> np.ndarray:
+    """Cut a seamless loop out of its whole render.
+
+    The loop is the ``duration_seconds`` after the preroll. The crossfade that
+    follows it in the render is laid over its head with equal-power gains
+    (two uncorrelated textures keep their level), so the loop's last sample
+    runs on into its first exactly as the render ran on, and its head is the
+    render's own material from the preroll's end on. Every motion in the
+    layers should make whole cycles in the loop's length, so the material
+    joined is in phase.
+    """
+    pre = ms_to_samples(loop["preroll_ms"], sample_rate)
+    length = seconds_to_samples(duration_seconds, sample_rate)
+    fade = ms_to_samples(loop["crossfade_ms"], sample_rate)
+    if pre + length + fade > mix.shape[1]:
+        raise SfxRenderError("a loop's render is shorter than its preroll, length and crossfade")
+    out = mix[:, pre : pre + length].copy()
+    u = np.linspace(0.0, 1.0, fade, endpoint=False)[None, :]
+    out[:, :fade] = mix[:, pre : pre + fade] * np.sin(0.5 * np.pi * u) + mix[
+        :, pre + length : pre + length + fade
+    ] * np.cos(0.5 * np.pi * u)
+    if loop.get("normalize_peak_db") is not None:
+        peak = np.abs(out).max()
+        if peak > 0.0:
+            out = out * (np.float32(10.0 ** (float(loop["normalize_peak_db"]) / 20.0)) / peak)
+    return out.astype(np.float32)
+
+
 def render_cue(spec: CueSpec) -> tuple[np.ndarray, dict[str, Any]]:
     raw = spec.raw
     sample_rate = spec.sample_rate
     channels = spec.channels
     duration_seconds = spec.duration_seconds
-    n_samples = seconds_to_samples(duration_seconds, sample_rate)
+    # A loop's layers are laid out on its whole render (`CueSpec.loop`).
+    n_samples = seconds_to_samples(spec.render_seconds, sample_rate)
     mix = np.zeros((channels, n_samples), dtype=np.float32)
     context: dict[str, Any] = {
         "cue_id": spec.cue_id,
         "sample_rate": sample_rate,
         "channels": channels,
-        "duration_seconds": duration_seconds,
+        "duration_seconds": spec.render_seconds,
         "seed": spec.seed,
         "base_dir": spec.path.parent,
         "yaml_path": spec.path,
@@ -140,6 +216,8 @@ def render_cue(spec: CueSpec) -> tuple[np.ndarray, dict[str, Any]]:
     final_safety = default_tone_safety_effects(spec)
     if final_safety:
         mix = apply_effects(mix, sample_rate, final_safety, context)
+    if spec.loop is not None:
+        mix = fold_loop(mix, sample_rate, duration_seconds, spec.loop)
     stats = audit_stats(mix)
     report: dict[str, Any] = {
         "id": spec.cue_id,
@@ -151,6 +229,7 @@ def render_cue(spec: CueSpec) -> tuple[np.ndarray, dict[str, Any]]:
         "channels": channels,
         "duration_seconds": duration_seconds,
         "layers": layer_reports,
+        "loop": spec.loop,
         "final_safety": default_tone_safety_effects(spec),
         **stats,
     }

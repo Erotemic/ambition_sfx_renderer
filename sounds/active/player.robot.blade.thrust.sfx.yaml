@@ -1,0 +1,79 @@
+schema: ambition.sfxir.v1
+id: player.robot.blade.thrust
+duration_ms: 250
+render:
+  sample_rate: 48000
+  channels: 2
+  seed: 731937
+  buffer_size: 128
+layers:
+- name: lunge
+  kind: noise_burst
+  mode: air_sweep
+  color: white
+  start_hz: 1700
+  end_hz: 8600
+  q: 1.1
+  gain_db: -4.0
+  start_ms: 0
+  duration_ms: 120
+  pan: 0.0
+  envelope:
+    attack_ms: 3
+    hold_ms: 46
+    release_ms: 40
+- name: wake
+  kind: noise_burst
+  mode: air_sweep
+  color: pink
+  start_hz: 4200
+  end_hz: 520
+  q: 0.6
+  gain_db: -9.0
+  start_ms: 62
+  duration_ms: 176
+  pan: 0.0
+  envelope:
+    attack_ms: 6
+    hold_ms: 60
+    release_ms: 96
+- name: point
+  kind: noise_burst
+  mode: grains
+  color: white
+  grain_count: 7
+  grain_decay_ms: 2.6
+  spread_ms: 10
+  grain_start_ms: 0
+  gain_db: -11
+  start_ms: 58
+  duration_ms: 30
+  envelope:
+    attack_ms: 0
+    hold_ms: 3
+    release_ms: 24
+  effects:
+  - effect: bandpass
+    center_hz: 5200
+    q: 1.15
+postprocess:
+- effect: highpass
+  cutoff_hz: 115
+- effect: lowpass
+  cutoff_hz: 8200
+- effect: deharsh
+  amount: 0.3
+- effect: compressor
+  threshold_db: -17
+  ratio: 2.2
+  attack_ms: 2
+  release_ms: 45
+- effect: soft_clip
+  drive: 0.28
+- effect: fade_edges
+  fade_in_ms: 0.6
+  fade_out_ms: 26
+- effect: normalize_peak
+  target_db: -4.2
+notes: 'robot blade, the thrust that ends the standing string: one fast narrow push,
+  then a longer wake'

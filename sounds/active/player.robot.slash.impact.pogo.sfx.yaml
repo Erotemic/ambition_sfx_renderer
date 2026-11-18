@@ -24,8 +24,8 @@ layers:
   color: brown
   gain_db: -9.5
   duration_ms: 92
-  filter:
-    kind: lowpass
+  effects:
+  - effect: lowpass
     cutoff_hz: 330
   envelope:
     attack_ms: 0

@@ -1,0 +1,70 @@
+# The Spectral Perturbation notices you: a trembling glassy shimmer that
+# wavers out of tune, a soft electric crackle, a breath of air.
+# Authored 2026-10-31. An enemy beat cue (notice).
+schema: ambition.sfxir.v1
+id: enemy.spectral_perturbation.notice
+duration_ms: 700
+render: {sample_rate: 48000, channels: 2, seed: 3142001, buffer_size: 128}
+layers:
+- name: shimmer
+  kind: noise_burst
+  color: white
+  gain_db: -6
+  start_ms: 0
+  duration_ms: 660
+  pan: 0.3
+  envelope: {attack_ms: 120, hold_ms: 200, release_ms: 340}
+  effects:
+  - {effect: bandpass, center_hz: 5200, q: 4.0}
+  seed: 3142002
+- name: waver_a
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -24
+  start_ms: 40
+  duration_ms: 600
+  parameters:
+    /AmbitionTone/freq: {start: 1310.0, end: 1250.0, curve: linear}
+    /AmbitionTone/gain: -22
+  envelope: {attack_ms: 60, hold_ms: 160, release_ms: 380}
+- name: waver_b
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -24
+  start_ms: 40
+  duration_ms: 600
+  parameters:
+    /AmbitionTone/freq: {start: 1290.0, end: 1330.0, curve: linear}
+    /AmbitionTone/gain: -22
+  envelope: {attack_ms: 60, hold_ms: 160, release_ms: 380}
+- name: crackle
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -14
+  start_ms: 60
+  duration_ms: 500
+  envelope: {attack_ms: 10, hold_ms: 300, release_ms: 190}
+  effects:
+  - {effect: highpass, cutoff_hz: 2500}
+  grain_count: 40
+  grain_decay_ms: 2.0
+  seed: 3142003
+- name: breath
+  kind: noise_burst
+  color: pink
+  gain_db: -16
+  start_ms: 0
+  duration_ms: 500
+  envelope: {attack_ms: 150, hold_ms: 50, release_ms: 300}
+  effects:
+  - {effect: bandpass, center_hz: 900, q: 0.8}
+  seed: 3142004
+postprocess:
+- {effect: highpass, cutoff_hz: 80}
+- {effect: lowpass, cutoff_hz: 9000}
+- {effect: deharsh, amount: 0.3}
+- {effect: soft_clip, drive: 0.2}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 10}
+- {effect: normalize_peak, target_db: -13}
+notes: The Spectral Perturbation notices you (notice cue). Two near-degenerate tones beat against each other.

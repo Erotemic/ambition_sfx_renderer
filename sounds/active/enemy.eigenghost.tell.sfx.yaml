@@ -1,0 +1,48 @@
+# The Eigenghost telegraphs: it squeezes along one axis to stretch the
+# other, a creaking like cloth pulled taut and a tone tightening upward.
+# Also fits its block (rearing tall). Authored 2026-10-31. An enemy beat cue
+# (tell).
+schema: ambition.sfxir.v1
+id: enemy.eigenghost.tell
+duration_ms: 520
+render: {sample_rate: 48000, channels: 2, seed: 3144101, buffer_size: 128}
+layers:
+- name: creak
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -2
+  start_ms: 0
+  duration_ms: 480
+  envelope: {attack_ms: 300, hold_ms: 100, release_ms: 80}
+  effects:
+  - {effect: bandpass, center_hz: 900, q: 1.8}
+  seed: 3144102
+- name: tighten
+  kind: dawdreamer_faust
+  dsp: patches/faust/tone.dsp
+  gain_db: -22
+  start_ms: 40
+  duration_ms: 460
+  parameters:
+    /AmbitionTone/freq: {start: 420.0, end: 1260.0, curve: exp}
+    /AmbitionTone/gain: -20
+  envelope: {attack_ms: 360, hold_ms: 40, release_ms: 60}
+- name: air
+  kind: noise_burst
+  color: white
+  gain_db: -16
+  start_ms: 100
+  duration_ms: 400
+  envelope: {attack_ms: 260, hold_ms: 40, release_ms: 100}
+  effects:
+  - {effect: bandpass, center_hz: 4200, q: 1.5}
+  seed: 3144103
+postprocess:
+- {effect: highpass, cutoff_hz: 80}
+- {effect: lowpass, cutoff_hz: 8500}
+- {effect: deharsh, amount: 0.25}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 6}
+- {effect: normalize_peak, target_db: -12}
+notes: The Eigenghost squeezes before it lances or rears (tell cue).

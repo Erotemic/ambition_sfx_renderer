@@ -1,0 +1,72 @@
+# Bad apple rolls at you jaws first: a rolling rumble that ends in a CRUNCH chomp.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.bad_apple.swing
+duration_ms: 420
+render: {sample_rate: 48000, channels: 2, seed: 8301252, buffer_size: 128, final_peak_db: -12.59}
+layers:
+- name: roll
+  kind: noise_burst
+  mode: burst
+  color: brown
+  gain_db: -6
+  start_ms: 0
+  duration_ms: 400
+  pan: 0.0
+  envelope: {attack_ms: 30, hold_ms: 1, release_ms: 120}
+  effects:
+  - {effect: lowpass, cutoff_hz: 260}
+  seed: 3376173
+- name: tumble
+  kind: noise_burst
+  mode: grains
+  color: brown
+  gain_db: -12
+  start_ms: 0
+  duration_ms: 380
+  pan: 0.0
+  envelope: {attack_ms: 30, hold_ms: 1, release_ms: 120}
+  effects:
+  - {effect: bandpass, center_hz: 500, q: 0.8}
+  grain_count: 12
+  grain_decay_ms: 12.0
+  seed: 4008066
+- name: crunch_a
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -6
+  start_ms: 250
+  duration_ms: 30
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 26}
+  effects:
+  - {effect: bandpass, center_hz: 2400, q: 0.9}
+  grain_count: 3
+  grain_decay_ms: 4.0
+  spread_ms: 9
+  seed: 9698928
+- name: crunch_b
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -10
+  start_ms: 255
+  duration_ms: 120
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 90}
+  effects:
+  - {effect: bandpass, center_hz: 3000, q: 0.8}
+  grain_count: 14
+  grain_decay_ms: 3.0
+  seed: 1435274
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -12.59}
+notes: 'Bad apple rolls at you jaws first: a rolling rumble that ends in a CRUNCH chomp. Enemy beat cue (swing),
+  levelled to -24.5 dBFS loudest 100 ms RMS.'

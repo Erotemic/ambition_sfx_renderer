@@ -1,0 +1,65 @@
+# The shock warden raises his baton: it charges with a rising electric whine.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.shock_warden.tell
+duration_ms: 460
+render: {sample_rate: 48000, channels: 2, seed: 9667553, buffer_size: 128, final_peak_db: -15.79}
+layers:
+- name: whine
+  kind: synth_tone
+  waveform: saw
+  gain_db: -22
+  start_ms: 0
+  duration_ms: 440
+  frequency_hz:
+    points:
+    - [0, 300]
+    - [1, 1200]
+    curve: exp
+  envelope: {attack_ms: 30, hold_ms: 1, release_ms: 60}
+  effects:
+  - {effect: lowpass, cutoff_hz: 3000}
+  noise_amount: 0.0
+  tremolo: {rate_hz: 28, depth: 0.4}
+  seed: 9322881
+- name: hum
+  kind: synth_tone
+  waveform: square
+  gain_db: -24
+  start_ms: 0
+  duration_ms: 440
+  frequency_hz:
+    points:
+    - [0, 120]
+    - [1, 120]
+    curve: exp
+  envelope: {attack_ms: 20, hold_ms: 1, release_ms: 60}
+  effects:
+  - {effect: lowpass, cutoff_hz: 900}
+  noise_amount: 0.0
+  seed: 5753565
+- name: crackle
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -12
+  start_ms: 60
+  duration_ms: 380
+  pan: 0.0
+  envelope: {attack_ms: 2, hold_ms: 1, release_ms: 126}
+  effects:
+  - {effect: highpass, cutoff_hz: 1400}
+  - {effect: bandpass, center_hz: 3400, q: 0.7}
+  grain_count: 40
+  grain_decay_ms: 1.4
+  seed: 639318
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -15.79}
+notes: 'The shock warden raises his baton: it charges with a rising electric whine. Enemy beat cue (tell), levelled
+  to -23.0 dBFS loudest 100 ms RMS.'

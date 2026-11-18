@@ -1,0 +1,77 @@
+# The searchlight crawler sees you: a relay clunks, the lamp hums on and a servo turns.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.searchlight_crawler.notice
+duration_ms: 430
+render: {sample_rate: 48000, channels: 2, seed: 7860799, buffer_size: 128, final_peak_db: -8.0}
+layers:
+- name: relay
+  kind: noise_burst
+  mode: thud
+  color: brown
+  gain_db: -6
+  start_ms: 0
+  duration_ms: 70
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 55}
+  effects:
+  - {effect: bandpass, center_hz: 420, q: 0.7}
+  seed: 1586669
+- name: relay_click
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -10
+  start_ms: 0
+  duration_ms: 22
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 18}
+  effects:
+  - {effect: bandpass, center_hz: 2600, q: 1.2}
+  grain_count: 1
+  grain_decay_ms: 5.0
+  spread_ms: 3
+  seed: 10551396
+- name: servo
+  kind: synth_tone
+  waveform: saw
+  gain_db: -24
+  start_ms: 70
+  duration_ms: 280
+  frequency_hz:
+    points:
+    - [0, 600]
+    - [0.6, 900]
+    - [1, 850]
+    curve: exp
+  envelope: {attack_ms: 20, hold_ms: 1, release_ms: 80}
+  effects:
+  - {effect: lowpass, cutoff_hz: 2400}
+  noise_amount: 0.0
+  seed: 14446678
+- name: lamp
+  kind: synth_tone
+  waveform: square
+  gain_db: -24
+  start_ms: 60
+  duration_ms: 340
+  frequency_hz:
+    points:
+    - [0, 60]
+    - [1, 60]
+    curve: exp
+  envelope: {attack_ms: 5, hold_ms: 1, release_ms: 120}
+  effects:
+  - {effect: lowpass, cutoff_hz: 700}
+  noise_amount: 0.0
+  seed: 1688655
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -8.0}
+notes: 'The searchlight crawler sees you: a relay clunks, the lamp hums on and a servo turns. Enemy beat cue (notice),
+  levelled to -22.0 dBFS loudest 100 ms RMS.'

@@ -17,8 +17,8 @@ layers:
     attack_ms: 30
     hold_ms: 200
     release_ms: 560
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 900
     q: 0.4
 - name: low_motor

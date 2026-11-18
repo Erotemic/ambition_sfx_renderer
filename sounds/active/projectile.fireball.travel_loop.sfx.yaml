@@ -17,8 +17,8 @@ layers:
     attack_ms: 40
     hold_ms: 300
     release_ms: 520
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 1300
     q: 0.28
 - name: ember_hum

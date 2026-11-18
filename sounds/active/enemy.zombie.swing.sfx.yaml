@@ -1,0 +1,42 @@
+# A risen conscript lunges: a slow heavy lurch of rags.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.zombie.swing
+duration_ms: 260
+render: {sample_rate: 48000, channels: 2, seed: 10022076, buffer_size: 128, final_peak_db: -10.17}
+layers:
+- name: lunge
+  kind: noise_burst
+  mode: air_sweep
+  start_hz: 1400
+  end_hz: 300
+  q: 0.55
+  gain_db: -5
+  start_ms: 0
+  duration_ms: 230
+  pan: 0.0
+  envelope: {attack_ms: 20, hold_ms: 1, release_ms: 100}
+  effects: []
+  seed: 11145669
+- name: rags
+  kind: noise_burst
+  mode: scrape
+  color: pink
+  gain_db: -14
+  start_ms: 10
+  duration_ms: 200
+  pan: 0.0
+  envelope: {attack_ms: 10, hold_ms: 1, release_ms: 100}
+  effects:
+  - {effect: bandpass, center_hz: 2000, q: 0.6}
+  seed: 2394053
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -10.17}
+notes: 'A risen conscript lunges: a slow heavy lurch of rags. Enemy beat cue (swing), levelled to -24.5 dBFS loudest
+  100 ms RMS.'

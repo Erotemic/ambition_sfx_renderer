@@ -20,8 +20,8 @@ layers:
     attack_ms: 0
     hold_ms: 5
     release_ms: 379
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 2500
     q: 0.9
 - name: curve_resolve

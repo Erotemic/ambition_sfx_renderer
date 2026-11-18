@@ -20,8 +20,8 @@ layers:
     attack_ms: 0
     hold_ms: 8
     release_ms: 135
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 700
     q: 0.72
 - name: true_half

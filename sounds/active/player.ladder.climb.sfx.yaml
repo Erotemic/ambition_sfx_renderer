@@ -17,8 +17,8 @@ layers:
     attack_ms: 0
     hold_ms: 1
     release_ms: 10
-  filter:
-    kind: lowpass
+  effects:
+  - effect: lowpass
     cutoff_hz: 850
 - name: wood_tick
   kind: noise_burst
@@ -30,8 +30,8 @@ layers:
     attack_ms: 0
     hold_ms: 1
     release_ms: 10
-  filter:
-    kind: bandpass
+  effects:
+  - effect: bandpass
     hz: 1000
     q: 0.7
 postprocess:

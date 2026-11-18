@@ -1,0 +1,42 @@
+# The exploding mite lunges: a little pop and a dart.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.exploding_mite.swing
+duration_ms: 130
+render: {sample_rate: 48000, channels: 2, seed: 6959856, buffer_size: 128, final_peak_db: -11.05}
+layers:
+- name: pop
+  kind: noise_burst
+  mode: burst
+  color: pink
+  gain_db: -6
+  start_ms: 0
+  duration_ms: 50
+  pan: 0.0
+  envelope: {attack_ms: 0, hold_ms: 1, release_ms: 40}
+  effects:
+  - {effect: bandpass, center_hz: 1400, q: 0.7}
+  seed: 3212369
+- name: air
+  kind: noise_burst
+  mode: air_sweep
+  start_hz: 3800
+  end_hz: 1200
+  q: 0.8
+  gain_db: -10
+  start_ms: 6
+  duration_ms: 110
+  pan: 0.0
+  envelope: {attack_ms: 3, hold_ms: 1, release_ms: 50}
+  effects: []
+  seed: 8862964
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -11.05}
+notes: 'The exploding mite lunges: a little pop and a dart. Enemy beat cue (swing), levelled to -24.5 dBFS loudest
+  100 ms RMS.'

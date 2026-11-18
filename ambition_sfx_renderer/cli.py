@@ -4,6 +4,7 @@ Subcommands:
 
     render <cue>       Render a single cue YAML to output/<cue>/.
     render-all         Render every cue in sounds/active/ by default.
+    fetch-samples      Download every public sample that is not on disk.
     audit [root]       Print loudness/peak stats for rendered audio files.
     list               List available cues.
 """
@@ -20,6 +21,7 @@ from typing import Any
 from ambition_sfx_renderer.audit import audit_output_tree, print_audit
 from ambition_sfx_renderer.errors import SfxRenderError
 from ambition_sfx_renderer.paths import output_root, sounds_root
+from ambition_sfx_renderer.public_samples import ensure_public_sample, load_manifest
 from ambition_sfx_renderer.render import DEFAULT_WAV_MAX_SECONDS, render_file
 from ambition_sfx_renderer.schema import find_cue, iter_cue_files, load_cue
 from ambition_sfx_renderer.waveform import draw_waveform
@@ -152,6 +154,13 @@ def cmd_render_all(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_fetch_samples(args: argparse.Namespace) -> int:
+    for sample_id, sample in sorted(load_manifest().items()):
+        path = ensure_public_sample(sample_id)
+        print(f"ok {sample_id}: {path} ({sample.license}, {sample.source_page})")
+    return 0
+
+
 def cmd_audit(args: argparse.Namespace) -> int:
     rows = audit_output_tree(args.root)
     print_audit(rows)
@@ -232,6 +241,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add_common_render_args(p_all)
     p_all.set_defaults(func=cmd_render_all)
+
+    p_fetch = sub.add_parser(
+        "fetch-samples", help="Download the public samples in sounds/public_samples.yaml"
+    )
+    p_fetch.set_defaults(func=cmd_fetch_samples)
 
     p_audit = sub.add_parser("audit", help="Audit rendered outputs")
     p_audit.add_argument("root", type=Path, nargs="?", default=output_root())

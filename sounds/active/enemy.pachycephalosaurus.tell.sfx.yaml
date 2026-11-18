@@ -1,0 +1,83 @@
+# Pachy aims its dome: a foot scrapes twice through a snort.
+# Authored 2026-10-30 (Jon: "Do the enemies have sound effects to help their telegraph
+# and for their attacks?"). An enemy beat cue: see the catalog row's `cues`.
+schema: ambition.sfxir.v1
+id: enemy.pachycephalosaurus.tell
+duration_ms: 560
+render: {sample_rate: 48000, channels: 2, seed: 1223221, buffer_size: 128, final_peak_db: -12.04}
+layers:
+- name: scrape_a
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  gain_db: -6
+  start_ms: 0
+  duration_ms: 170
+  pan: 0.0
+  envelope: {attack_ms: 2, hold_ms: 1, release_ms: 90}
+  effects:
+  - {effect: bandpass, center_hz: 900, q: 0.6}
+  seed: 6722725
+- name: huff
+  kind: noise_burst
+  mode: creature
+  start_ms: 90
+  duration_ms: 360
+  gain_db: -3
+  voices:
+  - start_ms: 0
+    duration_ms: 340
+    level: 1.0
+    f0_hz:
+    - [0, 120]
+    - [1, 95]
+    jaw:
+    - [0, 0.25]
+    - [1, 0.1]
+    amp:
+    - [0, 0.0]
+    - [0.06, 1.0]
+    - [0.6, 0.7]
+    - [1, 0.0]
+    doubling:
+    - [0, 0.0]
+    - [1, 0.0]
+    spacing_hz: 360
+    f1_hz: [330, 500]
+    breath: 0.95
+    jitter: 0.06
+    tilt_hz: 3000
+    flutter: 0.1
+  finish:
+    shape_db:
+    - [0, 0.0]
+    - [0.75, 0.0]
+    - [1, -40.0]
+    saturate: 1.4
+    room_s: 0.18
+    room_mix: 0.1
+    room_seed: 7
+    cut_ms: 12
+    peak_db: -6.0
+  seed: 7800063
+- name: scrape_b
+  kind: noise_burst
+  mode: scrape
+  color: brown
+  gain_db: -6
+  start_ms: 290
+  duration_ms: 170
+  pan: 0.0
+  envelope: {attack_ms: 2, hold_ms: 1, release_ms: 90}
+  effects:
+  - {effect: bandpass, center_hz: 850, q: 0.6}
+  seed: 1125005
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -12.04}
+notes: 'Pachy aims its dome: a foot scrapes twice through a snort. Enemy beat cue (tell), levelled to -23.0 dBFS
+  loudest 100 ms RMS.'
