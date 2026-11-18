@@ -1,0 +1,115 @@
+# A pirate sees you: a two-beat 'Oi, there!' hail, the second beat higher, over the
+# rasp of a cutlass coming up out of its scabbard. The crew's notice (the raider, the
+# lookout and the navigator): see the catalog rows' `cues`.
+schema: ambition.sfxir.v1
+id: enemy.pirate.notice
+duration_ms: 480
+render: {sample_rate: 48000, channels: 2, seed: 20661118, buffer_size: 128, final_peak_db: -11.0}
+layers:
+- name: hail
+  kind: noise_burst
+  mode: creature
+  start_ms: 0
+  duration_ms: 440
+  gain_db: 0.0
+  voices:
+  - start_ms: 0
+    duration_ms: 140
+    level: 0.9
+    f0_hz:
+    - [0, 135]
+    - [0.4, 160]
+    - [1, 140]
+    jaw:
+    - [0, 0.25]
+    - [0.35, 0.9]
+    - [1, 0.35]
+    amp: &amp
+    - [0, 0.0]
+    - [0.06, 1.0]
+    - [0.6, 0.7]
+    - [1, 0.0]
+    doubling:
+    - [0, 0.5]
+    - [1, 0.5]
+    spacing_hz: 1000
+    f1_hz: [450, 820]
+    breath: 0.4
+    jitter: 0.1
+    tilt_hz: 1900
+    flutter: 0.1
+  - start_ms: 175
+    duration_ms: 250
+    level: 1.0
+    f0_hz:
+    - [0, 165]
+    - [0.3, 190]
+    - [1, 150]
+    jaw:
+    - [0, 0.3]
+    - [0.3, 0.95]
+    - [1, 0.3]
+    amp: *amp
+    doubling:
+    - [0, 0.55]
+    - [1, 0.55]
+    spacing_hz: 1000
+    f1_hz: [480, 860]
+    breath: 0.45
+    jitter: 0.1
+    tilt_hz: 1900
+    flutter: 0.12
+  finish:
+    shape_db:
+    - [0, 0.0]
+    - [0.75, 0.0]
+    - [1, -40.0]
+    saturate: 1.4
+    room_s: 0.18
+    room_mix: 0.1
+    room_seed: 7
+    cut_ms: 12
+    peak_db: -6.0
+  seed: 3318407
+- name: draw
+  kind: noise_burst
+  mode: grains
+  color: white
+  gain_db: -16
+  start_ms: 120
+  duration_ms: 160
+  pan: 0.0
+  envelope: {attack_ms: 20, hold_ms: 80, release_ms: 60}
+  effects:
+  - {effect: bandpass, center_hz: 3800, q: 2.2}
+  grain_count: 26
+  grain_decay_ms: 4.0
+  spread_ms: 150
+  seed: 9152604
+- name: ring
+  kind: synth_tone
+  waveform: sine
+  gain_db: -28
+  start_ms: 280
+  duration_ms: 200
+  frequency_hz:
+    points:
+    - [0, 2950]
+    - [1, 2940]
+    curve: exp
+  envelope: {attack_ms: 2, hold_ms: 1, release_ms: 190}
+  effects: []
+  noise_amount: 0.0
+  harmonics:
+  - {ratio: 1, gain_db: 0}
+  - {ratio: 1.47, gain_db: -9}
+  seed: 7781202
+postprocess:
+- {effect: highpass, cutoff_hz: 40}
+- {effect: lowpass, cutoff_hz: 6800}
+- {effect: deharsh, amount: 0.2}
+- {effect: soft_clip, drive: 0.25}
+- {effect: fade_edges, in_ms: 0.2, out_ms: 8}
+- {effect: normalize_peak, target_db: -11.0}
+notes: 'A pirate sees you: a two-beat ''Oi, there!'' hail over the rasp and ring of a cutlass drawn. Enemy beat
+  cue (notice), levelled to -22.0 dBFS loudest 100 ms RMS.'
